@@ -13,7 +13,7 @@
           <v-text-field
             class="mt-3"
             v-model="login"
-            :rules="[v => !!v || 'Login is required',v => (v && v.length <= 4) || 'Login must be more than 4 caracters']"
+            :rules="[v => !!v || 'Login is required',v => (v && v.length >= 4) || 'Login must be more than 4 caracters']"
             label="login"
             required
             outlined
@@ -68,7 +68,7 @@
             :rules="[v => !!v || 'Password is required',v => (v && v.length >= 8) || 'Password must have 8+ characters',
     v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character', 
     v => /(?=.*\d)/.test(v) || 'Must have one number', 
-    v => /([!@$%])/.test(v) || 'Must have one special character [!@#$%]' 
+    v => /([!@$%*])/.test(v) || 'Must have one special character [!@#$%]' 
 ]"
             class="input-group--focused"
             @click:append="flag = !flag"
