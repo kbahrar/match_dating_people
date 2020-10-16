@@ -13,6 +13,7 @@
           <v-text-field
             class="mt-5"
             v-model="login"
+            :rules="[v => !!v || 'Login is required']"
             label="login"
             required
             outlined
@@ -24,6 +25,7 @@
           <v-text-field
             class="mt-5"
             v-model="firstName"
+            :rules="[v => !!v || 'First Name is required']"
             label="first name"
             required
             outlined
