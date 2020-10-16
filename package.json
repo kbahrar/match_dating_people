@@ -1,0 +1,37 @@
+{
+  "name": "matcha",
+  "version": "1.0.0",
+  "description": "dating web app",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_ENV=production node server",
+    "dev": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khimya/matcha.git"
+  },
+  "author": "ybenbrai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/khimya/matcha/issues"
+  },
+  "homepage": "https://github.com/khimya/matcha#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.2.0",
+    "email-verifier": "^0.4.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.1.0",
+    "nodemailer": "^6.4.11",
+    "util": "^0.12.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
