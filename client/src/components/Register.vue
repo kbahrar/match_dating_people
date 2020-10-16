@@ -1,9 +1,9 @@
 <template>
   <v-layout>
     <v-flex xs6 offset-xs3>
-      <div class="white elevation-2">
+      <div class="grey lighten-3 elevation-5">
 
-        <v-toolbar flat dense class="pink darken-4" dark>
+        <v-toolbar flat dense class="pink darken-2" dark>
           <v-toolbar-title>Register</v-toolbar-title>
         </v-toolbar>
         <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
@@ -11,7 +11,7 @@
         <form name="registerForm" autocomplete="off">
 
           <v-text-field
-            class="mt-5"
+            class="mt-3"
             v-model="login"
             :rules="[v => !!v || 'Login is required',v => (v && v.length <= 4) || 'Login must be more than 4 caracters']"
             label="login"
@@ -77,24 +77,7 @@
             shaped
           ></v-text-field>
              </form>
-        
-        <form name="registerForm" autocomplete="off">
-        <v-text-field
-            :append-icon="flag ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="!flag ? 'text' : 'password'"
-            name="repeatpassword"
-            label="Repeat Password"
-            hint="Repeat your password here"
-            v-model="repeatpassword"
-            :rules="[v => !!v || 'Repeating the Password is required']"
-            class="input-group--focused"
-            @click:append="flag = !flag"
-            required
-            outlined
-            shaped
-          ></v-text-field>
-             </form>
-       
+
           <v-alert
             type="error"
             v-if="error"
@@ -107,8 +90,7 @@
           <v-alert type="success" v-if="reg">
             {{reg}}
           </v-alert>
-          <v-btn @click="register" class="pink darken-2
- mb-5" dark>Register</v-btn>
+          <v-btn @click="register" class="pink darken-2 mb-5"  dark>Register</v-btn>
         </div>
       </div>
     </v-flex>
