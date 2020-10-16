@@ -6,36 +6,54 @@
         <v-toolbar flat dense class="pink darken-4" dark>
           <v-toolbar-title>Register</v-toolbar-title>
         </v-toolbar>
-
         <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
+          
+        <form name="registerForm" autocomplete="off">
+
           <v-text-field
             class="mt-5"
             v-model="login"
             label="login"
+            required
             outlined
             shaped
           ></v-text-field>
+             </form>
+
+        <form name="registerForm" autocomplete="off">
           <v-text-field
             class="mt-5"
             v-model="firstName"
             label="first name"
+            required
             outlined
             shaped
           ></v-text-field>
+             </form>
+
+        <form name="registerForm" autocomplete="off">
           <v-text-field
             class="mt-5"
             v-model="lastName"
             label="last name"
+            required
             outlined
             shaped
           ></v-text-field>
+             </form>
+
+        <form name="registerForm" autocomplete="off">
           <v-text-field
             class="mt-5"
             v-model="email"
             label="email"
+            required
             outlined
             shaped
           ></v-text-field>
+             </form>
+        
+        <form name="registerForm" autocomplete="off">
         <v-text-field
             :append-icon="flag ? 'mdi-eye' : 'mdi-eye-off'"
             :type="!flag ? 'text' : 'password'"
@@ -45,9 +63,28 @@
             v-model="password"
             class="input-group--focused"
             @click:append="flag = !flag"
+            required
             outlined
             shaped
-          ></v-text-field>-
+          ></v-text-field>
+             </form>
+        
+        <form name="registerForm" autocomplete="off">
+        <v-text-field
+            :append-icon="flag ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="!flag ? 'text' : 'password'"
+            name="repeatpassword"
+            label="Repeat Password"
+            hint="Repeat your password here"
+            v-model="repeatpassword"
+            class="input-group--focused"
+            @click:append="flag = !flag"
+            required
+            outlined
+            shaped
+          ></v-text-field>
+             </form>
+       
           <v-alert
             type="error"
             v-if="error"
