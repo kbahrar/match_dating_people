@@ -13,7 +13,7 @@
           <v-text-field
             class="mt-5"
             v-model="login"
-            :rules="[v => !!v || 'Login is required']"
+            :rules="[v => !!v || 'Login is required',v => (v && v.length <= 4) || 'Login must be more than 4 caracters']"
             label="login"
             required
             outlined
@@ -37,6 +37,7 @@
           <v-text-field
             class="mt-5"
             v-model="lastName"
+            :rules="[v => !!v || 'Last Name is required']"
             label="last name"
             required
             outlined
@@ -48,6 +49,7 @@
           <v-text-field
             class="mt-5"
             v-model="email"
+            :rules="[ v => !!v || 'Email is required', v => /.+@.+/.test(v) || 'E-mail must be valid' ]"
             label="email"
             required
             outlined
@@ -63,6 +65,11 @@
             label="Password"
             hint="At least 8 characters alphanum (Uppercase, Lowercase and number)"
             v-model="password"
+            :rules="[v => !!v || 'Password is required',v => (v && v.length >= 8) || 'Password must have 8+ characters',
+    v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character', 
+    v => /(?=.*\d)/.test(v) || 'Must have one number', 
+    v => /([!@$%])/.test(v) || 'Must have one special character [!@#$%]' 
+]"
             class="input-group--focused"
             @click:append="flag = !flag"
             required
@@ -79,6 +86,7 @@
             label="Repeat Password"
             hint="Repeat your password here"
             v-model="repeatpassword"
+            :rules="[v => !!v || 'Repeating the Password is required']"
             class="input-group--focused"
             @click:append="flag = !flag"
             required
