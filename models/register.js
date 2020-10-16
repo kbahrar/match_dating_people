@@ -4,7 +4,8 @@ const crypto = require('crypto');
 const checkLogin = async function (log) {
   const query = "select * from users where `login` = ?";
   let following = await connection.query(query, [log]);
-  if (following[1].login)
+  // console.log(following);
+  if (following.length > 0 && following)
     return false;
   return true;
 }

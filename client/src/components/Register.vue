@@ -47,7 +47,7 @@
             @click:append="flag = !flag"
             outlined
             shaped
-          ></v-text-field>-
+          ></v-text-field>
           <v-alert
             type="error"
             v-if="error"
@@ -70,6 +70,7 @@
 
 <script>
 import Authent from '@/services/AuthService'
+
 export default {
   data () {
     return {
@@ -88,6 +89,7 @@ export default {
     async register () {
       try {
         this.error = null
+        this.reg = 'you registred with success !'
         await Authent.register({
           login: this.login,
           firstName: this.firstName,
@@ -95,8 +97,8 @@ export default {
           email: this.email,
           password: this.password
         })
-        this.reg = 'you registred with success !'
       } catch (err) {
+        this.reg = null
         this.error = err.response.data.error || 'No response from server'
         this.alert = true
       }
