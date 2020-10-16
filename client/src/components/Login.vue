@@ -1,9 +1,9 @@
 <template>
   <v-layout>
     <v-flex xs6 offset-xs3>
-      <div class="white elevation-2">
+      <div class="grey lighten-3 elevation-2">
 
-        <v-toolbar flat dense class="pink darken-4" dark>
+        <v-toolbar flat dense class="pink darken-2" dark>
           <v-toolbar-title>Login</v-toolbar-title>
         </v-toolbar>
 
@@ -11,6 +11,7 @@
           <v-text-field
             class="mt-5"
             v-model="email"
+            :rules="[ v => !!v || 'Email is required', v => /.+@.+/.test(v) || 'E-mail must be valid' ]"
             label="email"
             outlined
             shaped
@@ -23,6 +24,11 @@
             hint="At least 8 characters alphanum"
             v-model="password"
             class="input-group--focused"
+            :rules="[v => !!v || 'Password is required',v => (v && v.length >= 8) || 'Password must have 8+ characters',
+    v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character', 
+    v => /(?=.*\d)/.test(v) || 'Must have one number', 
+    v => /([!@$%])/.test(v) || 'Must have one special character [!@#$%]' 
+]"
             @click:append="flag = !flag"
             outlined
             shaped
@@ -39,7 +45,7 @@
           <v-alert type="success" v-if="reg">
             {{reg}}
           </v-alert>
-          <v-btn @click="login" class="pink darken-4 mb-5" dark>Login</v-btn>
+          <v-btn @click="login" class="pink darken-2 mb-5" dark>Login</v-btn>
         </div>
       </div>
     </v-flex>
