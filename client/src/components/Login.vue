@@ -11,6 +11,7 @@
           <v-text-field
             class="mt-5"
             v-model="email"
+            :rules="[ v => !!v || 'Email is required', v => /.+@.+/.test(v) || 'E-mail must be valid' ]"
             label="email"
             outlined
             shaped
@@ -23,6 +24,11 @@
             hint="At least 8 characters alphanum"
             v-model="password"
             class="input-group--focused"
+            :rules="[v => !!v || 'Password is required',v => (v && v.length >= 8) || 'Password must have 8+ characters',
+    v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character', 
+    v => /(?=.*\d)/.test(v) || 'Must have one number', 
+    v => /([!@$%])/.test(v) || 'Must have one special character [!@#$%]' 
+]"
             @click:append="flag = !flag"
             outlined
             shaped
