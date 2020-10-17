@@ -8,20 +8,16 @@
         </v-toolbar>
         <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
           
-        <form name="registerForm" autocomplete="off">
-
           <v-text-field
             class="mt-3"
             v-model="login"
-            :rules="[v => !!v || 'Login is required',v => (v && v.length >= 4) || 'Login must be more than 4 caracters']"
+            :rules="[v => !!v || 'Login is required']"
             label="login"
             required
             outlined
             shaped
           ></v-text-field>
-             </form>
 
-        <form name="registerForm" autocomplete="off">
           <v-text-field
             class="mt-5"
             v-model="firstName"
@@ -31,9 +27,7 @@
             outlined
             shaped
           ></v-text-field>
-             </form>
 
-        <form name="registerForm" autocomplete="off">
           <v-text-field
             class="mt-5"
             v-model="lastName"
@@ -43,9 +37,7 @@
             outlined
             shaped
           ></v-text-field>
-             </form>
 
-        <form name="registerForm" autocomplete="off">
           <v-text-field
             class="mt-5"
             v-model="email"
@@ -56,9 +48,7 @@
             outlined
             shaped
           ></v-text-field>
-             </form>
         
-        <form name="registerForm" autocomplete="off">
         <v-text-field
             :append-icon="flag ? 'mdi-eye' : 'mdi-eye-off'"
             :type="!flag ? 'text' : 'password'"
@@ -76,7 +66,6 @@
             outlined
             shaped
           ></v-text-field>
-             </form>
           <v-alert
             type="error"
             v-if="error"
@@ -173,8 +162,20 @@ export default {
       else
         e.preventDefault();
     },
+    validFirstName: function(firstName) {
+      var re = /^[A-Za-z][A-Za-z]{2,31}$/;
+      return re.test(firstName);
+    },
+    validLastName: function(lastName) {
+      var re = /^[A-Za-z][A-Za-z]{2,31}$/;
+      return re.test(lastName);
+    },
+    validLogin: function(login) {
+      var re = /^[A-Za-z][A-Za-z0-9]{2,31}$/;
+      return re.test(login);
+    },
     validEmail: function (email) {
-      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var re = /^[a-zA-Z0-9.!#$%&’*+\=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       return re.test(email);
     },
     validPwd: function (pwd) {
