@@ -136,15 +136,18 @@ export default {
       if (!this.login) {
         this.errors.push("login required.");
       }
-      else if (this.login.length < 4) {
-        this.errors.push("Login must be more than 4 caracters");
-      }
+      else if(!this.validLogin(this.login))
+        this.errors.push("invalide login.");
       if (!this.firstName) {
         this.errors.push("first name required.");
       }
+      else if(!this.validFirstName(this.firstName))
+        this.errors.push("invalide first name.");
       if (!this.lastName) {
         this.errors.push("last name required.");
       }
+      else if(!this.validLastName(this.lastName))
+        this.errors.push("invalide last name.");
       if (!this.password) {
         this.errors.push("password required.");
       }
