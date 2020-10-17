@@ -3,7 +3,7 @@ const policies = require('../middleware/register');
 
 exports.CreateUser = async (req, res, next) => {
   try {
-    if (!policies.checkNull(req.body)) throw 'Please fix all the errors before proceeding!';
+    if (!policies.checkNull(req.body)) throw 'full all fields !';
     if (!policies.checkMail(req.body.email)) throw 'invalid password';
     if (!policies.checkPwd(req.body.password)) throw 'invalid password !';
     let flag = await cr.checkLogin(req.body.login);
