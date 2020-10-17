@@ -13,7 +13,7 @@
           <v-text-field
             class="mt-3"
             v-model="login"
-            :rules="[v => !!v || 'Login is required',v => (v && v.length <= 4) || 'Login must be more than 4 caracters']"
+            :rules="[v => !!v || 'Login is required',v => (v && v.length >= 4) || 'Login must be more than 4 caracters']"
             label="login"
             required
             outlined
@@ -49,6 +49,7 @@
           <v-text-field
             class="mt-5"
             v-model="email"
+            type="email"
             :rules="[ v => !!v || 'Email is required', v => /.+@.+/.test(v) || 'E-mail must be valid' ]"
             label="email"
             required
@@ -68,7 +69,6 @@
             :rules="[v => !!v || 'Password is required',v => (v && v.length >= 8) || 'Password must have 8+ characters',
     v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character', 
     v => /(?=.*\d)/.test(v) || 'Must have one number', 
-    v => /([!@$%])/.test(v) || 'Must have one special character [!@#$%]' 
 ]"
             class="input-group--focused"
             @click:append="flag = !flag"
@@ -86,10 +86,19 @@
             dismissible>
             {{error}}
           </v-alert>
+          <v-alert
+            type="error"
+            v-if="errors.length"
+            v-model="alert"
+            border="left"
+            close-text="Close Alert"
+            dismissible>
+            <li v-for="err in errors">{{ err }}</li>
+          </v-alert>
           <v-alert type="success" v-if="reg">
             {{reg}}
           </v-alert>
-          <v-btn @click="register" class="pink darken-2 mb-5"  dark>Register</v-btn>
+          <v-btn @click="checkForm($event)" class="pink darken-2 mb-5"  dark>Register</v-btn>
         </div>
       </div>
     </v-flex>
@@ -110,11 +119,12 @@ export default {
       email: '',
       password: '',
       reg: null,
-      error: null
+      error: null,
+      errors: []
     }
   },
   methods: {
-    async register () {
+    register: async function() {
       try {
         this.error = null
         this.reg = 'you registred with success !'
@@ -130,6 +140,50 @@ export default {
         this.error = err.response.data.error || 'No response from server'
         this.alert = true
       }
+    },
+    checkForm: function (e) {
+      this.errors = [];
+
+      if (!this.login) {
+        this.errors.push("login required.");
+      }
+      else if (this.login.length < 4) {
+        this.errors.push("Login must be more than 4 caracters");
+      }
+      if (!this.firstName) {
+        this.errors.push("first name required.");
+      }
+      if (!this.lastName) {
+        this.errors.push("last name required.");
+      }
+      if (!this.password) {
+        this.errors.push("password required.");
+      }
+      else if (!this.validPwd(this.password))
+        this.errors.push("invalide password.");
+      if (!this.email) {
+        this.errors.push('Email required.');
+      } else if (!this.validEmail(this.email)) {
+        this.errors.push('Valid email required.');
+      }
+
+      if (!this.errors.length) {
+        this.register();
+      }
+      else
+        e.preventDefault();
+    },
+    validEmail: function (email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    },
+    validPwd: function (pwd) {
+      var L = /(?=.*[a-z])/.test(pwd);
+      var U = /(?=.*[A-Z])/.test(pwd); 
+      var N = /(?=.*\d)/.test(pwd);
+      if (pwd.length < 8 || !L || !U || !N)
+        return false;
+      return true;
     }
   }
 }

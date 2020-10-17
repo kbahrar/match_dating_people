@@ -10,6 +10,15 @@ const checkLogin = async function (log) {
   return true;
 }
 
+const checkEmail = async function (log) {
+  const query = "select * from users where `email` = ?";
+  let following = await connection.query(query, [log]);
+  // console.log(following);
+  if (following.length > 0 && following)
+    return false;
+  return true;
+}
+
 const register = async function (req, res) {
   try {
     var hash = crypto.createHash('whirlpool').update(req.password).digest('hex');
@@ -26,4 +35,4 @@ const register = async function (req, res) {
   }
 }
 
-module.exports = {register, checkLogin};
+module.exports = {register, checkLogin,checkEmail};
