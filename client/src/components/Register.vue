@@ -11,7 +11,7 @@
           <v-text-field
             class="mt-3"
             v-model="login"
-            :rules="[v => !!v || 'Login is required']"
+            :rules="[v => !!v || 'Login is required', v => /^[A-Za-z][A-Za-z0-9]{2,31}$/.test(v) || 'invalide login.']"
             label="login"
             required
             outlined
@@ -21,7 +21,7 @@
           <v-text-field
             class="mt-5"
             v-model="firstName"
-            :rules="[v => !!v || 'First Name is required']"
+            :rules="[v => !!v || 'First Name is required', v => /^[A-Za-z][A-Za-z]{2,31}$/.test(v) || 'invalide first name.']"
             label="first name"
             required
             outlined
@@ -31,7 +31,7 @@
           <v-text-field
             class="mt-5"
             v-model="lastName"
-            :rules="[v => !!v || 'Last Name is required']"
+            :rules="[v => !!v || 'Last Name is required', v=> /^[A-Za-z][A-Za-z]{2,31}$/.test(v) || 'invalide last name.']"
             label="last name"
             required
             outlined
@@ -42,7 +42,7 @@
             class="mt-5"
             v-model="email"
             type="email"
-            :rules="[ v => !!v || 'Email is required', v => /.+@.+/.test(v) || 'E-mail must be valid' ]"
+            :rules="[ v => !!v || 'Email is required', v => /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z-]+)*$/.test(v) || 'Invalide email.' ]"
             label="email"
             required
             outlined
