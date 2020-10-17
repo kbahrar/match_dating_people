@@ -82,7 +82,7 @@
             border="left"
             close-text="Close Alert"
             dismissible>
-            <li v-for="err in errors">{{ err }}</li>
+            <li v-for="err in errors" :key="err">{{ err }}</li>
           </v-alert>
           <v-alert type="success" v-if="reg">
             {{reg}}
@@ -178,7 +178,7 @@ export default {
       return re.test(login);
     },
     validEmail: function (email) {
-      var re = /^[a-zA-Z0-9.!#$%&’*+\=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      var re = /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z-]+)*$/;
       return re.test(email);
     },
     validPwd: function (pwd) {
