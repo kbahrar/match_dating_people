@@ -11,7 +11,7 @@
           <v-text-field
             class="mt-3"
             v-model="login"
-            :rules="[v => !!v || 'Login is required']"
+            :rules="[v => !!v || 'Login is required', v => /^[A-Za-z][A-Za-z0-9]{2,31}$/.test(v) || 'invalide login.']"
             label="login"
             required
             outlined
@@ -21,7 +21,7 @@
           <v-text-field
             class="mt-5"
             v-model="firstName"
-            :rules="[v => !!v || 'First Name is required']"
+            :rules="[v => !!v || 'First Name is required', v => /^[A-Za-z][A-Za-z]{2,31}$/.test(v) || 'invalide first name.']"
             label="first name"
             required
             outlined
@@ -31,7 +31,7 @@
           <v-text-field
             class="mt-5"
             v-model="lastName"
-            :rules="[v => !!v || 'Last Name is required']"
+            :rules="[v => !!v || 'Last Name is required', v=> /^[A-Za-z][A-Za-z]{2,31}$/.test(v) || 'invalide last name.']"
             label="last name"
             required
             outlined
@@ -42,7 +42,7 @@
             class="mt-5"
             v-model="email"
             type="email"
-            :rules="[ v => !!v || 'Email is required', v => /.+@+./.test(v) || 'E-mail must be valid' ]"
+            :rules="[ v => !!v || 'Email is required', v => /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z-]+)*$/.test(v) || 'Invalide email.' ]"
             label="email"
             required
             outlined
@@ -96,6 +96,7 @@
 
 <script>
 import Authent from '@/services/AuthService'
+import Valide from '@/policies/valideForm'
 
 export default {
   data () {
@@ -136,26 +137,26 @@ export default {
       if (!this.login) {
         this.errors.push("login required.");
       }
-      else if(!this.validLogin(this.login))
+      else if(!Valide.validLogin(this.login))
         this.errors.push("invalide login.");
       if (!this.firstName) {
         this.errors.push("first name required.");
       }
-      else if(!this.validFirstName(this.firstName))
+      else if(!Valide.validFirstName(this.firstName))
         this.errors.push("invalide first name.");
       if (!this.lastName) {
         this.errors.push("last name required.");
       }
-      else if(!this.validLastName(this.lastName))
+      else if(!Valide.validLastName(this.lastName))
         this.errors.push("invalide last name.");
       if (!this.password) {
         this.errors.push("password required.");
       }
-      else if (!this.validPwd(this.password))
+      else if (!Valide.validPwd(this.password))
         this.errors.push("invalide password.");
       if (!this.email) {
         this.errors.push('Email required.');
-      } else if (!this.validEmail(this.email)) {
+      } else if (!Valide.validEmail(this.email)) {
         this.errors.push('Valid email required.');
       }
 
@@ -164,30 +165,6 @@ export default {
       }
       else
         e.preventDefault();
-    },
-    validFirstName: function(firstName) {
-      var re = /^[A-Za-z][A-Za-z]{2,31}$/;
-      return re.test(firstName);
-    },
-    validLastName: function(lastName) {
-      var re = /^[A-Za-z][A-Za-z]{2,31}$/;
-      return re.test(lastName);
-    },
-    validLogin: function(login) {
-      var re = /^[A-Za-z][A-Za-z0-9]{2,31}$/;
-      return re.test(login);
-    },
-    validEmail: function (email) {
-      var re = /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z-]+)*$/;
-      return re.test(email);
-    },
-    validPwd: function (pwd) {
-      var L = /(?=.*[a-z])/.test(pwd);
-      var U = /(?=.*[A-Z])/.test(pwd); 
-      var N = /(?=.*\d)/.test(pwd);
-      if (pwd.length < 8 || !L || !U || !N)
-        return false;
-      return true;
     }
   }
 }
