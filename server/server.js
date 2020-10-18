@@ -1,6 +1,7 @@
 const express = require("express");
 const register = require("./routes/register");
 const login = require("./routes/login");
+const rpassword = require("./routes/rpassword");
 const  bodyParser = require("body-parser");
 const cors = require("cors");
 //const   morgan = require("morgan");
@@ -25,6 +26,7 @@ app.use(cors());
 
 app.use("/", register);
 app.use("/", login);
+app.use("/", rpassword);
 const PORT = process.env.PORT || 5000;
 
 app.listen(

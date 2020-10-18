@@ -1,11 +1,13 @@
 const cr = require("../models/rpassword");
+const policies = require("../middleware/register");
 
 exports.Rpassword = async (req, res, next) => {
   try {
-    if (!policies.checkNull(req.body)) throw "full all fields !";
-    if (!policies.checkMail(req.body.email)) throw "invalid password";
+    console.log(req.body.email);
+    if (!policies.checkMail(req.body.email)) throw "invalid Email !";
     let flag = await cr.checkEmailForReset(req.body.email);
     if (!flag) throw "email Does not exist ! try again";
+    console.log('ops');
     await cr.rpassword(req.body, res);
     res
       .status(200)

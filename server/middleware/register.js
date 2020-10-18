@@ -35,7 +35,7 @@ function checkLastName(lastName) {
 function checkMail(email) {
     const emailRegexp = /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z-]+)*$/;
     var regex = emailRegexp.test(email);
-    if (!regex)
+    if (email.length < 0 || !regex)
         return false;
     return true;
 }
