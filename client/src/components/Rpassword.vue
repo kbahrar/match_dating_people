@@ -47,11 +47,7 @@ export default {
     return {
       alert: true,
       flag: true,
-      login: '',
-      firstName: '',
-      lastName: '',
       email: '',
-      password: '',
       reg: null,
       error: null,
       errors: []
