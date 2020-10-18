@@ -5,6 +5,7 @@
         <AppHeader/>
         <v-content fluid>
           <router-view/>
+       <!-- <AppSlider/> -->
         </v-content>
 
       </main>
@@ -15,11 +16,13 @@
 
 <script>
 import AppHeader from '@/components/Header.vue'
+import AppSlider from '@/components/Slider.vue'
 import AppFooter from '@/components/Footer.vue'
 export default {
   name: 'App',
   components: {
     AppHeader,
+    AppSlider,
     AppFooter
   }
 }
