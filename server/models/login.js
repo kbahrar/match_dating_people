@@ -2,6 +2,7 @@ const connection = require("../config/database");
 var express = require("express");
 var session = require("express-session");
 var bodyParser = require("body-parser");
+var crypto = require("crypto");
 var app = express();
 
 
@@ -14,26 +15,23 @@ app.use(
 );
 
 const login = async function (req, res) {
-  var email = req.body.email;
-  var password = req.body.password;
-  if (email && password) {
-    connection.query(
-      "SELECT * FROM users WHERE email = ? AND password = ?",
-      [email, password],
-      function (error, results, fields) {
-        if (results.length > 0) {
-          req.session.loggedin = true;
-          req.session.email = email;
-          res.redirect("/index");
-        } else {
-        console.log("Incorrect email and/or Password!");
-        }
-        res.end();
+  var log = req.log;
+  var password = crypto.createHash('whirlpool').update(req.password).digest('hex');;
+  if (log && password) {
+    var result = await connection.query(
+      "SELECT * FROM users WHERE login = ? AND password = ?",
+      [log, password]);
+      if (result.length > 0) {
+        console.log('ops');
+        // req.session.loggedin = true;
+        // req.session.login = log;
+        return true;
       }
-    );
+      else {
+        return false;
+      }
   } else {
-    console.log("Please enter email and Password!");
-    res.end();
+    return false;
   }
 };
 

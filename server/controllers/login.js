@@ -1,7 +1,19 @@
-const login = require("../models/login");
+const log = require("../models/login");
+const policies = require("../middleware/register");
 
 exports.Login = async (req, res, next) => {
-  console.log(req.body, res);
-  await login(req.body);
-  res.status(200).json({ success: true, msg: "User created succefully !" });
+  try {
+    if (!req.body.log || !req.body.password) throw 'full all fields';
+    if (!policies.checkLogin(req.body.login)) throw 'invalid login';
+    if (!policies.checkPwd(req.body.password)) throw 'invalid password !';
+    var flag = await log(req.body);
+    console.log(flag);
+    if (!flag) throw "login or password incorrect !";
+    res.status(200).json({ success: true, msg: "User created succefully !" });
+  }
+  catch (err) {
+    res.status(400).send({
+      error: err
+    });
+  }
 };
