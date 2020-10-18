@@ -20,6 +20,18 @@
              </v-col>
              </v-row>
 
+             <v-card>
+              <v-card-text>
+               <v-slider
+                  v-model="age"
+                  :rules="[v => !!v || 'age required !', v=> /^[0-9]$/.test(v) || 'invalide age.', v >= 18 || 'invalide age.']"
+                 step="1"
+                 thumb-label
+                 ticks
+                ></v-slider>
+             </v-card-text>
+           </v-card>
+
          <v-row align="center">
            <v-col cols="12">
              <v-select
@@ -104,6 +116,7 @@ export default {
       preferences: ['Male', 'Female', 'Other'],
       alert: true,
       flag: true,
+      age: 18,
       biography: '',
       reg: null,
       error: null,
@@ -121,6 +134,7 @@ export default {
         this.reg = 'profile succesfully created !'
         await Authent.fillProfile({
           gender: this.gender,
+          age: this.age,
           preferences: this.preferences,
           biography: this.biography
         })
@@ -135,6 +149,9 @@ export default {
 
       if (!this.gender) {
         this.errors.push("gender type required.");
+      }
+      if (!this.age) {
+        this.errors.push("age required.");
       }
       if (!this.preferences) {
         this.errors.push("Targeted gender required.");
@@ -155,6 +172,5 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>
