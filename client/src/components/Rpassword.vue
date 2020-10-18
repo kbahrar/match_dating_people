@@ -28,6 +28,15 @@
             dismissible>
             {{error}}
           </v-alert>
+          <v-alert
+            type="error"
+            v-if="errors.length"
+            v-model="alert"
+            border="left"
+            close-text="Close Alert"
+            dismissible>
+            <li v-for="err in errors" :key="err">{{ err }}</li>
+          </v-alert>
           <v-alert type="success" v-if="reg">
             {{reg}}
           </v-alert>
@@ -57,7 +66,7 @@ export default {
     rpassword: async function() {
       try {
         this.error = null
-        this.reg = 'password reset success !'
+        this.reg = 'password reset success check your mail !'
         await Authent.rpassword({
           email: this.email,
         })
@@ -69,7 +78,7 @@ export default {
     },
     checkForm: function (e) {
       this.errors = [];
-      if (!this.email) {
+      if (this.email.length == 0) {
         this.errors.push('Email required.');
       } else if (!Valide.validEmail(this.email)) {
         this.errors.push('Valid email required.');

@@ -10,9 +10,9 @@
         <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
           <v-text-field
             class="mt-5"
-            v-model="email"
-            :rules="[ v => !!v || 'Email is required', v => /.+@.+/.test(v) || 'E-mail must be valid' ]"
-            label="email"
+            v-model="log"
+            :rules="[ v => !!v || 'login is required']"
+            label="login"
             outlined
             shaped
           ></v-text-field>
@@ -27,7 +27,6 @@
             :rules="[v => !!v || 'Password is required',v => (v && v.length >= 8) || 'Password must have 8+ characters',
     v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character', 
     v => /(?=.*\d)/.test(v) || 'Must have one number', 
-    v => /([!@$%])/.test(v) || 'Must have one special character [!@#$%]' 
 ]"
             @click:append="flag = !flag"
             outlined
@@ -42,10 +41,19 @@
             dismissible>
             {{error}}
           </v-alert>
+          <v-alert
+            type="error"
+            v-if="errors.length"
+            v-model="alert"
+            border="left"
+            close-text="Close Alert"
+            dismissible>
+            <li v-for="err in errors" :key="err">{{ err }}</li>
+          </v-alert>
           <v-alert type="success" v-if="reg">
             {{reg}}
           </v-alert>
-          <v-btn @click="login" class="pink darken-2 mb-5" dark>Login</v-btn>
+          <v-btn @click="checkForm" class="pink darken-2 mb-5" dark>Login</v-btn>
           <v-btn  text dark class="red darken-2 mb-5" to="rpassword">forget password?</v-btn>
         </div>
       </div>
@@ -55,30 +63,54 @@
 
 <script>
 import Authent from '@/services/AuthService'
+import Valide from '@/policies/valideForm'
 export default {
   data () {
     return {
       alert: true,
       flag: true,
-      email: '',
+      log: '',
       password: '',
       reg: null,
-      error: null
+      error: null,
+      errors: []
     }
   },
   methods: {
     async login () {
       try {
+        this.reg = "you logg in with success !";
         await Authent.login({
-          email: this.email,
+          log: this.log,
           password: this.password
         })
       } catch (err) {
+        this.reg = ''
         this.error = err.response.data.error
         this.alert = true
       }
+    },
+    checkForm: function (e) {
+      this.errors = [];
+
+      if (this.log.length == 0) {
+        this.errors.push("login required.");
+      }
+      else if(!Valide.validLogin(this.log))
+        this.errors.push("invalide login.");
+      if (this.password.length == 0) {
+        this.errors.push("password required.");
+      }
+      else if (!Valide.validPwd(this.password))
+        this.errors.push("invalide password.");
+
+      if (!this.errors.length) {
+        this.login();
+      }
+      else
+        e.preventDefault();
     }
-  }
+  },
 }
 </script>
 
