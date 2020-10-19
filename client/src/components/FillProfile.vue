@@ -11,10 +11,10 @@
          <v-row align="center">
            <v-col cols="12">
              <v-select
-             :gender="gender"
+             :items="gender"
              :menu-props="{ top: true, offsetY: true }"
              label="Chose your gender"
-             v-model="gender"
+             v-model="mygender"
              :rules="[v => !!v || 'gender required']"
              ></v-select>
              </v-col>
@@ -22,9 +22,10 @@
 
              <v-card>
               <v-card-text>
+                <strong>I am : {{ age }} years old</strong>
                <v-slider
                   v-model="age"
-                  :rules="[v => !!v || 'age required !', v=> /^[0-9]$/.test(v) || 'invalide age.', v >= 18 || 'invalide age.']"
+                  :rules="[v => !!v || 'age required !', v=> /^[0-9]{2}$/.test(v) || 'invalide age.',v => v >= 18 || 'your age must be over 18 to join Matcha.']"
                  step="1"
                  thumb-label
                  ticks
@@ -35,10 +36,10 @@
          <v-row align="center">
            <v-col cols="12">
              <v-select
-             :preferences="preferences"
+             :items="lookingfor"
              :menu-props="{ top: true, offsetY: true }"
              label="Looking for ?"
-            v-model="preferences"
+            v-model="mylookingfor"
             :rules="[v => !!v || 'preferences required']"
              ></v-select>
              </v-col>
@@ -49,30 +50,28 @@
           label="Biography"
           hint="Hint text"
           v-model="biography"
-          :rules="[v => !!v || 'biography required at least 100 word', v=> /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z-]+)*$/.test(v) || 'invalide biography.']"
+          :rules="[v => !!v || 'biography required at least 100 word', v=> v.length > 100 || 'invalide biography.']"
         ></v-textarea>
 
  <v-combobox
-    v-model="tags"
-    :tagItems="tagItems"
-    :rules="[v => !!v || 'at least 1 tag required', v=> /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z-]+)*$/.test(v) || 'invalide tags.']"
-    tags
+    v-model="chips"
+    :items="items"
+    chips
     clearable
-    label="Your favorite hobbies"
+    label="at least 1 tag so people can know your interests"
     multiple
     prepend-icon="mdi-filter-variant"
     solo
   >
-    <template v-slot:selection="{ attrs, tagItem, select, selected }">
+    <template v-slot:selection="{ attrs, item, select, selected }">
       <v-chip
         v-bind="attrs"
         :input-value="selected"
         close
         @click="select"
-        @click:close="remove(tagItem)"
+        @click:close="remove(item)"
       >
-        <strong>{{ tagItem }}</strong>&nbsp;
-        <span>(interest)</span>
+        <strong>{{ item }}</strong>&nbsp;
       </v-chip>
     </template>
   </v-combobox>
@@ -110,10 +109,13 @@
 export default {
   data () {
     return {
-      tags: ['Programming', 'Playing video games', 'Watching movies', 'Sleeping'],
-      tagItems: ['Streaming', 'Eating'],
+      chips: ['Coding', 'Gaming', 'Netflix', 'Sleeping'],
+      items: ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature'],
       gender: ['Male', 'Female', 'Other'],
-      preferences: ['Male', 'Female', 'Other'],
+      mygender: '',
+      mychips: '',
+      lookingfor: ['Male', 'Female', 'Other'],
+      mylookingfor: '',
       alert: true,
       flag: true,
       age: 18,
@@ -124,18 +126,19 @@ export default {
     }
   },
   methods: {
-    remove (tagItem) {
-        this.tags.splice(this.tags.indexOf(tagItem), 1)
-        this.tags = [...this.tags]
+    remove (item) {
+        this.chips.splice(this.chips.indexOf(item), 1)
+        this.chips = [...this.chips]
       },
     fillProfile: async function() {
       try {
         this.error = null
         this.reg = 'profile succesfully created !'
         await Authent.fillProfile({
-          gender: this.gender,
+          mygender: this.mygender,
           age: this.age,
-          preferences: this.preferences,
+          chips: this.ships,
+          mylookingfor: this.mylookingfor,
           biography: this.biography
         })
       } catch (err) {
@@ -147,20 +150,24 @@ export default {
     checkForm: function (e) {
       this.errors = [];
 
-      if (!this.gender) {
+      if (!this.mygender) {
         this.errors.push("gender type required.");
       }
-      if (!this.age) {
+      if (!this.age || this.age < 18) {
         this.errors.push("age required.");
       }
-      if (!this.preferences) {
+      if (!this.mylookingfor) {
         this.errors.push("Targeted gender required.");
       }
-      if (!this.tags) {
-        this.errors.push("at least 1 tag required !.");
+      if (!this.chips || this.chips.length < 5) {
+        this.errors.push("at least 5 tag required !.");
       }
-      if (!this.biography) {
-        this.errors.push("Biography required.");
+      if (!this.biography || this.biography.length < 100) {
+        this.errors.push("Biography required !");
+      }
+      else if(this.biography.length < 100)
+      {
+        this.errors.push("Biography is less than 100 caracter.");
       }
       if (!this.errors.length) {
         this.fillProfile();
