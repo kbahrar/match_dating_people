@@ -86,6 +86,7 @@ export default {
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
+        this.$router.push('fillprofile')
       } catch (err) {
         this.reg = ''
         this.error = err.response.data.error
