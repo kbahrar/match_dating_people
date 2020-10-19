@@ -8,21 +8,20 @@
         </v-toolbar>
         <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
 
-                    <div>
-                    <v-file-input
-                    v-model="pictures"
-                    :rules="[v => !!v || v.size < 2000000 || 'Avatar size should be less than 2 MB!',v => v.length >= 5 || 'you have to upload at least 5 pictures with size less than 2 MB!']"
+          <v-file-input
+            v-model="pictures"
+            :rules="[(value => !value || value.length < 5 ) || 'add at least 5 pictures', (value => !value || value.size < 5 ) || 'add at least 5 pictures']"
                     counter
                      multiple
-                         accept="image/png, image/jpeg, image/bmp"
                       show-size
                       small-chips
                           clearable
                      truncate-length="11"
                       label="add at least 5 pictures"
-                          prepend-icon="mdi-camera"
-                    ></v-file-input>
-                  </div>
+                    accept="image/png, image/jpeg, image/bmp"
+                   placeholder="Click to add profile pictures"
+                   prepend-icon="mdi-camera"
+          ></v-file-input>
           
          <v-row align="center">
            <v-col cols="12">
@@ -126,11 +125,11 @@ export default {
   data () {
     return {
       chips: ['Coding', 'Gaming', 'Netflix', 'Sleeping'],
+      pictures: [],
       items: ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature'],
       gender: ['Male', 'Female', 'Other'],
       mygender: '',
       mychips: '',
-      pictures: '',
       lookingfor: ['Male', 'Female', 'Other'],
       mylookingfor: '',
       alert: true,
@@ -153,9 +152,9 @@ export default {
         this.reg = 'profile succesfully created !'
         await Authent.fillProfile({
           mygender: this.mygender,
+          pictures: this.pictures,
           age: this.age,
           chips: this.ships,
-          pictures: this.pictures,
           mylookingfor: this.mylookingfor,
           biography: this.biography
         })
@@ -167,12 +166,25 @@ export default {
     },
     checkForm: function (e) {
       this.errors = [];
-
+      var i = 0;
       if (!this.mygender) {
         this.errors.push("gender type required.");
       }
       if (!this.age || this.age < 18) {
         this.errors.push("age required.");
+      }
+      if(!this.pictures || this.pictures.length < 5)
+      {
+        this.errors.push("add at least 5 pictures.");
+      }
+      while(i < this.pictures.length){
+        if(this.pictures[i].size >= 2000000)
+        {
+          console.log("am here dude");
+          this.errors.push("Pictures size should be less than 2 MB!.");
+          break;
+        }
+        i++;
       }
       if (!this.mylookingfor) {
         this.errors.push("Targeted gender required.");
