@@ -1,2 +1,2 @@
 # matcha
-Site web App for dating making with node.js, vue.js and mysql
+web App for dating made with node.js, vue.js and mysql
