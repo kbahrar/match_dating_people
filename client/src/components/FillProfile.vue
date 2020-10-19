@@ -7,6 +7,22 @@
           <v-toolbar-title>Fill profile to continue</v-toolbar-title>
         </v-toolbar>
         <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
+
+                    <div>
+                    <v-file-input
+                    v-model="pictures"
+                    :rules="[v => !!v || v.size < 2000000 || 'Avatar size should be less than 2 MB!',v => v.length >= 5 || 'you have to upload at least 5 pictures with size less than 2 MB!']"
+                    counter
+                     multiple
+                         accept="image/png, image/jpeg, image/bmp"
+                      show-size
+                      small-chips
+                          clearable
+                     truncate-length="11"
+                      label="add at least 5 pictures"
+                          prepend-icon="mdi-camera"
+                    ></v-file-input>
+                  </div>
           
          <v-row align="center">
            <v-col cols="12">
@@ -114,6 +130,7 @@ export default {
       gender: ['Male', 'Female', 'Other'],
       mygender: '',
       mychips: '',
+      pictures: '',
       lookingfor: ['Male', 'Female', 'Other'],
       mylookingfor: '',
       alert: true,
@@ -138,6 +155,7 @@ export default {
           mygender: this.mygender,
           age: this.age,
           chips: this.ships,
+          pictures: this.pictures,
           mylookingfor: this.mylookingfor,
           biography: this.biography
         })
