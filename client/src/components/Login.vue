@@ -80,10 +80,12 @@ export default {
     async login () {
       try {
         this.reg = "you logg in with success !";
-        await Authent.login({
+        const response = await Authent.login({
           log: this.log,
           password: this.password
         })
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
       } catch (err) {
         this.reg = ''
         this.error = err.response.data.error

@@ -9,7 +9,7 @@ exports.Login = async (req, res, next) => {
     var flag = await log(req.body);
     console.log(flag);
     if (!flag) throw "login or password incorrect !";
-    res.status(200).json({ success: true, msg: "User created succefully !" });
+    res.send(flag);
   }
   catch (err) {
     res.status(400).send({

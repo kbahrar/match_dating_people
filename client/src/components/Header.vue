@@ -8,10 +8,10 @@
     <v-spacer>
     </v-spacer>
     <v-toolbar-items>
-      <v-btn text dark class="transparent" to="register">
+      <v-btn v-if="!$store.state.isLogg" text dark class="transparent" to="register">
         Register
       </v-btn>
-      <v-btn text dark class="transparent" to="login">
+      <v-btn v-if="!$store.state.isLogg" text dark class="transparent" to="login">
         Login
       </v-btn>
     </v-toolbar-items>
