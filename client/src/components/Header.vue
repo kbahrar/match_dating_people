@@ -11,9 +11,40 @@
       <v-btn v-if="!$store.state.isLogg" text dark class="transparent" to="register">
         Register
       </v-btn>
+
       <v-btn v-if="!$store.state.isLogg" text dark class="transparent" to="login">
         Login
       </v-btn>
+      
+      <v-menu left bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+           text dark 
+           v-if="$store.state.isLogg" 
+            icon
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-avatar>
+      <img
+        src="https://cdn.vuetifyjs.com/images/john.jpg"
+        alt="mamak profile"
+      >
+    </v-avatar>
+          </v-btn>
+        </template>
+
+        <v-list>
+          <v-list-item
+            v-for="n in 3"
+            :key="n"
+            @click="() => {}"
+          >
+            <v-list-item-title>Option {{ n }}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
     </v-toolbar-items>
   </v-toolbar>
 </template>
@@ -21,7 +52,18 @@
 
 <script>
 export default {
-
+    data () {
+    return {
+      data: () => ({
+      items: [
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me' },
+        { title: 'Click Me 2' },
+      ],
+    }),
+    }
+  },
 }
 </script>
 

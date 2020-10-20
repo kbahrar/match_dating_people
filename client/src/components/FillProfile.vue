@@ -1,4 +1,4 @@
-<template>
+<template >
   <v-layout>
     <v-flex xs6 offset-xs3>
       <div class="grey lighten-3 elevation-5">
