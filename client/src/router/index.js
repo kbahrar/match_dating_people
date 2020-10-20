@@ -5,21 +5,29 @@ import Login from '@/components/Login'
 import Rpassword from '@/components/Rpassword'
 import Fillprofile from '@/components/Fillprofile'
 import Newpassword from '@/components/Newpassword'
+// import store from '@/store/store'
+import { isLoggedIn } from '@/policies/auth'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: "history",
   routes: [
     {
       path: "/register",
       name: "register",
-      component: Register
+      component: Register,
+      meta: {
+        allowAnonymous: true
+      }
     },
     {
       path: "/login",
       name: "login",
-      component: Login
+      component: Login,
+      meta: {
+        allowAnonymous: true
+      }
     },
     {
       path: "/rpassword",
@@ -29,7 +37,10 @@ export default new Router({
     {
       path: "/fillprofile",
       name: "fillprofile",
-      component: Fillprofile
+      component: Fillprofile,
+      meta: {
+        allowAnonymous: false
+      }
     },
     {
       path: "/newpassword",
@@ -38,3 +49,20 @@ export default new Router({
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  if ((to.name == 'login' || to.name == 'register') && isLoggedIn()) {
+    next({ path: '/' })
+    console.log(isLoggedIn())
+  }
+  else if (!to.meta.allowAnonymous && !isLoggedIn()) {
+    next({
+      path: '/login'
+    })
+  }
+  else {
+    next()
+  }
+})
+
+export default router

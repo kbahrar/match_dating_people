@@ -64,6 +64,7 @@
 <script>
 import Authent from '@/services/AuthService'
 import Valide from '@/policies/valideForm'
+import {setAuthToken} from '@/policies/auth'
 export default {
   data () {
     return {
@@ -86,7 +87,8 @@ export default {
         })
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
-        this.$router.push('fillprofile')
+        setAuthToken(response.data.token)
+        this.$router.go('fillprofile')
       } catch (err) {
         this.reg = ''
         this.error = err.response.data.error

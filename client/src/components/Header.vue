@@ -8,19 +8,23 @@
     <v-spacer>
     </v-spacer>
     <v-toolbar-items>
-      <v-btn v-if="!$store.state.isLogg" text dark class="transparent" to="register">
+      <v-btn v-if="!isLoggedIn()" text dark class="transparent" to="register">
         Register
       </v-btn>
 
-      <v-btn v-if="!$store.state.isLogg" text dark class="transparent" to="login">
+      <v-btn v-if="!isLoggedIn()" text dark class="transparent" to="login">
         Login
       </v-btn>
       
+      <v-btn v-if="isLoggedIn()" @click="decon" text dark class="transparent" to="login">
+        Log Out
+      </v-btn>
+
       <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
            text dark 
-           v-if="$store.state.isLogg" 
+           v-if="isLoggedIn()" 
             icon
             v-bind="attrs"
             v-on="on"
@@ -51,20 +55,29 @@
 
 
 <script>
+import { isLoggedIn } from '@/policies/auth'
+import { logoutUser } from '@/policies/auth'
 export default {
-    data () {
+  data () {
     return {
-      data: () => ({
       items: [
         { title: 'Click Me' },
         { title: 'Click Me' },
         { title: 'Click Me' },
         { title: 'Click Me 2' },
       ],
-    }),
     }
-  },
-}
+  },   
+    methods: {
+      isLoggedIn() {
+        return isLoggedIn()
+      },
+      decon() {
+        logoutUser()
+        this.$router.go('login')
+      }
+    },
+  }
 </script>
 
 <style lang="css" scoped>

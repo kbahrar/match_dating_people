@@ -7,7 +7,8 @@
           <v-toolbar-title>Fill profile to continue</v-toolbar-title>
         </v-toolbar>
         <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
-          <!-- <v-file-input
+
+          <v-file-input
             v-model="pictures"
             :rules="[(value => !value || value.length < 5 ) || 'add at least 5 pictures', (value => !value || value.size < 5 ) || 'add at least 5 pictures']"
                     counter
@@ -20,7 +21,8 @@
                     accept="image/png, image/jpeg, image/bmp"
                    placeholder="Click to add profile pictures"
                    prepend-icon="mdi-camera"
-          ></v-file-input> -->
+          ></v-file-input>
+          
          <v-row align="center">
            <v-col cols="12">
              <v-select
@@ -32,16 +34,6 @@
              ></v-select>
              </v-col>
              </v-row>
-
-             <v-text-field
-            class="mt-5"
-            v-model="city"
-            :rules="[v => !!v || 'city required', v => /^[A-Za-z][A-Za-z]{2,31}$/.test(v) || 'invalide city name.']"
-            label="enter your City"
-            required
-            outlined
-            shaped
-          ></v-text-field>
 
              <v-card>
               <v-card-text>
@@ -133,12 +125,11 @@ export default {
   data () {
     return {
       chips: ['Coding', 'Gaming', 'Netflix', 'Sleeping'],
-      // pictures: [],
+      pictures: [],
       items: ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature'],
       gender: ['Male', 'Female', 'Other'],
       mygender: '',
       mychips: '',
-      city: '',
       lookingfor: ['Male', 'Female', 'Other'],
       mylookingfor: '',
       alert: true,
@@ -161,9 +152,8 @@ export default {
         this.reg = 'profile succesfully created !'
         await Authent.fillProfile({
           mygender: this.mygender,
-          // pictures: this.pictures,
+          pictures: this.pictures,
           age: this.age,
-          city: this.city,
           chips: this.ships,
           mylookingfor: this.mylookingfor,
           biography: this.biography
@@ -180,25 +170,22 @@ export default {
       if (!this.mygender) {
         this.errors.push("gender type required.");
       }
-      if (!this.city || this.city.length < 2) {
-        this.errors.push("city is required.");
-      }
       if (!this.age || this.age < 18) {
         this.errors.push("age required.");
       }
-      // if(!this.pictures || this.pictures.length < 5)
-      // {
-      //   this.errors.push("add at least 5 pictures.");
-      // }
-      // while(i < this.pictures.length){
-      //   if(this.pictures[i].size >= 2000000)
-      //   {
-      //     console.log("am here dude");
-      //     this.errors.push("Pictures size should be less than 2 MB!.");
-      //     break;
-      //   }
-      //   i++;
-      // }
+      if(!this.pictures || this.pictures.length < 5)
+      {
+        this.errors.push("add at least 5 pictures.");
+      }
+      while(i < this.pictures.length){
+        if(this.pictures[i].size >= 2000000)
+        {
+          console.log("am here dude");
+          this.errors.push("Pictures size should be less than 2 MB!.");
+          break;
+        }
+        i++;
+      }
       if (!this.mylookingfor) {
         this.errors.push("Targeted gender required.");
       }
