@@ -4,6 +4,7 @@ import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Rpassword from '@/components/Rpassword'
 import Fillprofile from '@/components/Fillprofile'
+import Newpassword from '@/components/Newpassword'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: "/fillprofile",
       name: "fillprofile",
       component: Fillprofile
+    },
+    {
+      path: "/newpassword",
+      name: "newpassword",
+      component: Newpassword
     }
   ]
 });
