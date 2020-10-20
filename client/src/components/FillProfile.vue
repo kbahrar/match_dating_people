@@ -35,6 +35,16 @@
              </v-col>
              </v-row>
 
+             <v-text-field
+            class="mt-5"
+            v-model="city"
+            :rules="[v => !!v || 'city required', v => /^[A-Za-z][A-Za-z]{2,31}$/.test(v) || 'invalide city name.']"
+            label="enter your City"
+            required
+            outlined
+            shaped
+          ></v-text-field>
+
              <v-card>
               <v-card-text>
                 <strong>I am : {{ age }} years old</strong>
@@ -130,6 +140,7 @@ export default {
       gender: ['Male', 'Female', 'Other'],
       mygender: '',
       mychips: '',
+      city: '',
       lookingfor: ['Male', 'Female', 'Other'],
       mylookingfor: '',
       alert: true,
@@ -154,6 +165,7 @@ export default {
           mygender: this.mygender,
           // pictures: this.pictures,
           age: this.age,
+          city: this.city,
           chips: this.ships,
           mylookingfor: this.mylookingfor,
           biography: this.biography
@@ -169,6 +181,9 @@ export default {
       var i = 0;
       if (!this.mygender) {
         this.errors.push("gender type required.");
+      }
+      if (!this.city || this.city.length < 2) {
+        this.errors.push("city is required.");
       }
       if (!this.age || this.age < 18) {
         this.errors.push("age required.");
