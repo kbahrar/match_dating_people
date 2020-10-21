@@ -5,6 +5,7 @@ import Login from '@/components/Login'
 import Rpassword from '@/components/Rpassword'
 import Fillprofile from '@/components/Fillprofile'
 import Newpassword from '@/components/Newpassword'
+import Chat from '@/components/Chat'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
 
@@ -38,6 +39,14 @@ const router = new Router({
       path: "/fillprofile",
       name: "fillprofile",
       component: Fillprofile,
+      meta: {
+        allowAnonymous: false
+      }
+    },
+        {
+      path: "/chat",
+      name: "chat",
+      component: Chat,
       meta: {
         allowAnonymous: false
       }

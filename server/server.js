@@ -1,7 +1,5 @@
 const express = require("express");
-const register = require("./routes/register");
-const login = require("./routes/login");
-const rpassword = require("./routes/rpassword");
+const register = login = rpassword = require("./routes/");
 const  bodyParser = require("body-parser");
 const cors = require("cors");
 //const   morgan = require("morgan");
