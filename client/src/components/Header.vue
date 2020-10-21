@@ -15,9 +15,11 @@
       <v-btn v-if="!isLoggedIn()" text dark class="transparent" to="login">
         Login
       </v-btn>
-      
-      <v-btn v-if="isLoggedIn()" @click="decon" text dark class="transparent" to="login">
-        Log Out
+      <v-btn v-if="isLoggedIn()" text dark class="transparent" to="myprofilepage">
+        user login here
+      </v-btn>
+      <v-btn v-if="isLoggedIn()" text dark class="transparent" to="myprofilepage">
+        
       </v-btn>
 
       <v-menu left bottom>
@@ -29,22 +31,16 @@
             v-bind="attrs"
             v-on="on"
           >
-            <v-avatar>
-      <img
-        src="https://cdn.vuetifyjs.com/images/john.jpg"
-        alt="mamak profile"
-      >
-    </v-avatar>
+            <v-avatar> <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="mamak profile"> </v-avatar>
           </v-btn>
         </template>
 
         <v-list>
-          <v-list-item
-            v-for="n in 3"
-            :key="n"
-            @click="() => {}"
-          >
-            <v-list-item-title>Option {{ n }}</v-list-item-title>
+          <v-list-item>
+            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent" to="my profile page">My Profile</v-list-item-title> 
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title v-if="isLoggedIn()" @click="decon" text dark class="transparent" to="login"> Log Out </v-list-item-title> 
           </v-list-item>
         </v-list>
       </v-menu>
@@ -60,12 +56,7 @@ import { logoutUser } from '@/policies/auth'
 export default {
   data () {
     return {
-      items: [
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me' },
-        { title: 'Click Me 2' },
-      ],
+     
     }
   },   
     methods: {
