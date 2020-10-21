@@ -128,7 +128,8 @@
 </template>
 
 <script>
-
+import Authent from '@/services/AuthService'
+import { getUserInfo } from '@/policies/auth'
 export default {
   data () {
     return {
@@ -137,7 +138,7 @@ export default {
       items: ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature'],
       gender: ['Male', 'Female', 'Other'],
       mygender: '',
-      mychips: '',
+      mychips: [],
       city: '',
       lookingfor: ['Male', 'Female', 'Other'],
       mylookingfor: '',
@@ -150,6 +151,10 @@ export default {
       errors: []
     }
   },
+  // mounted() {
+  //   var user = getUserInfo()
+  //   this.$store.dispatch('setUser', JSON.parse(user))
+  // },
   methods: {
     remove (item) {
         this.chips.splice(this.chips.indexOf(item), 1)
@@ -157,16 +162,19 @@ export default {
       },
     fillProfile: async function() {
       try {
+        var user = getUserInfo()
         this.error = null
         this.reg = 'profile succesfully created !'
-        await Authent.fillProfile({
-          mygender: this.mygender,
+        await Authent.fillprofile({user: {
+          gender: this.mygender,
           // pictures: this.pictures,
           age: this.age,
           city: this.city,
-          chips: this.ships,
+          chips: this.chips,
           mylookingfor: this.mylookingfor,
           biography: this.biography
+        },
+        info: user
         })
       } catch (err) {
         this.reg = null

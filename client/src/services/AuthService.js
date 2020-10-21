@@ -11,6 +11,6 @@ export default {
     return Api().post("rpassword", cred);
   },
   fillprofile(cred) {
-    return Api().post("fillprofile", cred);
+    return Api().post("users/fillProfile", cred);
   }
 };

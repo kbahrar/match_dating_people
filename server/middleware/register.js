@@ -65,6 +65,20 @@ function checkPwd(pwd) {
     return true;
 }
 
+function checkFillProfile(body) {
+    body = body.user
+    if (!body.gender || !body.age || !body.city || !body.chips || !body.mylookingfor || !body.biography)
+        return 'You do not send all informations'
+    if (body.gender !== 'Other' && body.gender !== 'Female' && body.gender !== 'Male')
+        return 'You choose A gender does not exist !'
+    if (body.mylookingfor !== 'Other' && body.mylookingfor !== 'Female' && body.mylookingfor !== 'Male')
+        return 'You choose A looking for does not exist !'
+    if (body.age < 18)
+        return 'You are minor azbi'
+    if (!Array.isArray(body.chips) || body.chips.length < 5)
+        return 'Tags invalide'
+    return 'OK'
+}
 
 module.exports = {
     checkPwd: checkPwd,
@@ -72,5 +86,6 @@ module.exports = {
     checkFirstName: checkFirstName,
     checkLastName: checkLastName,
     checkMail: checkMail,
-    checkNull: checkNull
+    checkNull: checkNull,
+    checkFillProfile: checkFillProfile
 }

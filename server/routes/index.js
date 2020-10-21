@@ -2,6 +2,7 @@ const express = require("express");
 const { Login } = require("../controllers/login");
 const { CreateUser } = require("../controllers/register");
 const { Rpassword } = require("../controllers/rpassword");
+const { fillProfile } = require("../controllers/fillProfile");
 
 
 
@@ -11,6 +12,7 @@ const router = express.Router();
 router.route("/login").post(Login);
 router.route("/register").post(CreateUser);
 router.route("/rpassword").post(Rpassword);
+router.route("/users/fillprofile").post(fillProfile);
 
 
 

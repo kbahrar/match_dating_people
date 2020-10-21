@@ -16,6 +16,7 @@
     "axios": "^0.19.2",
     "jwt-decode": "^3.0.0",
     "vue": "^2.5.2",
+    "vue-quick-chat": "^1.2.6",
     "vue-router": "^3.0.1",
     "vuetify": "^2.2.16",
     "vuex": "^3.5.1",
