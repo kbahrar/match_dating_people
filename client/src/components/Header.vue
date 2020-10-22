@@ -15,9 +15,7 @@
       <v-btn v-if="!isLoggedIn()" text dark class="transparent" to="login">
         Login
       </v-btn>
-      <v-btn v-if="isLoggedIn()" text dark class="transparent" to="chat">
-        chat
-      </v-btn>
+
       <v-btn v-if="isLoggedIn()" text dark class="transparent" to="myprofilepage">
         {{login}}
       </v-btn>

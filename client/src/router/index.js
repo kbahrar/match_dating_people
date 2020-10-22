@@ -5,7 +5,7 @@ import Login from '@/components/Login'
 import Rpassword from '@/components/Rpassword'
 import Fillprofile from '@/components/Fillprofile'
 import Newpassword from '@/components/Newpassword'
-import Chat from '@/components/Chat'
+import Profilesettings from '@/components/Profilesettings'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
@@ -45,9 +45,9 @@ const router = new Router({
       }
     },
         {
-      path: "/chat",
-      name: "chat",
-      component: Chat,
+      path: "/profilesettings",
+      name: "profilesettings",
+      component: Profilesettings,
       meta: {
         allowAnonymous: false
       }
