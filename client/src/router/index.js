@@ -8,6 +8,7 @@ import Newpassword from '@/components/Newpassword'
 import Chat from '@/components/Chat'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
+import { isFull } from '@/policies/auth'
 
 Vue.use(Router)
 
@@ -61,9 +62,15 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if ((to.name == 'login' || to.name == 'register') && isLoggedIn()) {
-    next({ path: '/' })
-    console.log(isLoggedIn())
+    if (!isFull())
+      next({ path: '/fillprofile' })
+    else
+      next({ path: '/'})
   }
+  // else if (to.name = 'fillprofile' && !isFull)
+  // {
+  //   next({ path: '/fillprofile'})
+  // }
   else if (!to.meta.allowAnonymous && !isLoggedIn()) {
     next({
       path: '/login'

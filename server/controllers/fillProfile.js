@@ -3,13 +3,12 @@ const policies = require('../middleware/register');
 
 exports.fillProfile = async (req, res, next) => {
   try {
-    // console.log(req.body.user.gender)
     var check = policies.checkFillProfile(req.body);
     if (check !== 'OK')
         throw check;
-    await fp.fill(req.body, res);
-    // console.log('ops');
-    // console.log(respo);
+    check = await fp.fill(req.body, res);
+    if (!check)
+      throw 'something went wrong'
     res.status(200).json({ success: true, msg: "Account completed successfully !" });
   }
   catch (err) {

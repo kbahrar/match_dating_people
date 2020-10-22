@@ -1,31 +1,31 @@
 import decode from 'jwt-decode'
 import axios from 'axios'
 
-const REST_ENDPOINT = 'http://localhost:3000/'
+// const REST_ENDPOINT = 'http://localhost:3000/'
 const AUTH_TOKEN_KEY = 'secret'
 
-export function loginUser(username, password) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            let res = await axios({
-                url: `${REST_ENDPOINT}api/v1/auth/token`,
-                method: 'POST',
-                data: {
-                    username: username,
-                    password: password,
-                    grant_type: 'password'
-                }
-            })
+// export function loginUser(username, password) {
+//     return new Promise(async (resolve, reject) => {
+//         try {
+//             let res = await axios({
+//                 url: `${REST_ENDPOINT}api/v1/auth/token`,
+//                 method: 'POST',
+//                 data: {
+//                     username: username,
+//                     password: password,
+//                     grant_type: 'password'
+//                 }
+//             })
 
-            setAuthToken(res.data.token)
-            resolve()
-        }
-        catch (err) {
-            console.error('Caught an error during login:', err)
-            reject(err)
-        }
-    })
-}
+//             setAuthToken(res.data.token)
+//             resolve()
+//         }
+//         catch (err) {
+//             console.error('Caught an error during login:', err)
+//             reject(err)
+//         }
+//     })
+// }
 
 export function logoutUser() {
     clearAuthToken()
@@ -54,6 +54,12 @@ export function getUserInfo() {
     if (isLoggedIn()) {
         return decode(getAuthToken())
     }
+}
+
+export function isFull() {
+    var check = getUserInfo()
+    check = check.fill
+    return check
 }
 
 function getTokenExpirationDate(encodedToken) {

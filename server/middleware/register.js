@@ -65,9 +65,9 @@ function checkPwd(pwd) {
     return true;
 }
 
-function checkFillProfile(body) {
-    body = body.user
-    if (!body.gender || !body.age || !body.city || !body.chips || !body.mylookingfor || !body.biography)
+function checkFillProfile(req) {
+    var body = req.user
+    if (!req.info.login || !body.gender || !body.age || !body.city || !body.chips || !body.mylookingfor || !body.biography)
         return 'You do not send all informations'
     if (body.gender !== 'Other' && body.gender !== 'Female' && body.gender !== 'Male')
         return 'You choose A gender does not exist !'

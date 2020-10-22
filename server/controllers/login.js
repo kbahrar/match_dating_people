@@ -7,7 +7,7 @@ exports.Login = async (req, res, next) => {
     if (!policies.checkLogin(req.body.login)) throw 'invalid login';
     if (!policies.checkPwd(req.body.password)) throw 'invalid password !';
     var flag = await log(req.body);
-    console.log(flag);
+    // console.log(flag);
     if (!flag) throw "login or password incorrect !";
     res.send(flag);
   }

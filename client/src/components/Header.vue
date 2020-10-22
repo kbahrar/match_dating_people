@@ -19,7 +19,7 @@
         chat
       </v-btn>
       <v-btn v-if="isLoggedIn()" text dark class="transparent" to="myprofilepage">
-        LoginNmae
+        {{login}}
       </v-btn>
 
       <v-menu left bottom>
@@ -37,7 +37,7 @@
 
         <v-list>
           <v-list-item>
-            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent" to="my profile page">My Profile</v-list-item-title> 
+            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent" to="fillprofile">My Profile</v-list-item-title> 
           </v-list-item>
           <v-list-item>
             <v-list-item-title v-if="isLoggedIn()" @click="decon" text dark class="transparent" to="login"> Log Out </v-list-item-title> 
@@ -53,12 +53,17 @@
 <script>
 import { isLoggedIn } from '@/policies/auth'
 import { logoutUser } from '@/policies/auth'
+import { getUserInfo } from '@/policies/auth'
 export default {
   data () {
     return {
-     
+     login: 'mamak'
     }
-  },   
+  },
+  mounted() {
+    this.login = getUserInfo()
+    this.login = this.login.login
+  },
     methods: {
       isLoggedIn() {
         return isLoggedIn()
