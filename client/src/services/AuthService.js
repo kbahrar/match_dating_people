@@ -12,5 +12,11 @@ export default {
   },
   fillprofile(cred) {
     return Api().post("users/fillProfile", cred);
+  },
+  updateinformations(cred) {
+    return Api().post("users/updateinformations", cred);
+  },
+  updatecode(cred) {
+    return Api().post("users/updatecode", cred);
   }
 };

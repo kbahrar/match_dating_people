@@ -287,7 +287,11 @@ export default {
       flag: true,
       reg: null,
       error: null,
-      errors: []
+      errors: {
+        informations: [],
+        code: [],
+        criteria: [],
+    }
     }
   },
   methods: {
@@ -295,7 +299,75 @@ export default {
         this.criteria.chips.splice(this.criteria.chips.indexOf(criteria.item), 1)
         this.criteria.chips = [...this.criteria.chips]
       },
-    
+      updateinformations: async function() {
+      try {
+        this.error = null
+        this.reg = 'informations succesfully updated !'
+        await Authent.updateinformations({
+          age: this.informations.age,
+          email: this.informations.email,
+          firstName: this.informations.firstName,
+          lastName: this.informations.lastName,
+        },
+        )
+      } catch (err) {
+        this.reg = null
+        this.error = err.response.data.error || 'No response from server'
+        this.alert = true
+      }
+    },
+      updatecode: async function() {
+      try {
+        this.error = null
+        this.reg = 'password succesfully changed !'
+        await Authent.updatecode({
+          password: this.code.password,
+          newpassword: this.code.newpassword,
+        },
+        )
+      } catch (err) {
+        this.reg = null
+        this.error = err.response.data.error || 'No response from server'
+        this.alert = true
+      }
+    },
+    updateinfo: function (e) {
+      this.errors.informations = [];
+
+      if (this.informations.firstName) {
+        if(!Valide.validFirstName(this.informations.firstName))
+          this.errors.informations.push("invalide first name.");
+      }
+      if (this.informations.lastName) {
+        if(!Valide.validLastName(this.informations.lastName))
+          this.errors.informations.push("invalide last name.");
+      }
+      if (this.informations.email) {
+        if (!Valide.validEmail(this.email)) 
+          this.errors.informations.push('Valid email required.');
+      }
+      if (!this.informations.age || this.informations.age < 18) {
+        this.errors.informations.push("age required.");
+      }
+      if (!this.errors.informations.length) {
+        this.updateinformations();
+      }
+      else
+        e.preventDefault();
+    },
+    updatepassword: function (e) {
+      this.errors.code = [];
+      if (this.code.password && !this.code.newpassword || this.code.newpassword && !this.code.password)
+          this.errors.code.push("please fill all the inputs to change your password !");
+      if (!Valide.validPwd(this.code.password) || !Valide.validPwd(this.code.newpassword))
+          this.errors.code.push("invalide password.");
+      
+      if (!this.errors.code.length) {
+        this.updatecode();
+      }
+      else
+        e.preventDefault();
+    }
   }
 }
 </script>
