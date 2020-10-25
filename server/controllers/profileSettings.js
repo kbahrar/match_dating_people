@@ -4,7 +4,7 @@ const policies = require('../middleware/profileSettings');
 
 exports.updateinformations= async (req, res, next) => {
     try {
-      var check = policies.checkFillProfile(req.body);
+      var check = policies.checkUpdateInformations(req.body);
       if (check !== 'OK')
           throw check;
       check = await fp.fill(req.body, res);
