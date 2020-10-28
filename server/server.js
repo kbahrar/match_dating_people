@@ -1,30 +1,19 @@
 const express = require("express");
-const register = login = rpassword = require("./routes/");
+const authRoutes = require("./routes/auth");
+const usersRoutes = require("./routes/users")
 const  bodyParser = require("body-parser");
 const cors = require("cors");
-//const   morgan = require("morgan");
-//const  dotenv = require("dotenv");
+const auth = require("./middleware/auth")
 
-// load env vars
-//dotenv.config({ path: "./config/config.env" });
-
-//Route files
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-// DEv logging middleware
-//if (process.env.NODE_ENV === "production") {
-//  app.use(morgan("dev"));
-//}
+app.use("/", authRoutes);
+app.use("/users", auth, usersRoutes);
 
-// Mount routers
-
-app.use("/", register);
-app.use("/", login);
-app.use("/", rpassword);
 const PORT = process.env.PORT || 5000;
 
 app.listen(

@@ -52,6 +52,9 @@
 import { isLoggedIn } from '@/policies/auth'
 import { logoutUser } from '@/policies/auth'
 import { getUserInfo } from '@/policies/auth'
+import { locationDetect } from '../utils/location';
+import axios from 'axios'
+
 export default {
   data () {
     return {
@@ -59,8 +62,12 @@ export default {
     }
   },
   mounted() {
-    this.login = getUserInfo()
-    this.login = this.login.login
+    if (isLoggedIn())
+    {
+      this.login = getUserInfo()
+      this.login = this.login.login
+      locationDetect()
+    }
   },
     methods: {
       isLoggedIn() {

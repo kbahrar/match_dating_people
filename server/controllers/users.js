@@ -3,6 +3,7 @@ const policies = require('../middleware/register');
 
 exports.fillProfile = async (req, res, next) => {
   try {
+    console.log('h')
     var check = policies.checkFillProfile(req.body);
     if (check !== 'OK')
         throw check;
