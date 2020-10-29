@@ -16,9 +16,11 @@
     "axios": "^0.19.2",
     "jwt-decode": "^3.0.0",
     "vue": "^2.5.2",
+    "vue-place-autocomplete": "^0.5.3",
     "vue-quick-chat": "^1.2.6",
     "vue-router": "^3.0.1",
     "vuetify": "^2.2.16",
+    "vuetify-google-autocomplete": "^2.0.4",
     "vuex": "^3.5.1",
     "vuex-router-sync": "^5.0.0"
   },
