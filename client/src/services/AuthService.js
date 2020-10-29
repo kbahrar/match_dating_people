@@ -18,5 +18,8 @@ export default {
   },
   updatecode(cred) {
     return Api().post("users/updatecode", cred);
+  },
+  putLocation(cred) {
+    return Api().put("users/location", cred);
   }
 };

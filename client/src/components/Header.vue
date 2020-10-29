@@ -64,9 +64,14 @@ export default {
   mounted() {
     if (isLoggedIn())
     {
-      this.login = getUserInfo()
-      this.login = this.login.login
-      locationDetect()
+      try {
+        this.login = getUserInfo()
+        this.login = this.login.login
+        locationDetect()
+      }
+      catch (err) {
+        console.log(err)
+      }
     }
   },
     methods: {
