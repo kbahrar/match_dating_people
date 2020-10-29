@@ -35,6 +35,7 @@
 
              <v-text-field
             class="mt-5"
+            id="city"
             v-model="city"
             :rules="[v => !!v || 'city required', v => /^[A-Za-z][A-Za-z]{2,31}$/.test(v) || 'invalide city name.']"
             label="enter your City"
@@ -43,7 +44,6 @@
             shaped
           ></v-text-field>
 
-             <v-card>
               <v-card-text>
                 <strong>I am : {{ age }} years old</strong>
                <v-slider
@@ -130,6 +130,7 @@
 <script>
 import Authent from '@/services/AuthService'
 import { getUserInfo } from '@/policies/auth'
+
 export default {
   data () {
     return {
@@ -150,6 +151,11 @@ export default {
       error: null,
       errors: []
     }
+  },
+  mounted() {
+    new google.maps.places.Autocomplete(
+      document.getElementById("city")
+    )
   },
   // mounted() {
   //   var user = getUserInfo()
