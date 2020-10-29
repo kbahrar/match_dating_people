@@ -130,6 +130,8 @@
 <script>
 import Authent from '@/services/AuthService'
 import { getUserInfo } from '@/policies/auth'
+import { logoutUser } from '@/policies/auth'
+
 export default {
   data () {
     return {
@@ -180,6 +182,11 @@ export default {
         this.reg = null
         this.error = err.response.data.error || 'No response from server'
         this.alert = true
+        if (err.response.status === 401)
+        {
+          logoutUser()
+          this.$router.go('login')
+        }
       }
     },
     checkForm: function (e) {
