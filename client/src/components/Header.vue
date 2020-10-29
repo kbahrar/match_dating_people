@@ -64,6 +64,7 @@ export default {
   mounted() {
     if (isLoggedIn())
     {
+
       try {
         this.login = getUserInfo()
         this.login = this.login.login

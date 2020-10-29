@@ -12,7 +12,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use("/", authRoutes);
+<<<<<<< Updated upstream
 app.use("/users", auth, usersRoutes);
+=======
+// app.use("/users", usersRoutes);
+>>>>>>> Stashed changes
 
 const PORT = process.env.PORT || 5000;
 
