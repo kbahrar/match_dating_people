@@ -186,6 +186,11 @@ export default {
         this.reg = null
         this.error = err.response.data.error || 'No response from server'
         this.alert = true
+        if (err.response.status === 401)
+        {
+          logoutUser()
+          this.$router.go('login')
+        }
       }
     },
     checkForm: function (e) {

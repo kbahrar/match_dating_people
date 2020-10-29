@@ -1,6 +1,5 @@
 
 function checkNull(body) {
-    console.log(body.password);
     if (body.password == 0 || body.email == 0 || body.lastName == 0 || body.firstName == 0 || body.login == 0)
         return false;
     if (body.password.length == 0 || body.email.length == 0 || body.lastName.length == 0 || body.firstName.length == 0 || body.login.length == 0)
