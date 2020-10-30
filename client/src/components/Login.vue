@@ -65,6 +65,9 @@
 import Authent from '@/services/AuthService'
 import Valide from '@/policies/valideForm'
 import {setAuthToken} from '@/policies/auth'
+// import { locationDetect } from '../utils/location';
+// import {setLocation} from '@/policies/auth'
+
 export default {
   data () {
     return {

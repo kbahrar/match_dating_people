@@ -53,6 +53,8 @@ import { isLoggedIn } from '@/policies/auth'
 import { logoutUser } from '@/policies/auth'
 import { getUserInfo } from '@/policies/auth'
 import { locationDetect } from '../utils/location';
+import {getLocation} from '@/policies/auth'
+import {setLocation} from '@/policies/auth'
 import axios from 'axios'
 
 export default {
@@ -64,11 +66,15 @@ export default {
   mounted() {
     if (isLoggedIn())
     {
-
       try {
         this.login = getUserInfo()
         this.login = this.login.login
-        locationDetect()
+        var loc = getLocation()
+        if (!loc)
+        {
+          locationDetect()
+          setLocation(1)
+        }
       }
       catch (err) {
         console.log(err)

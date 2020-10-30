@@ -3,7 +3,7 @@ import axios from 'axios'
 
 // const REST_ENDPOINT = 'http://localhost:3000/'
 const AUTH_TOKEN_KEY = 'secret'
-
+const LOCATION = "location"
 // export function loginUser(username, password) {
 //     return new Promise(async (resolve, reject) => {
 //         try {
@@ -28,7 +28,20 @@ const AUTH_TOKEN_KEY = 'secret'
 // }
 
 export function logoutUser() {
+    deleteLocation()
     clearAuthToken()
+}
+
+export function setLocation(flag) {
+    localStorage.setItem(LOCATION, flag)
+}
+
+export function deleteLocation() {
+    localStorage.removeItem(LOCATION)
+}
+
+export function getLocation() {
+    return localStorage.getItem(LOCATION)
 }
 
 export function setAuthToken(token) {

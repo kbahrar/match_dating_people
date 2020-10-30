@@ -1,6 +1,7 @@
 import axios from 'axios'
 import Authent from '@/services/AuthService'
 import { getUserInfo } from '@/policies/auth'
+const user = getUserInfo()
 export async function getStreetAddressFrom(lat, long) {
     try {
         var key = "AIzaSyCFw_wLwwFIU_-uZyLK46e8US5NvUrd_O4"
@@ -14,7 +15,15 @@ export async function getStreetAddressFrom(lat, long) {
         if(data.error_message) {
             console.log(data.error_message)
         } else {
-            console.log(data.results[0].formatted_address);
+            console.log(data.results[0].address_components[1].short_name);
+            await Authent.putLocation({
+                location: {
+                    city: data.results[0].address_components[1].short_name,
+                    lat: lat,
+                    lng: long
+                },
+                info: user
+            })
         }
     } catch (error) {
         console.log(error.message);
@@ -22,33 +31,36 @@ export async function getStreetAddressFrom(lat, long) {
 }
 
 export async function getIp() {
-    var { data } = await axios.get(
-        "https://api.ipify.org?format=json"
-    );
-    console.log(data.ip);
-    var key = "at_XvriW1GP6fUvb2YSoRYhaFwSgnAyE"
-    var location = await axios.get(
-        "https://geo.ipify.org/api/v1?apiKey="+key+"&ipAddress="+data.ip
-    )
-    console.log(location.data.location)
-    var user = getUserInfo()
-    await Authent.putLocation({
-        location: location.data.location,
-        info: user
-    })
+    try {
+        var { data } = await axios.get(
+            "https://api.ipify.org?format=json"
+        );
+        // console.log(data.ip);
+        var key = "at_XvriW1GP6fUvb2YSoRYhaFwSgnAyE"
+        var location = await axios.get(
+            "https://geo.ipify.org/api/v1?apiKey="+key+"&ipAddress="+data.ip
+        )
+        // console.log(location.data.location)
+        await Authent.putLocation({
+            location: location.data.location,
+            info: user
+        })
+    }
+    catch (err){
+        console.log('error in getIp')
+    }
 }
 
-export function locationDetect() {
+export async function locationDetect() {
     navigator.geolocation.getCurrentPosition(
       position => {
         console.log(position.coords.latitude);
         console.log(position.coords.longitude);
         var lat = position.coords.latitude
         var lng = position.coords.longitude
-        // this.getStreetAddressFrom(lat, lng, key)
+        getStreetAddressFrom(lat, lng)
       },
       error => {
-        // console.log(error.message);
         getIp();
       },
     )   
