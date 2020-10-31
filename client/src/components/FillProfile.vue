@@ -44,17 +44,16 @@
             shaped
           ></v-text-field>
 
-              <v-card-text>
-                <strong>I am : {{ age }} years old</strong>
-               <v-slider
-                  v-model="age"
-                  :rules="[v => !!v || 'age required !', v=> /^[0-9]{2}$/.test(v) || 'invalide age.',v => v >= 18 || 'your age must be over 18 to join Matcha.']"
-                 step="1"
-                 thumb-label
-                 ticks
-                ></v-slider>
-             </v-card-text>
-           </v-card>
+          <v-card-text>
+            <strong>I am : {{ age }} years old</strong>
+            <v-slider
+              v-model="age"
+              :rules="[v => !!v || 'age required !', v=> /^[0-9]{2}$/.test(v) || 'invalide age.',v => v >= 18 || 'your age must be over 18 to join Matcha.']"
+              step="1"
+              thumb-label
+              ticks
+            ></v-slider>
+          </v-card-text>
 
          <v-row align="center">
            <v-col cols="12">
@@ -149,18 +148,25 @@ export default {
       biography: '',
       reg: null,
       error: null,
-      errors: []
+      errors: [],
+      autoC: null
     }
   },
   mounted() {
-    new google.maps.places.Autocomplete(
-      document.getElementById("city")
+    this.autoC =  new google.maps.places.Autocomplete(
+        document.getElementById('city'),
+        {types: ['geocode']}
     )
+    this.autoC.addListener('place_changed', () => {
+      let place = this.autoC.getPlace();
+      let ac = place.address_components;
+      let lat = place.geometry.location.lat();
+      let lon = place.geometry.location.lng();
+      let city = ac[0]["long_name"];
+      this.city = city
+      console.log(`The user picked ${city} with the coordinates ${lat}, ${lon}`);
+    });
   },
-  // mounted() {
-  //   var user = getUserInfo()
-  //   this.$store.dispatch('setUser', JSON.parse(user))
-  // },
   methods: {
     remove (item) {
         this.chips.splice(this.chips.indexOf(item), 1)
