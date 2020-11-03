@@ -19,6 +19,7 @@
   "homepage": "https://github.com/khimya/matcha#readme",
   "dependencies": {
     "-": "0.0.1",
+    "base64-img": "^1.0.4",
     "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -26,6 +27,7 @@
     "email-verifier": "^0.4.1",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "is-base64": "^1.1.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",

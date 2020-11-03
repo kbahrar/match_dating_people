@@ -29,7 +29,7 @@
             v-bind="attrs"
             v-on="on"
           >
-            <v-avatar> <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="mamak profile"> </v-avatar>
+            <v-avatar> <img :src="image" alt="mamak profile"> </v-avatar>
           </v-btn>
         </template>
 
@@ -60,15 +60,18 @@ import axios from 'axios'
 export default {
   data () {
     return {
-     login: 'mamak'
+     login: 'mamak',
+     image: 'https://cdn.vuetifyjs.com/images/john.jpg'
     }
   },
   mounted() {
     if (isLoggedIn())
     {
       try {
-        this.login = getUserInfo()
-        this.login = this.login.login
+        var user = getUserInfo()
+        this.login = user.login
+        if (user.mainFoto)
+          this.image = "http://localhost:5000/" + user.mainFoto
         var loc = getLocation()
         if (!loc)
         {

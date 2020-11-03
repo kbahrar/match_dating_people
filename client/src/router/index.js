@@ -6,6 +6,7 @@ import Rpassword from '@/components/Rpassword'
 import Fillprofile from '@/components/Fillprofile'
 import Newpassword from '@/components/Newpassword'
 import Profilesettings from '@/components/Profilesettings'
+import fillPics from '@/components/fillPics'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
@@ -40,6 +41,14 @@ const router = new Router({
       path: "/fillprofile",
       name: "fillprofile",
       component: Fillprofile,
+      meta: {
+        allowAnonymous: false
+      }
+    },
+    {
+      path: "/fillpics",
+      name: "fillpics",
+      component: fillPics,
       meta: {
         allowAnonymous: false
       }

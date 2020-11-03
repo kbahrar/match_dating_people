@@ -21,5 +21,8 @@ export default {
   },
   putLocation(cred) {
     return Api().put("users/location", cred);
+  },
+  putImages(cred) {
+    return Api().put("users/uploadImg", cred);
   }
 };

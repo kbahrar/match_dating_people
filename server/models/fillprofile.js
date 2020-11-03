@@ -15,7 +15,6 @@ async function addTags(login, tag) {
 const fill = async function (req, res) {
     const query1 = "UPDATE users SET gender = ?, lookingfor = ?, bio = ?, city = ?, age = ?, fill = 1 WHERE login = ?";
     await connection.query(query1, [req.user.gender, req.user.mylookingfor, req.user.biography , req.user.city, req.user.age, req.info.login]);
-    // console.log(check)
     for (let i = 0; i < req.user.chips.length; i++) {
         var check = await checkTag(req.info.login, req.user.chips[i])
         if (check.length > 0)

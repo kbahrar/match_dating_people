@@ -1,4 +1,5 @@
 const connection = require('../config/database');
+const utils = require("../utils/auth")
 
 async function checkTag(login, tag) {
     const qr = 'select * from tags where login = ? AND tag = ?'
@@ -40,4 +41,9 @@ exports.location = async function (req, res) {
     catch (err){
         console.log(err)
     }
+}
+
+exports.uImages = async function (images, id) {
+    const qr = "UPDATE users SET mainFoto = ?, foto1 = ?, foto2 = ?, foto3 = ?, foto4 = ? WHERE id = ?"
+    await connection.query(qr, [images[0], images[1], images[2], images[3], images[4], id])
 }

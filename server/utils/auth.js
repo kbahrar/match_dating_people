@@ -15,3 +15,11 @@ exports.checkEmail = async function (log) {
         return false;
     return true;
 }
+
+exports.jwtSignUser =  function (user) {
+  const ONE_DAY = 60 * 60 * 24
+  const token = jwt.sign(JSON.parse(user), config.authentication.jwtSecret, {
+      expiresIn: ONE_DAY
+  })
+  return token
+}

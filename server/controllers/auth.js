@@ -2,7 +2,7 @@ const authModel = require("../models/auth")
 const utils = require("../utils/auth")
 const policies = require("../middleware/register");
 
-exports.Login = async (req, res, next) => {
+exports.Login = async (req, res) => {
   try {
     if (!req.body.log || !req.body.password) throw 'fill all fields';
     if (!policies.checkLogin(req.body.login)) throw 'invalid login';
@@ -18,7 +18,7 @@ exports.Login = async (req, res, next) => {
   }
 };
 
-exports.CreateUser = async (req, res, next) => {
+exports.CreateUser = async (req, res) => {
     try {
       if (!policies.checkNull(req.body)) throw 'full all fields !';
       if (!policies.checkLogin(req.body.login)) throw 'invalid login';
@@ -40,7 +40,7 @@ exports.CreateUser = async (req, res, next) => {
     }
 };
 
-exports.Rpassword = async (req, res, next) => {
+exports.Rpassword = async (req, res) => {
     try {
         if (!policies.checkMail(req.body.email)) throw "invalid Email !";
         let flag = await utils.checkEmail(req.body.email);
@@ -53,3 +53,7 @@ exports.Rpassword = async (req, res, next) => {
         });
     }
 };
+
+exports.showImg = (req, res) => {
+  console.log(req.params.id)
+}

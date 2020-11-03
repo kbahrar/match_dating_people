@@ -188,6 +188,7 @@ export default {
         },
         info: user
         })
+        this.$router.push('fillpics')
       } catch (err) {
         this.reg = null
         this.error = err.response.data.error || 'No response from server'

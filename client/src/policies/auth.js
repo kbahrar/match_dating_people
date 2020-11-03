@@ -45,6 +45,7 @@ export function getLocation() {
 }
 
 export function setAuthToken(token) {
+    clearAuthToken()
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     localStorage.setItem(AUTH_TOKEN_KEY, token)
 }
