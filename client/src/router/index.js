@@ -7,6 +7,7 @@ import Fillprofile from '@/components/Fillprofile'
 import Newpassword from '@/components/Newpassword'
 import Profilesettings from '@/components/Profilesettings'
 import fillPics from '@/components/fillPics'
+import Chat from '@/components/Chat'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
@@ -57,6 +58,14 @@ const router = new Router({
       path: "/profilesettings",
       name: "profilesettings",
       component: Profilesettings,
+      meta: {
+        allowAnonymous: false
+      }
+    },
+        {
+      path: "/chat",
+      name: "chat",
+      component: Chat,
       meta: {
         allowAnonymous: false
       }
