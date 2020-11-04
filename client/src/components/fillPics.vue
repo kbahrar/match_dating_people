@@ -7,20 +7,6 @@
           <v-toolbar-title>add pictures to continue</v-toolbar-title>
         </v-toolbar>
         <div class="m-5 pl-5 pr-4 pt-2 pb-2">
-          <!-- <v-file-input
-            v-model="pictures"
-            :rules="[(value => !value || value.length < 5 ) || 'add at least 5 pictures', (value => !value || value.size < 5 ) || 'add at least 5 pictures']"
-                    counter
-                     multiple
-                      show-size
-                      small-chips
-                          clearable
-                     truncate-length="11"
-                      label="add at least 5 pictures"
-                    accept="image/png, image/jpeg, image/bmp"
-                   placeholder="Click to add profile pictures"
-                   prepend-icon="mdi-camera"
-          ></v-file-input> -->
             <v-row>
                 <v-col
                 v-for="n in 5"
@@ -77,6 +63,7 @@
 <script>
 import Authent from '@/services/AuthService'
 import { getUserInfo } from '@/policies/auth'
+import { getUser } from '@/utils/utils'
 import vue from 'Vue'
 
 export default {
@@ -109,8 +96,7 @@ export default {
   },
   methods: {
     domPictures: async function () {
-      var user = await this.getUser()
-      // var user = getUserInfo()
+      var user = await getUser()
       for (let i = 0; i < this.images.length; i++) {
         vue.set(this.image, i + 1, this.defaultPic)
         vue.set(this.images, i, 0)
@@ -134,16 +120,6 @@ export default {
       if (user.foto4) {
         this.image[5] = this.server + user.foto4
         this.images[4] = this.server + user.foto4
-      }
-    },
-    getUser: async function () {
-      try {
-        var info = getUserInfo()
-        const response = await Authent.getUser(info.id, info)
-        return response.data.user
-      }
-      catch (err) {
-        console.log(err)
       }
     },
     onPickFile: function (n) {
