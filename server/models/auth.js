@@ -2,6 +2,7 @@ const connection = require("../config/database");
 const config = require("../config/config");
 const jwt = require('jsonwebtoken');
 const crypto = require("crypto");
+// const { delete } = require("../routes/auth");
 
 function jwtSignUser (user) {
     const ONE_DAY = 60 * 60 * 24
@@ -32,22 +33,12 @@ if (log && password) {
 };
 
 exports.register = async function (req, res) {
-    try {
-        var hash = crypto.createHash('whirlpool').update(req.password).digest('hex');
-        const query1 = "insert into users(login, firstName, lastName, email, password) Values(?, ?, ?, ?, ?)";
-        await connection.query(query1, [req.login, req.firstName, req.lastName, req.email, hash], function (err, rows, fields) {
-        if (err)
-            return console.error(err.message);
-        });
-    }
-    catch (err) {
-        res.status(400).send({
-            error: err
-        });
-    }
+    var hash = crypto.createHash('whirlpool').update(req.password).digest('hex');
+    const query1 = "insert into users(login, firstName, lastName, email, password) Values(?, ?, ?, ?, ?)";
+    await connection.query(query1, [req.login, req.firstName, req.lastName, req.email, hash])
 }
   
-exports.rpassword = async function (req, res) {
+exports.rpassword = async function (req) {
     console.log(Date.now());
     var hash = crypto.createHash('whirlpool').update(Date.now().toString()).digest('hex');
     const query1 =

@@ -77,7 +77,6 @@
 <script>
 import Authent from '@/services/AuthService'
 import { getUserInfo } from '@/policies/auth'
-import {setAuthToken} from '@/policies/auth'
 import vue from 'Vue'
 
 export default {
@@ -105,31 +104,44 @@ export default {
         reg: null
     }
   },
-  mounted() {
-    var user = getUserInfo()
-    console.log(user)
-    if (user.mainFoto) {
-      vue.set(this.image, 1, this.server + user.mainFoto)
-      this.images[0] = this.server + user.mainFoto
-    }
-    if (user.foto1) {
-      this.image[2] = this.server + user.foto1
-      this.images[1] = this.server + user.foto1
-    }
-    if (user.foto2) {
-      this.image[3] = this.server + user.foto2
-      this.images[2] = this.server + user.foto2
-    }
-    if (user.foto3) {
-      this.image[4] = this.server + user.foto3
-      this.images[3] = this.server + user.foto3
-    }
-    if (user.foto4) {
-      this.image[5] = this.server + user.foto4
-      this.images[4] = this.server + user.foto4
-    }
+  mounted: async function() {
+    await this.domPictures()
   },
   methods: {
+    domPictures: async function () {
+      var user = await this.getUser()
+      // var user = getUserInfo()
+      if (user.mainFoto) {
+        vue.set(this.image, 1, this.server + user.mainFoto)
+        this.images[0] = this.server + user.mainFoto
+      }
+      if (user.foto1) {
+        this.image[2] = this.server + user.foto1
+        this.images[1] = this.server + user.foto1
+      }
+      if (user.foto2) {
+        this.image[3] = this.server + user.foto2
+        this.images[2] = this.server + user.foto2
+      }
+      if (user.foto3) {
+        this.image[4] = this.server + user.foto3
+        this.images[3] = this.server + user.foto3
+      }
+      if (user.foto4) {
+        this.image[5] = this.server + user.foto4
+        this.images[4] = this.server + user.foto4
+      }
+    },
+    getUser: async function () {
+      try {
+        var info = getUserInfo()
+        const response = await Authent.getUser(info.id, info)
+        return response.data.user
+      }
+      catch (err) {
+        console.log(err)
+      }
+    },
     onPickFile: function (n) {
         let id = "f" + n
         document.getElementById(id).click()
@@ -159,14 +171,18 @@ export default {
           image: this.images,
           info: {id: user.id}
         })
-        setAuthToken(response.data.token)
-        console.log(response.data.token)
         this.reg = "Pictures saved with success !"
+        await this.domPictures()
       }
       catch (err) {
         this.reg = null
         this.error = err.response.data.error || err
         this.alert = true
+        if (err.response.status === 401)
+        {
+          logoutUser()
+          this.$router.go('login')
+        }
       }
     },
     ifExist: function(n) {

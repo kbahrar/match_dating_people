@@ -1,7 +1,7 @@
 const usersModel = require('../models/users');
 const policies = require('../middleware/register');
 const base64Img = require('base64-img')
-const isBase64 = require('is-base64')
+const fs = require('fs')
 const { promisify } = require('util')
 const e = require('express');
 
@@ -18,7 +18,7 @@ exports.fillProfile = async (req, res) => {
   }
   catch (err) {
     res.status(400).send({
-      error: err
+      error: err.message || err
     });
   }
 };
@@ -39,26 +39,56 @@ exports.uploadImg = async (req, res) => {
     const image = req.body.image
     var uImage = []
     let j = 0
+    var spl = []
+    var path = ''
     base64Img.img = promisify(base64Img.img)
+    fs.accessSync = promisify(fs.accessSync)
     if (!Array.isArray(image) || image.length == 0)
       throw 'please send an array of images !'
     for (let i = 0; i < image.length; i++)
     {
       if (image[i])
       {
-        var name = await base64Img.img(image[i], './public', Date.now())
-        const pathArr =  name.split('/')
-        uImage[j++] = pathArr[pathArr.length - 1]
+        spl = image[i].split('/')
+        if (spl[0] == "http:" && spl[2] == "localhost:5000") {
+          path = "./public/" + spl[3]
+          if (fs.accessSync(path, fs.F_OK)) {
+            uImage[j++] = spl[3]
+          }
+        }
+        else {
+          var name = await base64Img.img(image[i], './public', Date.now())
+          const pathArr =  name.split('/')
+          uImage[j++] = pathArr[pathArr.length - 1]
+
+        }
       }
     }
     j = uImage.length
     while (j < 5)
       uImage[j++] = null
-    console.log(uImage)
-    const token = await usersModel.uImages(uImage, req.body.info.id)
-    res.status(200).json({ success: true, token: token });
+    await usersModel.uImages(uImage, req.body.info.id)
+    res.status(200).json({ success: true});
   }
   catch (err) {
+    res.status(400).send({
+      error: err.message || err
+    })
+  }
+}
+
+exports.getUserInfo = async (req, res) => {
+  try {
+    console.log(req.params.id)
+    var user = await usersModel.getUserInfo(req.params.id)
+
+    if (!user)
+      throw "invalide id !"
+    user.password = undefined
+    res.status(200).send({ success: true, user: user});
+  }
+  catch (err) {
+    console.log(err)
     res.status(400).send({
       error: err.message || err
     })

@@ -3,7 +3,6 @@ const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users")
 const  bodyParser = require("body-parser");
 const cors = require("cors");
-const auth = require("./middleware/auth")
 
 const app = express();
 
@@ -13,7 +12,7 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 app.use(cors());
 
 app.use("/", authRoutes);
-app.use("/users", auth, usersRoutes);
+app.use("/users", usersRoutes);
 
 const PORT = process.env.PORT || 5000;
 

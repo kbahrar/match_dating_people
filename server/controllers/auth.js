@@ -53,7 +53,3 @@ exports.Rpassword = async (req, res) => {
         });
     }
 };
-
-exports.showImg = (req, res) => {
-  console.log(req.params.id)
-}

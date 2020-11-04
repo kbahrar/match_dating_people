@@ -179,7 +179,6 @@ export default {
         this.reg = 'profile succesfully created !'
         await Authent.fillprofile({user: {
           gender: this.mygender,
-          // pictures: this.pictures,
           age: this.age,
           city: this.city,
           chips: this.chips,

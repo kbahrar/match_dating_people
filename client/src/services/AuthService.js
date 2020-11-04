@@ -24,5 +24,8 @@ export default {
   },
   putImages(cred) {
     return Api().put("users/uploadImg", cred);
+  },
+  getUser(id, cred) {
+    return Api().get(`users/getUser/${id}`)
   }
 };

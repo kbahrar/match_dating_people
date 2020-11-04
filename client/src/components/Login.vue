@@ -88,8 +88,6 @@ export default {
           log: this.log,
           password: this.password
         })
-        this.$store.dispatch('setToken', response.data.token)
-        this.$store.dispatch('setUser', response.data.user)
         setAuthToken(response.data.token)
         this.$router.go('fillprofile')
       } catch (err) {
