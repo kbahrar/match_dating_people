@@ -111,6 +111,10 @@ export default {
     domPictures: async function () {
       var user = await this.getUser()
       // var user = getUserInfo()
+      for (let i = 0; i < this.images.length; i++) {
+        vue.set(this.image, i + 1, this.defaultPic)
+        vue.set(this.images, i, 0)
+      }
       if (user.mainFoto) {
         vue.set(this.image, 1, this.server + user.mainFoto)
         this.images[0] = this.server + user.mainFoto
