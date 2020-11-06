@@ -27,6 +27,7 @@
     "email-verifier": "^0.4.1",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
+    "faker": "^5.1.0",
     "is-base64": "^1.1.0",
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
