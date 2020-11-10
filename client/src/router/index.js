@@ -8,6 +8,7 @@ import Newpassword from '@/components/Newpassword'
 import Profilesettings from '@/components/Profilesettings'
 import fillPics from '@/components/fillPics'
 import Chat from '@/components/Chat'
+import browsing from '@/components/browsing'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
@@ -17,6 +18,14 @@ Vue.use(Router)
 const router = new Router({
   mode: "history",
   routes: [
+    {
+      path: "/",
+      name: "browsing",
+      component: browsing,
+      meta: {
+        allowAnonymous: false
+      }
+    },
     {
       path: "/register",
       name: "register",

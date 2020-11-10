@@ -1,7 +1,7 @@
 <template>
   <v-toolbar class="transparent mb-4" dark>
     <v-toolbar-title flat dark class="mr-4">
-       <v-btn  text dark class="transparent" to="index">
+       <v-btn  text dark class="transparent" to="/">
        matcha
       </v-btn>
     </v-toolbar-title>

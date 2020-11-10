@@ -8,6 +8,18 @@ export async function getUser() {
       return response.data.user
     }
     catch (err) {
-      console.log(err)
+      console.log('Failed to get Data !')
     }
+}
+
+export async function getList() {
+  try {
+    console.log('op')
+    var info = getUserInfo()
+    const response = await Authent.getList(info.id)
+    return response.data.user
+  }
+  catch (err) {
+    console.log('Failed to get Data !')
+  }
 }

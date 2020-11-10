@@ -4,10 +4,10 @@ const {authentication} = require('../config/config')
 module.exports = (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
-    // console.log(token)
+    const id = parseInt(req.params.id) || req.body.info.id
     const decodedToken = jwt.verify(token, authentication.jwtSecret);
     const userId = decodedToken.id;
-    if (req.body.info.id && req.body.info.id !== userId) {
+    if (id && id !== userId) {
       throw 'Invalid user ID';
     } else {
       next();

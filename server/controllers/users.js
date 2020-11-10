@@ -11,9 +11,7 @@ exports.fillProfile = async (req, res) => {
     var check = policies.checkFillProfile(req.body);
     if (check !== 'OK')
         throw check;
-    check = await usersModel.fill(req.body, res);
-    if (!check)
-      throw 'something went wrong'
+    await usersModel.fill(req.body, res);
     res.status(200).json({ success: true, msg: "Account completed successfully !" });
   }
   catch (err) {
@@ -79,7 +77,6 @@ exports.uploadImg = async (req, res) => {
 
 exports.getUserInfo = async (req, res) => {
   try {
-    console.log(req.params.id)
     var user = await usersModel.getUserInfo(req.params.id)
 
     if (!user)
@@ -88,7 +85,6 @@ exports.getUserInfo = async (req, res) => {
     res.status(200).send({ success: true, user: user});
   }
   catch (err) {
-    console.log(err)
     res.status(400).send({
       error: err.message || err
     })

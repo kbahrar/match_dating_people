@@ -1,6 +1,7 @@
 const express = require("express");
 const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users")
+const browesRoutes = require("./routes/browes")
 const  bodyParser = require("body-parser");
 const cors = require("cors");
 
@@ -13,6 +14,7 @@ app.use(cors());
 
 app.use("/", authRoutes);
 app.use("/users", usersRoutes);
+app.use("/browes", browesRoutes);
 
 const PORT = process.env.PORT || 5000;
 
