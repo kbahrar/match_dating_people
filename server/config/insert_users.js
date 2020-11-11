@@ -3,7 +3,7 @@ const faker = require("faker")
 
 var gender = ['Male', 'Female', 'Other']
 var i = 0
-var qr = "INSERT INTO users (login, firstName, lastName, email, password, age, gender, lookingfor, city, bio, mainFoto, latitude, longitude, connect) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+var qr = "INSERT INTO users (login, firstName, lastName, email, password, age, gender, lookingfor, city, bio, mainFoto, latitude, longitude, connect, fame) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
 var tags = ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature']
 
 function addTags(login) {
@@ -20,7 +20,7 @@ function addTags(login) {
     }
 }
 
-while (i < 10)
+while (i < 50)
 {
     var g = gender[faker.random.number({min: 0, max: 2})];
     var name = ''
@@ -40,7 +40,7 @@ while (i < 10)
         faker.name.lastName(),
         faker.internet.email(),
         faker.internet.password(),
-        faker.random.number({min: 18, max: 100}),
+        faker.random.number({min: 18, max: 44}),
         g,
         gender[faker.random.number({min: 0, max: 2})],
         faker.address.city(),
@@ -48,7 +48,8 @@ while (i < 10)
         faker.random.image(),
         faker.address.latitude(),
         faker.address.longitude(),
-        faker.date.past()
+        faker.date.past(),
+        faker.random.number({min: 500, max: 5000})
     ], function (err) {
         if (err) throw err;
         else {

@@ -14,10 +14,9 @@ export async function getUser() {
 
 export async function getList() {
   try {
-    console.log('op')
     var info = getUserInfo()
     const response = await Authent.getList(info.id)
-    return response.data.user
+    return response.data.users
   }
   catch (err) {
     console.log('Failed to get Data !')

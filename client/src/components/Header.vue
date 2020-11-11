@@ -51,7 +51,7 @@
 <script>
 import { isLoggedIn } from '@/policies/auth'
 import { logoutUser } from '@/policies/auth'
-import { getUserInfo } from '@/policies/auth'
+import { getUser } from '@/utils/utils'
 import { locationDetect } from '../utils/location';
 import {getLocation} from '@/policies/auth'
 import {setLocation} from '@/policies/auth'
@@ -64,11 +64,11 @@ export default {
      image: 'https://cdn.vuetifyjs.com/images/john.jpg'
     }
   },
-  mounted() {
+  mounted: async function () {
     if (isLoggedIn())
     {
       try {
-        var user = getUserInfo()
+        var user = await getUser()
         this.login = user.login
         if (user.mainFoto)
           this.image = "http://localhost:5000/" + user.mainFoto

@@ -7,27 +7,32 @@
           <v-toolbar-title>Your list maybe you like them !</v-toolbar-title>
         </v-toolbar>
 
+        <v-row align="center" class="ml-auto mt-5">
+          <v-col cols="12">
+            <v-select
+            :items="sortList"
+            :menu-props="{ top: true, offsetY: true }"
+            label="Sort by"
+            v-model="sort"
+              ></v-select>
+              </v-col>
+        </v-row>
+
         <v-card
+            v-for="user in this.users"
+            :key="user.login"
             :loading="loading"
             class="mx-auto my-12"
-            max-width="374"
+            width="70%"
         >
-            <!-- <template slot="progress">
-            <v-progress-linear
-                color="deep-purple"
-                height="10"
-                indeterminate
-            ></v-progress-linear>
-            </template> -->
-
             <v-img
-            height="250"
-            src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+            :src="user.mainfoto"
             ></v-img>
 
-            <v-card-title>FirstName + LastName</v-card-title>
+            <v-card-title>{{user.firstName}} {{user.lastName}}</v-card-title>
 
-            <v-card-subtitle>150 Km Away</v-card-subtitle>
+            <v-card-subtitle align='left'>{{user.age}} Years Old</v-card-subtitle>
+            <v-card-subtitle align='right'>{{user.distance}} Km Away</v-card-subtitle>
 
             <v-card-text>
             <v-row
@@ -35,7 +40,7 @@
                 class="mx-0"
             >
                 <v-rating
-                :value="4"
+                :value="user.fame / 1000"
                 color="amber"
                 dense
                 half-increments
@@ -44,7 +49,7 @@
                 ></v-rating>
 
                 <div class="grey--text ml-4">
-                4.5 Fame rating
+                {{user.fame / 1000}} Fame rating
                 </div>
             </v-row>
 
@@ -52,7 +57,7 @@
                 Bio
             </div>
 
-            <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+            <div>{{user.bio}}</div>
             </v-card-text>
 
             <v-divider class="mx-4"></v-divider>
@@ -63,13 +68,7 @@
                 <v-chip-group
                     column
                 >
-                    <v-chip>#php</v-chip>
-
-                    <v-chip>#weed</v-chip>
-
-                    <v-chip>#Pes</v-chip>
-
-                    <v-chip>#draw</v-chip>
+                    <v-chip v-for="tag in user.tags" :key="tag.tag">#{{tag.tag}}</v-chip>
                 </v-chip-group>
             </v-card-text>
 
@@ -99,7 +98,7 @@
 
 <script>
 import Authent from '@/services/AuthService'
-import { getUserInfo } from '@/policies/auth'
+import {logoutUser} from '@/policies/auth'
 import { getList } from '@/utils/utils'
 import vue from 'Vue'
 
@@ -108,21 +107,75 @@ export default {
     return {
         loading: false,
         selection: 1,
+        defFoto: 'https://image.shutterstock.com/image-vector/male-avatar-profile-picture-use-260nw-193292036.jpg',
+        server: "http://localhost:5000/",
+        users: [],
+        sortList: ["age", "location", "fame", "tags"],
+        sort: "location"
     }
   },
   mounted: async function() {
       try {
-        await getList()
+        var users = await getList()
+        for (let i = 0; i < users.length; i++) {
+          if (!users[i].mainfoto)
+            users[i].mainfoto = this.defFoto
+          else if (!users[i].mainfoto.includes("http"))
+            users[i].mainfoto = this.server + users[i].mainfoto
+        }
+        this.users = users
       }
       catch (err) {
-        
+        if (err.response.status === 401)
+        {
+          logoutUser()
+          this.$router.go('login')
+        }
       }
+  },
+  watch: {
+    sort: function (val) {
+      if (val == "age")
+        return this.users.sort(this.compareAge)
+      if (val == "location")
+        return this.users.sort(this.compareDistance)
+      if (val == "fame")
+        return this.users.sort(this.compareFame)
+    }
   },
   methods: {
     reserve () {
         this.loading = true
 
         setTimeout(() => (this.loading = false), 2000)
+    },
+    compareAge (a, b) {
+      if (a.age < b.age)
+        return -1
+      else if (a.age > b.age)
+        return 1
+      return 0
+    },
+    compareDistance (a, b) {
+      if (a.distance < b.distance)
+        return -1
+      else if (a.distance > b.distance)
+        return 1
+      return 0
+    },
+    compareFame (a, b) {
+      if (a.fame < b.fame)
+        return 1
+      else if (a.fame > b.fame)
+        return -1
+      return 0
+    },
+    compareTags (a, b) {
+      if (a.age < b.age)
+        return -1
+      else if (a.age > b.age)
+        return 1
+      return 0
     },
   }
 }
