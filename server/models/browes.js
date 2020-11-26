@@ -62,3 +62,18 @@ exports.getList = async function (id) {
     return users
     // console.log(users)
 }
+
+exports.like = async function (id) {
+    const lookfor = await getlookfor(id)
+    const Adress = await getAdress(id)
+    const users = await getUsers(Adress, lookfor, id)
+    for (let i = 0; i < users.length; i++)
+    {
+        // if (users[i].distance > 10000)
+        //     users.splice(i, 1);
+        var tags = await getTags(users[i].login)
+        users[i].tags = tags
+    }
+    return users
+    // console.log(users)
+}

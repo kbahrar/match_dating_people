@@ -1,6 +1,6 @@
 import decode from 'jwt-decode'
 import axios from 'axios'
-
+import { getUser } from '@/utils/utils'
 // const REST_ENDPOINT = 'http://localhost:3000/'
 const AUTH_TOKEN_KEY = 'secret'
 const LOCATION = "location"
@@ -70,9 +70,17 @@ export function getUserInfo() {
     }
 }
 
-export function isFull() {
-    var check = getUserInfo()
+export async function isFull() {
+    var check = await getUser()
     check = check.fill
+    // console.log(check)
+    return check
+}
+
+export async function isImage() {
+    var check = await getUser()
+    check = check.mainFoto
+    // console.log(check)
     return check
 }
 

@@ -12,3 +12,16 @@ exports.getList = async (req, res) => {
       });
     }
 };
+
+exports.like = async (req, res) => {
+    try {
+      await browesModel.like(req.body)
+      res.status(200).send();
+    }
+    catch (err) {
+      console.log(err.message || err)
+      res.status(400).send({
+        error: err.message || err
+      });
+    }
+};

@@ -12,6 +12,7 @@ import browsing from '@/components/browsing'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
+import { isImage } from '@/policies/auth'
 
 Vue.use(Router)
 
@@ -87,12 +88,23 @@ const router = new Router({
   ]
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
+  if (isLoggedIn()) {
+    var check = await isFull()
+    var checkI = await isImage()
+  }
+  // console.log(check)
   if ((to.name == 'login' || to.name == 'register') && isLoggedIn()) {
-    if (!isFull())
+    if (check == 0)
       next({ path: '/fillprofile' })
     else
       next({ path: '/'})
+  }
+  else if (isLoggedIn() && check == 0 && to.name != 'fillprofile') {
+    next({ path: '/fillprofile' })
+  }
+  else if (isLoggedIn() && checkI == null && to.name != 'fillpics') {
+    next({ path: '/fillpics' })
   }
   // else if (to.name = 'fillprofile' && !isFull)
   // {

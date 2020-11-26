@@ -153,6 +153,7 @@ export default {
         })
         this.reg = "Pictures saved with success !"
         await this.domPictures()
+        this.$router.push("/")
       }
       catch (err) {
         this.reg = null

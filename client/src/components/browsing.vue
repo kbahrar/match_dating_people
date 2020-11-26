@@ -25,14 +25,18 @@
             class="mx-auto my-12"
             width="70%"
         >
+            <!-- <v-hover v-slot="{ hover }"> -->
             <v-img
             :src="user.mainfoto"
-            ></v-img>
+            >
+            <v-btn :to="'/users/' + user.login" elevation="20" fab absolute left class="mt-5" height="20%" width="20%">
+                <v-icon>mdi-eye</v-icon>
+            </v-btn>
+            </v-img>
 
             <v-card-title>{{user.firstName}} {{user.lastName}}</v-card-title>
 
-            <v-card-subtitle align='left'>{{user.age}} Years Old</v-card-subtitle>
-            <v-card-subtitle align='right'>{{user.distance}} Km Away</v-card-subtitle>
+            <v-card-subtitle align='left'>{{user.age}} Years Old<div align='right'><b>{{user.distance}} Km Away</b></div></v-card-subtitle>
 
             <v-card-text>
             <v-row
@@ -76,7 +80,7 @@
             <v-btn
                 color="blue lighten-2"
                 text
-                @click="reserve"
+                @click="like(user.login)"
             >
                 Like
                 <v-icon>mdi-thumb-up</v-icon>
@@ -144,10 +148,13 @@ export default {
     }
   },
   methods: {
-    reserve () {
+    async like (login) {
         this.loading = true
-
+        console.log(login)
         setTimeout(() => (this.loading = false), 2000)
+    },
+    async ifliked (login) {
+
     },
     compareAge (a, b) {
       if (a.age < b.age)
