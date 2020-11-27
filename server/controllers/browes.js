@@ -25,3 +25,30 @@ exports.like = async (req, res) => {
       });
     }
 };
+
+exports.dislike = async (req, res) => {
+    try {
+      await browesModel.dislike(req.body)
+      res.status(200).send();
+    }
+    catch (err) {
+      console.log(err.message || err)
+      res.status(400).send({
+        error: err.message || err
+      });
+    }
+};
+
+exports.checkLike = async (req, res) => {
+    try {
+      console.log('hi')
+      const response = await browesModel.checkLike(req.params)
+      res.status(200).send({check: response});
+    }
+    catch (err) {
+      console.log(err.message || err)
+      res.status(400).send({
+        error: err.message || err
+      });
+    }
+};

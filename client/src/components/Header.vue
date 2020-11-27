@@ -16,6 +16,11 @@
         Login
       </v-btn>
 
+      <v-btn v-if="isLoggedIn()" text dark class="transparent">
+        <v-badge content="5" color="red" title="notifications">
+        <v-icon>fas fa-globe-africa</v-icon>
+        </v-badge>
+      </v-btn>
       <v-btn v-if="isLoggedIn()" text dark class="transparent" to="myprofilepage">
         {{login}}
       </v-btn>
@@ -46,7 +51,6 @@
     </v-toolbar-items>
   </v-toolbar>
 </template>
-
 
 <script>
 import { isLoggedIn } from '@/policies/auth'

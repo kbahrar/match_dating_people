@@ -80,7 +80,8 @@
             <v-btn
                 color="blue lighten-2"
                 text
-                @click="like(user.login)"
+                @click="like(user.login, 0)"
+                v-if="user.check"
             >
                 Like
                 <v-icon>mdi-thumb-up</v-icon>
@@ -89,6 +90,8 @@
                 class="ma-2"
                 text
                 color="red lighten-2"
+                @click="like(user.login, 1)"
+                v-if="!user.check"
             >
                 UnLike
                 <v-icon>mdi-thumb-down</v-icon>
@@ -104,6 +107,8 @@
 import Authent from '@/services/AuthService'
 import {logoutUser} from '@/policies/auth'
 import { getList } from '@/utils/utils'
+import { likeIt } from '@/utils/utils'
+import { checkLike } from '@/utils/utils'
 import vue from 'Vue'
 
 export default {
@@ -126,6 +131,8 @@ export default {
             users[i].mainfoto = this.defFoto
           else if (!users[i].mainfoto.includes("http"))
             users[i].mainfoto = this.server + users[i].mainfoto
+          var check = await checkLike(users[i].login)
+          users[i].check = check
         }
         this.users = users
       }
@@ -148,13 +155,20 @@ export default {
     }
   },
   methods: {
-    async like (login) {
+    async like (login, flag, i) {
         this.loading = true
-        console.log(login)
-        setTimeout(() => (this.loading = false), 2000)
+        // console.log(login)
+        await likeIt(login, flag)
+        await this.ifliked(login)
+        this.loading = false
     },
     async ifliked (login) {
-
+          var check = await checkLike(login)
+          // console.log(check)
+          for (let i = 0; i < this.users.length; i++) {
+            if (this.users[i].login === login)
+              this.users[i].check = check
+          }
     },
     compareAge (a, b) {
       if (a.age < b.age)

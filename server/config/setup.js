@@ -114,5 +114,22 @@ connection.query(
   }
 );
 
+// CREATING trigger for liked notification
+connection.query(
+  "delimiter #\
+  CREATE TRIGGER after_liked\
+  AFTER INSERT ON liked\
+  FOR EACH ROW\
+  BEGIN\
+  insert into notification (login, sendTime, type, message, seen) values (new.liked, now(), 'liked you !', new.login, 0);\
+  END#",
+  function (err) {
+    if (err) throw err;
+    else {
+      console.log("TRIGGER after_liked created successfully");
+    }
+  }
+);
+
 //  End of connection
 connection.end();

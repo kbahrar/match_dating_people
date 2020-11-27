@@ -32,6 +32,12 @@ export default {
     return Api().get(`browes/${id}`)
   },
   Like (cred) {
-    return Api().post(`browes/like`)
+    return Api().post(`browes/like`, cred)
+  },
+  disLike (cred) {
+    return Api().put(`browes/like`, cred)
+  },
+  checkLike (id, login, liked) {
+    return Api().get(`browes/like/${id}&${login}&${liked}`)
   }
 };

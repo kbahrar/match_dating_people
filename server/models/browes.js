@@ -63,17 +63,22 @@ exports.getList = async function (id) {
     // console.log(users)
 }
 
-exports.like = async function (id) {
-    const lookfor = await getlookfor(id)
-    const Adress = await getAdress(id)
-    const users = await getUsers(Adress, lookfor, id)
-    for (let i = 0; i < users.length; i++)
-    {
-        // if (users[i].distance > 10000)
-        //     users.splice(i, 1);
-        var tags = await getTags(users[i].login)
-        users[i].tags = tags
-    }
-    return users
-    // console.log(users)
+exports.like = async function (body) {
+    var qr = 'insert into liked (login, liked) values (?, ?)'
+    await connection.query(qr, [body.login, body.liked])
+}
+
+exports.dislike = async function (body) {
+    var qr = 'DELETE from liked Where login = ? AND liked = ?'
+    // console.log(body)
+    await connection.query(qr, [body.login, body.liked])
+}
+
+exports.checkLike = async function (body) {
+    console.log(body)
+    var qr = 'select * from liked Where login = ? AND liked = ?'
+    const res = await connection.query(qr, [body.login, body.liked])
+    if (res.length > 0)
+        return false
+    return true
 }
