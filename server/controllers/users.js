@@ -7,7 +7,7 @@ const e = require('express');
 
 exports.fillProfile = async (req, res) => {
   try {
-    console.log('h')
+    // console.log('h')
     var check = policies.checkFillProfile(req.body);
     if (check !== 'OK')
         throw check;

@@ -103,13 +103,9 @@ router.beforeEach(async (to, from, next) => {
   else if (isLoggedIn() && check == 0 && to.name != 'fillprofile') {
     next({ path: '/fillprofile' })
   }
-  else if (isLoggedIn() && checkI == null && to.name != 'fillpics') {
+  else if (isLoggedIn() && checkI == null && to.name != 'fillpics' && to.name != 'fillprofile') {
     next({ path: '/fillpics' })
   }
-  // else if (to.name = 'fillprofile' && !isFull)
-  // {
-  //   next({ path: '/fillprofile'})
-  // }
   else if (!to.meta.allowAnonymous && !isLoggedIn()) {
     next({
       path: '/login'

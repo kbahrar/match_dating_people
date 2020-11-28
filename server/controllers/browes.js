@@ -6,7 +6,7 @@ exports.getList = async (req, res) => {
       res.status(200).send({users: users});
     }
     catch (err) {
-      console.log(err.message || err)
+      // console.log(err.message || err)
       res.status(400).send({
         error: err.message || err
       });
@@ -19,7 +19,7 @@ exports.like = async (req, res) => {
       res.status(200).send();
     }
     catch (err) {
-      console.log(err.message || err)
+      // console.log(err.message || err)
       res.status(400).send({
         error: err.message || err
       });
@@ -32,7 +32,7 @@ exports.dislike = async (req, res) => {
       res.status(200).send();
     }
     catch (err) {
-      console.log(err.message || err)
+      // console.log(err.message || err)
       res.status(400).send({
         error: err.message || err
       });
@@ -41,12 +41,12 @@ exports.dislike = async (req, res) => {
 
 exports.checkLike = async (req, res) => {
     try {
-      console.log('hi')
+      // console.log('hi')
       const response = await browesModel.checkLike(req.params)
       res.status(200).send({check: response});
     }
     catch (err) {
-      console.log(err.message || err)
+      // console.log(err.message || err)
       res.status(400).send({
         error: err.message || err
       });

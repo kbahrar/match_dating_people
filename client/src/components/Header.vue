@@ -16,11 +16,32 @@
         Login
       </v-btn>
 
-      <v-btn v-if="isLoggedIn()" text dark class="transparent">
-        <v-badge content="5" color="red" title="notifications">
-        <v-icon>fas fa-globe-africa</v-icon>
-        </v-badge>
-      </v-btn>
+      <v-menu transition="slide-x-transition">
+        <template v-slot:activator="{ on, attrs }">
+        <v-btn v-if="isLoggedIn()" text dark class="transparent" v-on="on" v-bind="attrs">
+          <v-badge v-if="count > 0" :content="count" color="red" title="notifications">
+            <v-icon>fas fa-bell</v-icon>
+          </v-badge>
+            <v-icon v-else>fas fa-bell</v-icon>
+        </v-btn>
+        </template>
+        <v-list v-if="notifs" dense>
+          <v-subheader>Notifications</v-subheader>
+          <v-list-item
+            v-for="notif in notifs"
+            :key="notif"
+            two-line
+          >
+            <v-list-item-icon>
+              <v-icon color="red lighten-1">fas fa-grin-hearts</v-icon>
+            </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{notif.message + ' ' + notif.type}}</v-list-item-title>
+            <v-list-item-subtitle>{{moment(notif.sendTime).fromNow()}}</v-list-item-subtitle>
+          </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-menu>
       <v-btn v-if="isLoggedIn()" text dark class="transparent" to="myprofilepage">
         {{login}}
       </v-btn>
@@ -59,13 +80,16 @@ import { getUser } from '@/utils/utils'
 import { locationDetect } from '../utils/location';
 import {getLocation} from '@/policies/auth'
 import {setLocation} from '@/policies/auth'
+import { getNotifs } from '@/utils/utils'
 import axios from 'axios'
 
 export default {
   data () {
     return {
      login: 'mamak',
-     image: 'https://cdn.vuetifyjs.com/images/john.jpg'
+     image: 'https://cdn.vuetifyjs.com/images/john.jpg',
+     count: 0,
+     notifs: undefined
     }
   },
   mounted: async function () {
@@ -73,6 +97,7 @@ export default {
     {
       try {
         var user = await getUser()
+        var notifs = await getNotifs()
         this.login = user.login
         if (user.mainFoto)
           this.image = "http://localhost:5000/" + user.mainFoto
@@ -82,6 +107,12 @@ export default {
           locationDetect()
           setLocation(1)
         }
+        if (notifs != false) {
+          this.count = notifs.count
+          this.notifs = notifs.notifs
+        }
+        if (this.count == 0)
+          this.count = undefined
       }
       catch (err) {
         console.log(err)

@@ -6,7 +6,9 @@ import router from './router'
 import vuetify from '@/plugins/vuetify' // path to vuetify export
 import { sync } from 'vuex-router-sync';
 import store from '@/store/store';
+import moment from 'moment'
 
+Vue.prototype.moment = moment
 Vue.config.productionTip = false
 
 sync(store, router)

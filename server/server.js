@@ -2,6 +2,7 @@ const express = require("express");
 const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users")
 const browesRoutes = require("./routes/browes")
+const notifRoutes = require("./routes/notifier")
 const  bodyParser = require("body-parser");
 const cors = require("cors");
 
@@ -15,6 +16,7 @@ app.use(cors());
 app.use("/", authRoutes);
 app.use("/users", usersRoutes);
 app.use("/browes", browesRoutes);
+app.use("/notifier", notifRoutes);
 
 const PORT = process.env.PORT || 5000;
 

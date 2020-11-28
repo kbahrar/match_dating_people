@@ -89,7 +89,7 @@ export default {
           password: this.password
         })
         setAuthToken(response.data.token)
-        this.$router.go('fillprofile')
+        this.$router.go('/')
       } catch (err) {
         this.reg = ''
         this.error = err.response.data.error

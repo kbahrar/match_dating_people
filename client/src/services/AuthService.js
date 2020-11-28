@@ -39,5 +39,8 @@ export default {
   },
   checkLike (id, login, liked) {
     return Api().get(`browes/like/${id}&${login}&${liked}`)
+  },
+  getNotifs (id) {
+    return Api().get(`notifier/${id}`)
   }
 };

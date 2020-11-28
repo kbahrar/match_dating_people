@@ -39,7 +39,7 @@ exports.register = async function (req, res) {
 }
   
 exports.rpassword = async function (req) {
-    console.log(Date.now());
+    // console.log(Date.now());
     var hash = crypto.createHash('whirlpool').update(Date.now().toString()).digest('hex');
     const query1 =
       "UPDATE users SET hash = ? where email = ?";

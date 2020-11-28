@@ -75,7 +75,7 @@ exports.dislike = async function (body) {
 }
 
 exports.checkLike = async function (body) {
-    console.log(body)
+    // console.log(body)
     var qr = 'select * from liked Where login = ? AND liked = ?'
     const res = await connection.query(qr, [body.login, body.liked])
     if (res.length > 0)
