@@ -1,6 +1,6 @@
 import { getUserInfo } from "../policies/auth"
 import Authent from '@/services/AuthService'
-
+import store from '@/store/store';
 export async function getUser() {
     try {
       var info = getUserInfo()
@@ -23,16 +23,18 @@ export async function getList() {
   }
 }
 
-export async function likeIt(login, flag) {
+export async function likeIt(login, flag, id) {
   try {
     var info = getUserInfo()
-    if (flag == 0)
+    if (flag == 0) {
       await Authent.Like({login: info.login, liked: login, info: {id: info.id}})
+      store.dispatch('notif', id)
+    }
     else
       await Authent.disLike({login: info.login, liked: login, info: {id: info.id}})
   }
   catch (err) {
-    console.log('Failed to get Data !')
+    console.log(err.message)
   }
 }
 

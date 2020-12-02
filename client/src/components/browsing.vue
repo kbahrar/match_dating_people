@@ -80,7 +80,7 @@
             <v-btn
                 color="blue lighten-2"
                 text
-                @click="like(user.login, 0)"
+                @click="like(user.login, 0, user.id)"
                 v-if="user.check"
             >
                 Like
@@ -158,7 +158,7 @@ export default {
     async like (login, flag, i) {
         this.loading = true
         // console.log(login)
-        await likeIt(login, flag)
+        await likeIt(login, flag, i)
         await this.ifliked(login)
         this.loading = false
     },

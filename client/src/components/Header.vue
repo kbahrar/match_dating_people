@@ -29,7 +29,7 @@
           <v-subheader>Notifications</v-subheader>
           <v-list-item
             v-for="notif in notifs"
-            :key="notif"
+            :key="notif.id"
             two-line
           >
             <v-list-item-icon>
@@ -92,6 +92,21 @@ export default {
      notifs: undefined
     }
   },
+  sockets: {
+        // connect: function () {
+        //     console.log('socket connected')
+        // },
+        notif: async function (data) {
+            console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+            var notifs = await getNotifs()
+            if (notifs != false) {
+              this.count = notifs.count
+              this.notifs = notifs.notifs
+            }
+            if (this.count == 0)
+              this.count = undefined
+        }
+  },
   mounted: async function () {
     if (isLoggedIn())
     {
@@ -113,6 +128,10 @@ export default {
         }
         if (this.count == 0)
           this.count = undefined
+        // console.log(this.$store.state.isConnected)
+        if (!this.$store.state.isConnected) {
+          this.$store.dispatch('login', user)
+        }
       }
       catch (err) {
         console.log(err)

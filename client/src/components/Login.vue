@@ -89,6 +89,8 @@ export default {
           password: this.password
         })
         setAuthToken(response.data.token)
+        // console.log(response.data)
+        // io('http://localhost:5000')
         this.$router.go('/')
       } catch (err) {
         this.reg = ''

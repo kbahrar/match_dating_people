@@ -8,26 +8,34 @@ export default new Vuex.Store({
     state: {
         token: null,
         user: null,
-        isLogg: false
+        isConnected: false,
+        status: false
     },
     mutations: {
-        setToken (state, token) {
-            state.token = token
-            if (state.token)
-                state.isLogg = true
-            else
-                state.isLogg = false
-        },
         setUser (state, user) {
             state.user = user
+        },
+        setValues (state) {
+            state.status = true
+            state.isConnected = true
         }
     },
     actions: {
-        setToken ({commit}, token) {
-            commit('setToken', token)
-        },
-        setUser ({commit}, user) {
+        login: ({commit, state}, user) => {
+            (new Vue()).$socket.emit('auth', user.id)
             commit('setUser', user)
-        }
+            commit('setValues')
+			// if (!state.isConnected) {
+            // console.log(this.$socket)
+			// }
+        },
+        notif: ({commit, state}, id) => {
+            (new Vue()).$socket.emit('notif', id)
+            // commit('setUser', user)
+            // commit('setValues')
+			// if (!state.isConnected) {
+            // console.log(this.$socket)
+			// }
+		}
     }
 })

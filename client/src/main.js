@@ -7,9 +7,19 @@ import vuetify from '@/plugins/vuetify' // path to vuetify export
 import { sync } from 'vuex-router-sync';
 import store from '@/store/store';
 import moment from 'moment'
-
+import io from 'vue-socket.io'
 Vue.prototype.moment = moment
 Vue.config.productionTip = false
+
+Vue.use(new io({
+	debug: true,
+	connection: 'http://localhost:5000',
+	vuex: {
+		store,
+		actionPrefix: 'SOCKET_',
+		mutationPrefix: 'SOCKET_'
+	}
+}))
 
 sync(store, router)
 /* eslint-disable no-new */
