@@ -23,7 +23,6 @@ async function getNotRead(login) {
 
 exports.getNotif = async function (id) {
     var login = await getlogin(id)
-    console.log(login)
     var qr = 'select * from notification Where login = ? order by sendTime DESC'
     var res = await connection.query(qr, [login])
     if (res.length > 0) {
@@ -37,4 +36,10 @@ exports.getNotif = async function (id) {
         return notif
     }
     return false
+}
+
+exports.seenNotif = async function (id) {
+    var login = await getlogin(id)
+    var qr = 'UPDATE notification SET seen = 1 Where login = ?'
+    var res = await connection.query(qr, [login])
 }

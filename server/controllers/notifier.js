@@ -12,3 +12,16 @@ exports.getNotifs = async (req, res) => {
       });
     }
 };
+
+exports.seenNotifs = async (req, res) => {
+    try {
+      await browesNotif.seenNotif(req.params.id)
+      res.status(200).send();
+    }
+    catch (err) {
+      console.log(err.message || err)
+      res.status(400).send({
+        error: err.message || err
+      });
+    }
+};

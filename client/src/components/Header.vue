@@ -27,13 +27,17 @@
         </template>
         <v-list v-if="notifs" dense>
           <v-subheader>Notifications</v-subheader>
+          <v-subheader class="mb-2" v-if="count > 0"><v-btn @click="seenNotif()" color="accent"> <v-icon>fas fa-check-circle </v-icon> Mark all as read</v-btn></v-subheader>
           <v-list-item
             v-for="notif in notifs"
             :key="notif.id"
             two-line
           >
-            <v-list-item-icon>
+            <v-list-item-icon v-if="!notif.seen">
               <v-icon color="red lighten-1">fas fa-grin-hearts</v-icon>
+            </v-list-item-icon>
+            <v-list-item-icon v-else>
+              <v-icon>fas fa-grin-hearts</v-icon>
             </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{notif.message + ' ' + notif.type}}</v-list-item-title>
@@ -81,6 +85,7 @@ import { locationDetect } from '../utils/location';
 import {getLocation} from '@/policies/auth'
 import {setLocation} from '@/policies/auth'
 import { getNotifs } from '@/utils/utils'
+import { seenNotifs } from '@/utils/utils'
 import axios from 'axios'
 
 export default {
@@ -97,14 +102,8 @@ export default {
         //     console.log('socket connected')
         // },
         notif: async function (data) {
-            console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
-            var notifs = await getNotifs()
-            if (notifs != false) {
-              this.count = notifs.count
-              this.notifs = notifs.notifs
-            }
-            if (this.count == 0)
-              this.count = undefined
+            // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+            await this.getNotif()
         }
   },
   mounted: async function () {
@@ -112,7 +111,7 @@ export default {
     {
       try {
         var user = await getUser()
-        var notifs = await getNotifs()
+        await this.getNotif()
         this.login = user.login
         if (user.mainFoto)
           this.image = "http://localhost:5000/" + user.mainFoto
@@ -122,12 +121,6 @@ export default {
           locationDetect()
           setLocation(1)
         }
-        if (notifs != false) {
-          this.count = notifs.count
-          this.notifs = notifs.notifs
-        }
-        if (this.count == 0)
-          this.count = undefined
         // console.log(this.$store.state.isConnected)
         if (!this.$store.state.isConnected) {
           this.$store.dispatch('login', user)
@@ -145,6 +138,19 @@ export default {
       decon() {
         logoutUser()
         this.$router.go('login')
+      },
+      seenNotif: async function() {
+        await seenNotifs()
+        await this.getNotif()
+      },
+      getNotif: async function() {
+        var notifs = await getNotifs()
+        if (notifs != false) {
+          this.count = notifs.count
+          this.notifs = notifs.notifs
+        }
+        if (this.count == 0)
+          this.count = undefined
       }
     },
   }

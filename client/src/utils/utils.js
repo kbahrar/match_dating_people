@@ -54,8 +54,20 @@ export async function getNotifs(login) {
   try {
     var info = getUserInfo()
     const response = await Authent.getNotifs(info.id)
-    console.log(response.data.notifs)
+    // console.log(response.data.notifs)
     return response.data.notifs
+  }
+  catch (err) {
+    console.log('Failed to get Data !')
+  }
+}
+
+export async function seenNotifs(login) {
+  try {
+    var info = getUserInfo()
+    const response = await Authent.seenNotifs(info.id)
+    // console.log(response.data.notifs)
+    // return response.data.notifs
   }
   catch (err) {
     console.log('Failed to get Data !')

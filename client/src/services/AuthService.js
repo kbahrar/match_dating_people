@@ -42,5 +42,8 @@ export default {
   },
   getNotifs (id) {
     return Api().get(`notifier/${id}`)
+  },
+  seenNotifs (id) {
+    return Api().get(`notifier/seen/${id}`)
   }
 };

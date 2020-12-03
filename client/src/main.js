@@ -12,7 +12,7 @@ Vue.prototype.moment = moment
 Vue.config.productionTip = false
 
 Vue.use(new io({
-	debug: true,
+	debug: false,
 	connection: 'http://localhost:5000',
 	vuex: {
 		store,
