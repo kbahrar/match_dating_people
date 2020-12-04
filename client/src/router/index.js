@@ -9,6 +9,7 @@ import Profilesettings from '@/components/Profilesettings'
 import fillPics from '@/components/fillPics'
 import Chat from '@/components/Chat'
 import browsing from '@/components/browsing'
+import myProfilePage from '@/components/myprofilePage'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
@@ -84,6 +85,11 @@ const router = new Router({
       path: "/newpassword",
       name: "newpassword",
       component: Newpassword
+    },
+    {
+      path: "/myprofilepage",
+      name: "myProfilePage",
+      component: myProfilePage
     }
   ]
 });

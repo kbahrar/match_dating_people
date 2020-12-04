@@ -29,7 +29,7 @@
             <v-img
             :src="user.mainfoto"
             >
-            <v-btn :to="'/users/' + user.login" elevation="20" fab absolute left class="mt-5" height="20%" width="20%">
+            <v-btn :to="'/users/' + user.login" elevation="20" fab absolute left class="mt-5" >
                 <v-icon>mdi-eye</v-icon>
             </v-btn>
             </v-img>

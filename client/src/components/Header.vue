@@ -62,7 +62,6 @@
             <v-avatar> <img :src="image" alt="mamak profile"> </v-avatar>
           </v-btn>
         </template>
-
         <v-list>
           <v-list-item>
             <v-list-item-title v-if="isLoggedIn()" text dark class="transparent" to="fillprofile">My Profile</v-list-item-title> 
