@@ -1,15 +1,15 @@
 <template>
   <div id="app">
-    <v-app class="pink lighten-4">
+    <v-app>
       <main>
         <AppHeader/>
-        <v-content fluid>
+        <v-container fluid class="mt-10">
           <router-view/>
-        </v-content>
+        </v-container>
 
       </main>
-    </v-app>
         <AppFooter/>
+    </v-app>
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar class="transparent mb-4" dark>
+  <v-app-bar class="pink mb-4" app>
     <v-toolbar-title flat dark class="mr-4">
        <v-btn  text dark class="transparent" to="/">
        matcha
@@ -25,7 +25,7 @@
             <v-icon v-else>fas fa-bell</v-icon>
         </v-btn>
         </template>
-        <v-list v-if="notifs" dense>
+        <v-list v-if="notifs" dense height="200">
           <v-subheader>Notifications</v-subheader>
           <v-subheader class="mb-2" v-if="count > 0"><v-btn @click="seenNotif()" color="accent"> <v-icon>fas fa-check-circle </v-icon> Mark all as read</v-btn></v-subheader>
           <v-list-item
@@ -74,7 +74,7 @@
       </v-menu>
 
     </v-toolbar-items>
-  </v-toolbar>
+  </v-app-bar>
 </template>
 
 <script>

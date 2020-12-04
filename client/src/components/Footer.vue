@@ -1,7 +1,7 @@
 <template>
   <v-footer
     dark
-    padless
+    height="auto"
   >
     <v-card
       class="flex"
