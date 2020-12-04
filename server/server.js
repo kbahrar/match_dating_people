@@ -51,8 +51,8 @@ io.on('connection', function(socket) {
   
   socket.on('notif', id => {
     const id_to = users[id]
-    console.log('hi')
-		if (id) {
+    console.log(id)
+		if (id_to) {
       for (let i = 0; i < id_to.length; i++)
         io.to(id_to[i]).emit('notif')
     }

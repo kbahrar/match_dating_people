@@ -30,8 +30,10 @@ export async function likeIt(login, flag, id) {
       await Authent.Like({login: info.login, liked: login, info: {id: info.id}})
       store.dispatch('notif', id)
     }
-    else
+    else {
       await Authent.disLike({login: info.login, liked: login, info: {id: info.id}})
+      store.dispatch('notif', id)
+    }
   }
   catch (err) {
     console.log(err.message)

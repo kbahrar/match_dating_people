@@ -34,10 +34,10 @@
             two-line
           >
             <v-list-item-icon v-if="!notif.seen">
-              <v-icon color="red lighten-1">fas fa-grin-hearts</v-icon>
+              <v-icon color="red lighten-1">fas fa-bell</v-icon>
             </v-list-item-icon>
             <v-list-item-icon v-else>
-              <v-icon>fas fa-grin-hearts</v-icon>
+              <v-icon>fas fa-bell</v-icon>
             </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title>{{notif.message + ' ' + notif.type}}</v-list-item-title>

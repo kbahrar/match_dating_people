@@ -117,12 +117,23 @@ connection.query(
 // CREATING trigger for liked notification
 connection.query(
   "delimiter #\
-  CREATE TRIGGER after_liked\
+  CREATE OR REPLACE TRIGGER after_liked\
   AFTER INSERT ON liked\
   FOR EACH ROW\
   BEGIN\
   insert into notification (login, sendTime, type, message, seen) values (new.liked, now(), 'liked you !', new.login, 0);\
+  UPDATE users set fame = (fame + 100) WHERE login = NEW.liked;\
   END#",
+  function (err) {
+    if (err) throw err;
+    else {
+      console.log("TRIGGER after_liked created successfully");
+    }
+  }
+);
+
+connection.query(
+  "CREATE TRIGGER after_del_like AFTER DELETE ON liked FOR EACH ROW BEGIN insert into notification (login, sendTime, type, message, seen) values (OLD.liked, now(), 'Unliked you !', OLD.login, 0); UPDATE users set fame = (fame - 100) WHERE login = OLD.liked; END#",
   function (err) {
     if (err) throw err;
     else {

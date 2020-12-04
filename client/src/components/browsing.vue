@@ -90,7 +90,7 @@
                 class="ma-2"
                 text
                 color="red lighten-2"
-                @click="like(user.login, 1)"
+                @click="like(user.login, 1, user.id)"
                 v-if="!user.check"
             >
                 UnLike

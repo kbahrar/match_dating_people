@@ -26,7 +26,7 @@ async function getAdress (id) {
 }
 
 async function getUsers (adress, gender, id) {
-    const qr = 'select id, login, FLOOR(ST_Distance_Sphere(point(?, ?), point(longitude, latitude)) / 1000) as distance, firstName, lastName, age, bio, fame, mainfoto from users where gender = ? AND id != ? ORDER BY distance'
+    const qr = 'select id, login, FLOOR(ST_Distance_Sphere(point(?, ?), point(longitude, latitude)) / 1000) as distance, firstName, lastName, age, bio, fame, mainfoto from users where gender = ? AND id != ? ORDER BY distance, age'
     var lookfor = await connection.query(qr, [adress.longitude, adress.latitude, gender, id])
     if (lookfor.length > 0){
         lookfor = JSON.stringify(lookfor)
