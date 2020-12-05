@@ -33,6 +33,13 @@
   <h3>login</h3>
   <h5>age</h5>
   <h5>location</h5>
+
+                <v-rating
+                size="14"
+                ></v-rating>
+
+                <div class="grey--text ml-4">
+                </div>
   <h7>my name is x i love xixing so dont stop xing me brothersmy name is x i love xixing so don
     t stop xing me brothersmy name is x i love xixing so dont stop xing me brothers</h7>
     <br>
