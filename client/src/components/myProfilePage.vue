@@ -28,13 +28,26 @@
       </v-sheet>
     </v-carousel-item>
   </v-carousel>
-<v-card class="d-flex pa-2"
-     >
-
+<div class="basic">
   <h2>full name</h2>
-  <h3>{{login}}</h3>
-        
-</v-card>
+  <h3>login</h3>
+  <h5>age</h5>
+  <h5>location</h5>
+  <h7>my name is x i love xixing so dont stop xing me brothersmy name is x i love xixing so don
+    t stop xing me brothersmy name is x i love xixing so dont stop xing me brothers</h7>
+    <br>
+    <br>
+ 
+      <v-chip
+        v-bind="attrs"
+        :input-value="selected"
+        close
+        @click="select"
+        @click:close="remove(item)"
+      >
+        <strong>{{ items }}</strong>&nbsp;
+      </v-chip>
+</div>
       </div>
     </v-flex>
   </v-layout>
@@ -51,6 +64,20 @@ import vue from 'Vue'
 export default {
   data () {
     return {
+      chips: ['Coding', 'Gaming', 'Netflix', 'Sleeping'],
+      // pictures: [],
+      items: ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature'],
+      gender: ['Male', 'Female', 'Other'],
+      mygender: '',
+      mychips: [],
+      city: '',
+      alert: true,
+      flag: true,
+      age: 18,
+      biography: '',
+      reg: null,
+      error: null,
+      errors: [],
         model: 0,
       colors: [
         'primary',
@@ -61,8 +88,20 @@ export default {
       ],
     }
   },
+        methods: {
+          remove (item) {
+            this.chips.splice(this.chips.indexOf(item), 1)
+            this.chips = [...this.chips]
+          }
+}
 }
 </script>
 
 <style scoped>
+.basic {
+  margin-top: 15px;
+  padding: 20px;
+  background-color:beige;
+  text-align: left;
+}
 </style>
