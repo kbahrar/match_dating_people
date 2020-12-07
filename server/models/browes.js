@@ -12,6 +12,21 @@ async function getlookfor (id) {
     }
     return false
 }
+async function getmyinfo (id) {
+    const qr = 'select firstName, lastName, login, age, bio, fame, mainfoto, foto1, foto2, foto3, foto4 registrationDate, tag , gender, lookingfor, city, online from users where id = ?'
+    var myinfo = await connection.query(qr, [id])
+    if (myinfo.length > 0){
+        myinfo = JSON.stringify(myinfo[0])
+        myinfo = JSON.parse(myinfo)
+        myinfo = myinfo.lookingfor
+        return myinfo
+    }
+    return false
+}
+exports.mypro = async function (id) {
+    const lookfor = await getmyinfo(id);
+    return(lookfor);
+}
 
 async function getAdress (id) {
     const qr = 'select latitude, longitude from users where id = ?'
@@ -47,6 +62,7 @@ async function getTags (login) {
     }
     return false;
 }
+
 
 exports.getList = async function (id) {
     const lookfor = await getlookfor(id)

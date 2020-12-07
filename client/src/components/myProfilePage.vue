@@ -29,10 +29,12 @@
     </v-carousel-item>
   </v-carousel>
 <div class="basic">
-  <h2>full name</h2>
-  <h3>login</h3>
-  <h5>age</h5>
-  <h5>location</h5>
+  <h2>{{firstName}}  {{lastName}}<i style="text-align: right">{{online}}</i></h2>
+ 
+  <h3>{{login}}</h3>
+  <h5>{{age}}</h5>
+  <h5>{{creatindate}}</h5>
+  <h5>{{city}}</h5>
 
                 <v-rating
                 size="14"
@@ -40,12 +42,11 @@
 
                 <div class="grey--text ml-4">
                 </div>
-  <h7>my name is x i love xixing so dont stop xing me brothersmy name is x i love xixing so don
-    t stop xing me brothersmy name is x i love xixing so dont stop xing me brothers</h7>
+  <h6>{{bio}}</h6>
     <br>
     <br>
  
-      <v-chip
+      <!-- <v-chip
         v-bind="attrs"
         :input-value="selected"
         close
@@ -53,7 +54,7 @@
         @click:close="remove(item)"
       >
         <strong>{{ items }}</strong>&nbsp;
-      </v-chip>
+      </v-chip> -->
 </div>
       </div>
     </v-flex>
@@ -66,41 +67,57 @@ import {logoutUser} from '@/policies/auth'
 import { getList } from '@/utils/utils'
 import { likeIt } from '@/utils/utils'
 import { checkLike } from '@/utils/utils'
+import { isLoggedIn } from '@/policies/auth'
 import vue from 'Vue'
 
 export default {
   data () {
     return {
-      chips: ['Coding', 'Gaming', 'Netflix', 'Sleeping'],
-      // pictures: [],
-      items: ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature'],
-      gender: ['Male', 'Female', 'Other'],
-      mygender: '',
-      mychips: [],
-      city: '',
       alert: true,
       flag: true,
-      age: 18,
-      biography: '',
       reg: null,
       error: null,
+      login: '',
+      firstName: '',
+      lastName: '',
+      online: '',
+      age: '',
+      creationdate: '',
+      city: '',
+      bio: '',
       errors: [],
         model: 0,
-      colors: [
-        'primary',
-        'secondary',
-        'yellow darken-2',
-        'red',
-        'orange',
+      foto: [
+        mainfoto,
+        foto1,
+        foto2,
+        foto3,
+        foto4,
       ],
     }
   },
-        methods: {
-          remove (item) {
-            this.chips.splice(this.chips.indexOf(item), 1)
-            this.chips = [...this.chips]
-          }
-}
+  mounted: async function() {
+    try {
+      var myinfo = await mypro()
+      this.login = myinfo.login;
+      this.firstName = myinfo.firstName;
+      this.lastName = myinfo.lastName;
+      this.lastName = myinfo.lastName;
+      this.online = myinfo.online;
+      this.age = myinfo.age;
+      this.creationdate = myinfo.creationdate;
+      this.city = myinfo.city;
+      this.bio = myinfo.bio;
+      this.mainfoto = myinfo.mainfoto;
+      this.foto1 = myinfo.foto1;
+      this.foto2 = myinfo.foto2;
+      this.foto3 = myinfo.foto3;
+      this.foto4 = myinfo.foto4;
+    }
+  catch (err) {
+          console.log(err);
+        }
+      }
 }
 </script>
 

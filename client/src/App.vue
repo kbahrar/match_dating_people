@@ -8,7 +8,6 @@
         </v-container>
 
       </main>
-        <AppFooter/>
     </v-app>
   </div>
 </template>
