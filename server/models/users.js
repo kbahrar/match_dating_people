@@ -12,6 +12,30 @@ async function addTags(login, tag) {
     await connection.query(qr, [login, tag])
 }
 
+async function getTags (login) {
+    const qr = "select tag from  tags where login = ?"
+    var tags = await connection.query(qr, [login]);
+    if (tags.length > 0)
+    {
+        tags = JSON.stringify(tags);
+        tags = JSON.parse(tags);
+        return tags;
+    }
+    return false;
+}
+
+exports.getId = async function (login) {
+    const qr = 'select id from users where login = ?'
+    var id = await connection.query(qr, [login])
+    if (id.length > 0){
+        id = JSON.stringify(id[0])
+        id = JSON.parse(id)
+        id = id.id
+        return id
+    }
+    return false
+}
+
 exports.fill = async function (req, res) {
     const query1 = "UPDATE users SET gender = ?, lookingfor = ?, bio = ?, city = ?, age = ?, fill = 1 WHERE login = ?";
     await connection.query(query1, [req.user.gender, req.user.mylookingfor, req.user.biography , req.user.city, req.user.age, req.info.login]);
@@ -44,6 +68,19 @@ exports.getUserInfo = async function (id) {
     if (user.length > 0){
         user = JSON.stringify(user[0])
         user = JSON.parse(user)
+        return user
+    }
+    return false 
+}
+
+exports.getOtherUserInfo = async function (id, login) {
+    const rq = "SELECT * from users WHERE id = ?"
+    var user = await connection.query(rq, [id])
+    if (user.length > 0){
+        user = JSON.stringify(user[0])
+        user = JSON.parse(user)
+        const tags = await getTags(login)
+        user.tags = tags
         return user
     }
     return false 

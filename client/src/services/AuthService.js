@@ -45,5 +45,8 @@ export default {
   },
   seenNotifs (id) {
     return Api().get(`notifier/seen/${id}`)
+  },
+  getOtherUser (id, login) {
+    return Api().get(`users/getOtherUser/${id}&${login}`)
   }
 };

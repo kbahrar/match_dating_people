@@ -7,5 +7,6 @@ router.post("/fillprofile", auth, usersCtrl.fillProfile)
 router.put("/location", auth, usersCtrl.location)
 router.put("/uploadImg", auth, usersCtrl.uploadImg)
 router.get("/getUser/:id", auth, usersCtrl.getUserInfo)
+router.get("/getOtherUser/:id&:login", auth, usersCtrl.getOtherUserInfo)
 
 module.exports = router

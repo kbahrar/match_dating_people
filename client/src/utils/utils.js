@@ -1,6 +1,7 @@
 import { getUserInfo } from "../policies/auth"
 import Authent from '@/services/AuthService'
-import store from '@/store/store';
+import store from '@/store/store'
+
 export async function getUser() {
     try {
       var info = getUserInfo()
@@ -9,6 +10,18 @@ export async function getUser() {
     }
     catch (err) {
       console.log('Failed to get Data !')
+    }
+}
+
+export async function getOtherUser(login) {
+    try {
+      var info = getUserInfo()
+      const response = await Authent.getOtherUser(info.id, login)
+      return response.data.user
+    }
+    catch (err) {
+      console.log('Failed to get Data !')
+      return false
     }
 }
 

@@ -90,3 +90,25 @@ exports.getUserInfo = async (req, res) => {
     })
   }
 }
+
+exports.getOtherUserInfo = async (req, res) => {
+  try {
+    console.log(req.params.login)
+    var id = await usersModel.getId(req.params.login)
+    console.log(id)
+    if (!id)
+      throw "invalide login !"
+    var user = await usersModel.getOtherUserInfo(id, req.params.login)
+
+    if (!user)
+      throw "invalide id !"
+    user.password = undefined
+    user.email = undefined
+    res.status(200).send({ success: true, user: user});
+  }
+  catch (err) {
+    res.status(400).send({
+      error: err.message || err
+    })
+  }
+}

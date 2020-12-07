@@ -45,13 +45,13 @@ io.on('connection', function(socket) {
     if (!users[id])
       users[id] = []
     users[id].push(socket.id)
-    console.log(users[id])
+    // console.log(users[id])
 		// io.emit('online', Object.keys(users))
   });
   
   socket.on('notif', id => {
     const id_to = users[id]
-    console.log(id)
+    // console.log(id)
 		if (id_to) {
       for (let i = 0; i < id_to.length; i++)
         io.to(id_to[i]).emit('notif')
@@ -70,5 +70,5 @@ io.on('connection', function(socket) {
     });
 
   })
-  console.log(users)
+  // console.log(users)
 })
