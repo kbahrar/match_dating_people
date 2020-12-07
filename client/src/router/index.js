@@ -10,6 +10,7 @@ import fillPics from '@/components/fillPics'
 import Chat from '@/components/Chat'
 import browsing from '@/components/browsing'
 import myProfilePage from '@/components/myprofilePage'
+import userProfile from '@/components/userProfile'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
@@ -89,7 +90,19 @@ const router = new Router({
     {
       path: "/myprofilepage",
       name: "myProfilePage",
-      component: myProfilePage
+      component: myProfilePage,
+      meta: {
+        allowAnonymous: false
+      }
+    },
+    {
+      path: "/users/:login",
+      name: "userProfile",
+      component: userProfile,
+      props: true,
+      meta: {
+        allowAnonymous: false
+      }
     }
   ]
 });

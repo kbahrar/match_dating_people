@@ -1,10 +1,10 @@
 <template >
   <v-layout>
-    <v-flex xs10 offset-xs1>
+    <v-flex xs10 offset-xs1 class="mt-5">
       <div outlined shaped elevation="20" class="grey lighten-2 elevation-5 p-4">
 
         <v-toolbar outlined shaped elevation="20" class="pink darken-2" dark>
-          <v-toolbar-title>My Profile</v-toolbar-title>
+          <v-toolbar-title>Profile</v-toolbar-title>
         </v-toolbar>
         <v-carousel v-model="model">
     <v-carousel-item
@@ -45,16 +45,20 @@
   <h6>{{bio}}</h6>
     <br>
     <br>
+  <h6>my name is x i love xixing so dont stop xing me brothersmy name is x i love xixing so don
+    t stop xing me brothersmy name is x i love xixing so dont stop xing me brothers</h6>
+    <br>
+    <br>
  
-      <!-- <v-chip
-        v-bind="attrs"
-        :input-value="selected"
-        close
-        @click="select"
-        @click:close="remove(item)"
-      >
-        <strong>{{ items }}</strong>&nbsp;
-      </v-chip> -->
+      <v-card-title>Tags</v-card-title>
+
+        <v-card-text>
+            <v-chip-group
+                column
+            >
+                <v-chip v-for="tag in chips" :key="tag">#{{tag}}</v-chip>
+            </v-chip-group>
+        </v-card-text>
 </div>
       </div>
     </v-flex>
@@ -117,7 +121,10 @@ export default {
   catch (err) {
           console.log(err);
         }
-      }
+      },
+  methods: {
+          
+  }
 }
 </script>
 
@@ -125,7 +132,6 @@ export default {
 .basic {
   margin-top: 15px;
   padding: 20px;
-  background-color:beige;
   text-align: left;
 }
 </style>

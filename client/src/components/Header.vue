@@ -25,7 +25,8 @@
             <v-icon v-else>fas fa-bell</v-icon>
         </v-btn>
         </template>
-        <v-list v-if="notifs" dense height="200">
+        <v-list v-if="notifs" dense style="max-height: 500px"
+       class="overflow-y-auto">
           <v-subheader>Notifications</v-subheader>
           <v-subheader class="mb-2" v-if="count > 0"><v-btn @click="seenNotif()" color="accent"> <v-icon>fas fa-check-circle </v-icon> Mark all as read</v-btn></v-subheader>
           <v-list-item

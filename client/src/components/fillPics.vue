@@ -1,6 +1,6 @@
 <template >
   <v-layout>
-    <v-flex xs10 offset-xs1 class="mt-4">
+    <v-flex xs10 offset-xs1 class="mt-6">
       <div class="grey lighten-3 elevation-5">
 
         <v-toolbar flat dense class="pink darken-2" dark>
