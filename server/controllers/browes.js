@@ -27,8 +27,22 @@ exports.like = async (req, res) => {
 };
 
 exports.dislike = async (req, res) => {
+  try {
+    await browesModel.dislike(req.body)
+    res.status(200).send();
+  }
+  catch (err) {
+    // console.log(err.message || err)
+    res.status(400).send({
+      error: err.message || err
+    });
+  }
+};
+
+exports.seen = async (req, res) => {
     try {
-      await browesModel.dislike(req.body)
+      await browesModel.seen(req.body)
+      console.log(req.body)
       res.status(200).send();
     }
     catch (err) {

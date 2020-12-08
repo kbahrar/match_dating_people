@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar class="pink mb-4" app>
+  <v-app-bar class="pink lighten-3 mb-4" app>
     <v-toolbar-title flat dark class="mr-4">
        <v-btn  text dark class="transparent" to="/">
        matcha
@@ -47,7 +47,7 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-btn v-if="isLoggedIn()" text dark class="transparent" to="myprofilepage">
+      <v-btn v-if="isLoggedIn()" text dark class="transparent" to="/myprofilepage">
         {{login}}
       </v-btn>
 
@@ -65,10 +65,10 @@
         </template>
         <v-list>
           <v-list-item>
-            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent" to="fillprofile">My Profile</v-list-item-title> 
+            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent"><v-icon left>fas fa-user-cog</v-icon><v-btn to="/fillprofile"> settings</v-btn></v-list-item-title> 
           </v-list-item>
           <v-list-item>
-            <v-list-item-title v-if="isLoggedIn()" @click="decon" text dark class="transparent" to="login"> Log Out </v-list-item-title> 
+            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent" > <v-icon left>{{fas fa-power-off</v-icon> <v-btn @click="decon" to="login">Log Out</v-btn>  </v-list-item-title> 
           </v-list-item>
         </v-list>
       </v-menu>

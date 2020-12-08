@@ -46,10 +46,10 @@ connection.query(
   }
 );
 
-// Creating popularity table
+// Creating seen table
 
 connection.query(
-  "CREATE TABLE IF NOT EXISTS popularity (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, fame INT(10) NOT NULL)",
+  "CREATE TABLE IF NOT EXISTS seen (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, viewer VARCHAR(100) NOT NULL)",
   function (err) {
     if (err) throw err;
     else {
@@ -123,6 +123,23 @@ connection.query(
   BEGIN\
   insert into notification (login, sendTime, type, message, seen) values (new.liked, now(), 'liked you !', new.login, 0);\
   UPDATE users set fame = (fame + 100) WHERE login = NEW.liked;\
+  END#",
+  function (err) {
+    if (err) throw err;
+    else {
+      console.log("TRIGGER after_liked created successfully");
+    }
+  }
+);
+
+connection.query(
+  "delimiter #\
+  CREATE OR REPLACE TRIGGER after_seen\
+  AFTER INSERT ON seen\
+  FOR EACH ROW\
+  BEGIN\
+  insert into notification (login, sendTime, type, message, seen) values (new.login, now(), 'seen your profile !', new.viewer, 0);\
+  UPDATE users set fame = (fame + 10) WHERE login = NEW.login;\
   END#",
   function (err) {
     if (err) throw err;

@@ -79,6 +79,11 @@ exports.getList = async function (id) {
     // console.log(users)
 }
 
+exports.seen = async function (body) {
+    var qr = 'insert into seen (login, viewer) values (?, ?)'
+    await connection.query(qr, [body.login, body.viewer])
+}
+
 exports.like = async function (body) {
     var qr = 'insert into liked (login, liked) values (?, ?)'
     await connection.query(qr, [body.login, body.liked])

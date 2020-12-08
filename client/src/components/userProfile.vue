@@ -1,39 +1,40 @@
 <template >
   <v-layout>
     <v-flex xs10 offset-xs1>
-      <div outlined shaped elevation="20" class="grey lighten-2 elevation-5 p-4">
+      <error404 v-if="!user"/>
+      <div outlined shaped elevation="20" class="grey lighten-2 elevation-5 p-4" v-else>
 
         <v-toolbar outlined shaped elevation="20" class="pink darken-2" dark>
-          <v-toolbar-title>My Profile</v-toolbar-title>
+          <v-toolbar-title>{{user.firstName}} Profile</v-toolbar-title>
         </v-toolbar>
-        <v-carousel>
-    <v-carousel-item
-      v-for="(image, i) in images"
-      :key="i"
-    >
-        <v-row
-          class="fill-height"
-          align="center"
-          justify="center"
+        <v-card
+            class="mx-auto my-12"
+            width="70%"
         >
-            <v-img :src="image" height="100%" width="100%"></v-img>
-        </v-row>
-    </v-carousel-item>
-  </v-carousel>
-<div class="basic">
-  <h2>{{user.firstName}} {{user.lastName}}</h2>
-  <h3>{{user.login}}</h3>
-  <h5>{{user.age}}</h5>
-  <h5>{{user.city}}</h5>
-  <div class="my-4 subtitle-2">
-                Bio
-            </div>
-
-            <div>{{user.bio}}</div>
+          <v-carousel>
+            <v-carousel-item
+              v-for="(image, i) in images"
+              :key="i"
+            >
                 <v-row
+                  class="fill-height"
+                  align="center"
+                  justify="center"
+                >
+                    <v-img :src="image" height="100%" width="100%"></v-img>
+                </v-row>
+            </v-carousel-item>
+          </v-carousel>
+            <!-- <v-hover v-slot="{ hover }"> -->
+            <v-card-title>Online <v-icon color="green" x-small right>fas fa-circle</v-icon> </v-card-title>
+            <v-card-title>Full Name :  {{user.firstName}} {{user.lastName}}</v-card-title>
+
+            <v-card-subtitle align='left'>{{user.age}} Years Old<div align='right'><v-icon left>fas fa-map-marker-alt</v-icon><b> {{user.city}}</b></div></v-card-subtitle>
+
+            <!-- <v-row
                 align="center"
                 class="mx-0"
-            >
+            > -->
                 <v-rating
                 :value="user.fame / 1000"
                 color="amber"
@@ -46,13 +47,21 @@
                 <div class="grey--text ml-4">
                 {{user.fame / 1000}} Fame rating
                 </div>
-            </v-row>
-                <div class="grey--text ml-4">
-                </div>
-    <br>
-    <br>
- 
-      <v-card-title>Tags</v-card-title>
+            <!-- </v-row> -->
+            <v-divider class="mx-4"></v-divider>
+
+            <v-card-text>
+
+            <div class="my-4 subtitle-2">
+                Bio
+            </div>
+
+            <div>{{user.bio}}</div>
+            </v-card-text>
+
+            <v-divider class="mx-4"></v-divider>
+
+            <v-card-title>Tags :</v-card-title>
 
             <v-card-text>
                 <v-chip-group
@@ -61,7 +70,64 @@
                     <v-chip v-for="tag in user.tags" :key="tag.tag">#{{tag.tag}}</v-chip>
                 </v-chip-group>
             </v-card-text>
-</div>
+
+            <v-divider class="mx-4"></v-divider>
+              <v-card-title>More Informations :</v-card-title>
+              <v-list dense>
+                <v-list-item>
+                  <v-list-item-content>Gender :</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ user.gender }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>looking for :</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ user.lookingfor }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>login :</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{ user.login }}
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-list-item>
+                  <v-list-item-content>Joined Matcha :</v-list-item-content>
+                  <v-list-item-content class="align-end">
+                    {{moment(user.registrationDate).fromNow()}}
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
+
+              <v-divider class="mx-4"></v-divider>
+
+
+            <v-card-actions>
+            <v-btn
+                color="blue lighten-2"
+                text
+                @click="like(user.login, 0, user.id)"
+                v-if="user.check"
+            >
+                Like
+                <v-icon>mdi-thumb-up</v-icon>
+            </v-btn>
+            <v-btn
+                class="ma-2"
+                text
+                color="red lighten-2"
+                @click="like(user.login, 1, user.id)"
+                v-if="!user.check"
+            >
+                UnLike
+                <v-icon>mdi-thumb-down</v-icon>
+            </v-btn>
+            </v-card-actions>
+        </v-card>
       </div>
     </v-flex>
   </v-layout>
@@ -71,8 +137,10 @@
 import Authent from '@/services/AuthService'
 import {logoutUser} from '@/policies/auth'
 import { getOtherUser } from '@/utils/utils'
+import { seenIt } from '@/utils/utils'
 import { likeIt } from '@/utils/utils'
 import { checkLike } from '@/utils/utils'
+import error404 from '@/components/error404.vue'
 import vue from 'Vue'
 export default {
   data () {
@@ -82,15 +150,24 @@ export default {
       user: []
     }
   },
-  created: async function() {
+  components:{
+    error404
+  },
+  mounted: async function() {
     var user = await getOtherUser(this.$route.params.login)
     this.user = user
+    if (user)
+      seenIt(user.login, user.id)
     this.addImages()
   },
   methods: {
     addImages: function() {
-      if (this.user.mainFoto)
-        this.images[0] = this.server + this.user.mainFoto
+      if (this.user.mainFoto) {
+        if (!this.user.mainFoto.includes("http"))
+          this.images[0] = this.server + this.user.mainFoto
+        else
+          this.images[0] = this.user.mainFoto
+      }
       if (this.user.foto1)
         this.images[1] = this.server + this.user.foto1
       if (this.user.foto2)

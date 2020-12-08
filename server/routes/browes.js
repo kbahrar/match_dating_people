@@ -8,5 +8,6 @@ router.get('/:id', auth, browesCtrl.getList)
 router.post('/like', auth, browesCtrl.like)
 router.put('/like', auth, browesCtrl.dislike)
 router.get('/like/:id&:login&:liked', auth, browesCtrl.checkLike)
+router.post('/seen', auth, browesCtrl.seen)
 
 module.exports = router;

@@ -31,6 +31,9 @@ export default {
   getList(id) {
     return Api().get(`browes/${id}`)
   },
+  Seen (cred) {
+    return Api().post(`browes/seen`, cred)
+  },
   Like (cred) {
     return Api().post(`browes/like`, cred)
   },

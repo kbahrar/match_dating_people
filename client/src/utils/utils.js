@@ -36,6 +36,17 @@ export async function getList() {
   }
 }
 
+export async function seenIt(login, id) {
+  try {
+    var info = getUserInfo()
+    await Authent.Seen({login: login, viewer: info.login, info: {id: info.id}})
+    store.dispatch('notif', id)
+  }
+  catch (err) {
+    console.log(err.message)
+  }
+}
+
 export async function likeIt(login, flag, id) {
   try {
     var info = getUserInfo()

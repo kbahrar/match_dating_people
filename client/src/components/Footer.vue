@@ -8,7 +8,7 @@
       flat
       tile
     >
-      <v-card-title class="teal">
+      <v-card-title>
         <strong class="subheading">Best matching webapp award 2020</strong>
 
         <v-spacer></v-spacer>
