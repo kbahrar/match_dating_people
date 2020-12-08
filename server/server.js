@@ -3,7 +3,8 @@ const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users")
 const browesRoutes = require("./routes/browes")
 const notifRoutes = require("./routes/notifier")
-const  bodyParser = require("body-parser");
+const  bodyParser = require("body-parser")
+const connection = require("./config/database")
 const socketIo = require('socket.io')
 const cors = require("cors");
 
@@ -45,8 +46,14 @@ io.on('connection', function(socket) {
     if (!users[id])
       users[id] = []
     users[id].push(socket.id)
+    try {
+			const sql = `UPDATE users SET online = true WHERE id = ?`
+			connection.query(sql, [id])
+		} catch (err) {
+			console.log(err)
+		}
     // console.log(users[id])
-		// io.emit('online', Object.keys(users))
+		io.emit('online')
   });
   
   socket.on('notif', id => {
@@ -58,6 +65,18 @@ io.on('connection', function(socket) {
     }
   });
 
+  socket.on('logout', id => {
+    console.log(id)
+		try {
+			const sql = `UPDATE users SET connect = NOW(), online = false WHERE id = ?`
+			connection.query(sql, [id])
+		} catch (err) {
+			console.log(err)
+		}
+		users.splice(id, 1)
+		io.emit('online')
+  })
+  
   socket.on("disconnect", function(){
     users.forEach((user, i) => {
       // console.log(socket.id)

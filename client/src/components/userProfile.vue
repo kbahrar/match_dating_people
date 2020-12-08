@@ -26,7 +26,9 @@
             </v-carousel-item>
           </v-carousel>
             <!-- <v-hover v-slot="{ hover }"> -->
-            <v-card-title>Online <v-icon color="green" x-small right>fas fa-circle</v-icon> </v-card-title>
+            <v-card-subtitle v-if="connect">Online <v-icon color="green" x-small right>fas fa-circle</v-icon> </v-card-subtitle>
+            <v-card-subtitle v-else> <v-icon color="red" x-small left>fas fa-circle</v-icon>Offline {{moment(lastSeen).fromNow()}} </v-card-subtitle>
+            
             <v-card-title>Full Name :  {{user.firstName}} {{user.lastName}}</v-card-title>
 
             <v-card-subtitle align='left'>{{user.age}} Years Old<div align='right'><v-icon left>fas fa-map-marker-alt</v-icon><b> {{user.city}}</b></div></v-card-subtitle>
@@ -145,9 +147,17 @@ import vue from 'Vue'
 export default {
   data () {
     return {
+      connect: false,
+      lastSeen: false,
       images: [],
       server: 'http://localhost:5000/',
       user: []
+    }
+  },
+  sockets: {
+    online: async function (data) {
+        // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+        await this.getUpdate()
     }
   },
   components:{
@@ -156,6 +166,8 @@ export default {
   mounted: async function() {
     var user = await getOtherUser(this.$route.params.login)
     this.user = user
+    this.connect = user.online
+    this.lastSeen = user.connect
     if (user)
       seenIt(user.login, user.id)
     this.addImages()
@@ -176,6 +188,11 @@ export default {
         this.images[3] = this.server + this.user.foto3
       if (this.user.foto4)
         this.images[4] = this.server + this.user.foto4
+    },
+    getUpdate: async function() {
+      var user = await getOtherUser(this.$route.params.login)
+      this.connect = user.online
+      this.lastSeen = user.connect
     }
   }
 }

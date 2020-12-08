@@ -1,6 +1,7 @@
 import decode from 'jwt-decode'
 import axios from 'axios'
 import { getUser } from '@/utils/utils'
+import store from '@/store/store'
 // const REST_ENDPOINT = 'http://localhost:3000/'
 const AUTH_TOKEN_KEY = 'secret'
 const LOCATION = "location"
@@ -28,6 +29,9 @@ const LOCATION = "location"
 // }
 
 export function logoutUser() {
+    var user = getUserInfo()
+    console.log(user.id)
+    store.dispatch('out', user.id)
     deleteLocation()
     clearAuthToken()
 }

@@ -25,17 +25,12 @@ export default new Vuex.Store({
             (new Vue()).$socket.emit('auth', user.id)
             commit('setUser', user)
             commit('setValues')
-			// if (!state.isConnected) {
-            // console.log(this.$socket)
-			// }
         },
         notif: ({commit, state}, id) => {
             (new Vue()).$socket.emit('notif', id)
-            // commit('setUser', user)
-            // commit('setValues')
-			// if (!state.isConnected) {
-            // console.log(this.$socket)
-			// }
-		}
+        },
+        out: ({commit, state},id) => {
+            (new Vue()).$socket.emit('logout', id)
+        }
     }
 })
