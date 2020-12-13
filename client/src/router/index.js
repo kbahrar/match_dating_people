@@ -11,6 +11,7 @@ import Chat from '@/components/Chat'
 import browsing from '@/components/browsing'
 import myProfilePage from '@/components/myprofilePage'
 import userProfile from '@/components/userProfile'
+import search from '@/components/search'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
@@ -99,6 +100,15 @@ const router = new Router({
       path: "/users/:login",
       name: "userProfile",
       component: userProfile,
+      props: true,
+      meta: {
+        allowAnonymous: false
+      }
+    },
+    {
+      path: "/search",
+      name: "search",
+      component: search,
       props: true,
       meta: {
         allowAnonymous: false

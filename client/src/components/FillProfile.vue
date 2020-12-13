@@ -211,19 +211,6 @@ export default {
       if (!this.age || this.age < 18) {
         this.errors.push("age required.");
       }
-      // if(!this.pictures || this.pictures.length < 5)
-      // {
-      //   this.errors.push("add at least 5 pictures.");
-      // }
-      // while(i < this.pictures.length){
-      //   if(this.pictures[i].size >= 2000000)
-      //   {
-      //     console.log("am here dude");
-      //     this.errors.push("Pictures size should be less than 2 MB!.");
-      //     break;
-      //   }
-      //   i++;
-      // }
       if (!this.mylookingfor) {
         this.errors.push("Targeted gender required.");
       }

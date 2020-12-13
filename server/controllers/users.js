@@ -93,9 +93,9 @@ exports.getUserInfo = async (req, res) => {
 
 exports.getOtherUserInfo = async (req, res) => {
   try {
-    console.log(req.params.login)
+    // console.log(req.params.login)
     var id = await usersModel.getId(req.params.login)
-    console.log(id)
+    // console.log(id)
     if (!id)
       throw "invalide login !"
     var user = await usersModel.getOtherUserInfo(id, req.params.login)

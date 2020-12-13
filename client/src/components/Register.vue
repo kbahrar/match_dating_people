@@ -42,7 +42,7 @@
             class="mt-5"
             v-model="email"
             type="email"
-            :rules="[ v => !!v || 'Email is required', v => /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z-]+)*$/.test(v) || 'Invalide email.' ]"
+            :rules="[ v => !!v || 'Email is required', v => /.+@.+\..+/.test(v) || 'Invalide email.' ]"
             label="email"
             required
             outlined

@@ -28,9 +28,6 @@ export default new Vuex.Store({
         },
         notif: ({commit, state}, id) => {
             (new Vue()).$socket.emit('notif', id)
-        },
-        out: ({commit, state},id) => {
-            (new Vue()).$socket.emit('logout', id)
         }
     }
 })

@@ -3,6 +3,7 @@ const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users")
 const browesRoutes = require("./routes/browes")
 const notifRoutes = require("./routes/notifier")
+const searchRoutes = require("./routes/search")
 const  bodyParser = require("body-parser")
 const connection = require("./config/database")
 const socketIo = require('socket.io')
@@ -19,6 +20,7 @@ app.use("/", authRoutes);
 app.use("/users", usersRoutes);
 app.use("/browes", browesRoutes);
 app.use("/notifier", notifRoutes);
+app.use("/search", searchRoutes);
 
 const PORT = process.env.PORT || 5000;
 
@@ -65,29 +67,23 @@ io.on('connection', function(socket) {
     }
   });
 
-  socket.on('logout', id => {
-    console.log(id)
-		try {
-			const sql = `UPDATE users SET connect = NOW(), online = false WHERE id = ?`
-			connection.query(sql, [id])
-		} catch (err) {
-			console.log(err)
-		}
-		users.splice(id, 1)
-		io.emit('online')
-  })
-  
   socket.on("disconnect", function(){
     users.forEach((user, i) => {
-      // console.log(socket.id)
       user.forEach((id, j) => {
-        if (socket.id == id)
+        if (socket.id == id) {
           users[i].splice(j, 1)
-          // console.log(socket.id, " ", i)
-          // users[54].remove()
+          if (users[i].length <= 0) {
+            try {
+              const sql = `UPDATE users SET connect = NOW(), online = false WHERE id = ?`
+              connection.query(sql, [i])
+            } catch (err) {
+              console.log(err)
+            }
+            io.emit('online')
+          } 
+        }
       });
+      // console.log(users)
     });
-
   })
-  // console.log(users)
 })

@@ -65,6 +65,11 @@
         </template>
         <v-list>
           <v-list-item>
+            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent"><v-icon left>fas fa-search-plus</v-icon><v-btn to="/search">
+              Research
+           </v-btn></v-list-item-title> 
+          </v-list-item>
+          <v-list-item>
             <v-list-item-title v-if="isLoggedIn()" text dark class="transparent"><v-icon left>fas fa-user-cog</v-icon><v-btn to="/fillprofile"> settings</v-btn></v-list-item-title> 
           </v-list-item>
           <v-list-item>
@@ -113,7 +118,8 @@ export default {
         var user = await getUser()
         await this.getNotif()
         this.login = user.login
-        if (user.mainFoto)
+        
+        if (user && user.mainFoto)
           this.image = "http://localhost:5000/" + user.mainFoto
         var loc = getLocation()
         if (!loc)
@@ -127,7 +133,7 @@ export default {
         }
       }
       catch (err) {
-        console.log(err)
+        console.log(err.message)
       }
     }
   },

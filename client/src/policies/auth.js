@@ -1,37 +1,13 @@
 import decode from 'jwt-decode'
 import axios from 'axios'
 import { getUser } from '@/utils/utils'
-import store from '@/store/store'
-// const REST_ENDPOINT = 'http://localhost:3000/'
+
+
 const AUTH_TOKEN_KEY = 'secret'
 const LOCATION = "location"
-// export function loginUser(username, password) {
-//     return new Promise(async (resolve, reject) => {
-//         try {
-//             let res = await axios({
-//                 url: `${REST_ENDPOINT}api/v1/auth/token`,
-//                 method: 'POST',
-//                 data: {
-//                     username: username,
-//                     password: password,
-//                     grant_type: 'password'
-//                 }
-//             })
 
-//             setAuthToken(res.data.token)
-//             resolve()
-//         }
-//         catch (err) {
-//             console.error('Caught an error during login:', err)
-//             reject(err)
-//         }
-//     })
-// }
 
 export function logoutUser() {
-    var user = getUserInfo()
-    console.log(user.id)
-    store.dispatch('out', user.id)
     deleteLocation()
     clearAuthToken()
 }
@@ -83,7 +59,8 @@ export async function isFull() {
 
 export async function isImage() {
     var check = await getUser()
-    check = check.mainFoto
+    if (check)
+        check = check.mainFoto
     // console.log(check)
     return check
 }

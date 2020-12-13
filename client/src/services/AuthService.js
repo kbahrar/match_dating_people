@@ -10,6 +10,9 @@ export default {
   rpassword(cred) {
     return Api().post("rpassword", cred);
   },
+  search(cred) {
+    return Api().post("search", cred);
+  },
   fillprofile(cred) {
     return Api().post("users/fillProfile", cred);
   },

@@ -1,5 +1,4 @@
 const connection = require('../config/database')
-const { use } = require('../routes/auth')
 
 async function getlookfor (id) {
     const qr = 'select lookingfor from users where id = ?'
@@ -12,7 +11,8 @@ async function getlookfor (id) {
     }
     return false
 }
-async function getmyinfo (id) {
+
+exports.getmyinfo = async function (id) {
     const qr = 'select firstName, lastName, login, age, bio, fame, mainfoto, foto1, foto2, foto3, foto4 registrationDate, tag , gender, lookingfor, city, online from users where id = ?'
     var myinfo = await connection.query(qr, [id])
     if (myinfo.length > 0){
