@@ -6,9 +6,9 @@
         <v-container fluid class="mt-10">
           <router-view/>
         </v-container>
-        <AppFooter/>
       </main>
     </v-app>
+        <AppFooter/>
   </div>
 </template>
 
