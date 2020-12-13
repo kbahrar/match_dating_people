@@ -73,6 +73,17 @@ exports.getUserInfo = async function (id) {
     return false 
 }
 
+exports.getMyInfo = async function (id) {
+    const rq = "SELECT * from users WHERE id = ?"
+    var user = await connection.query(rq, [id])
+    if (user.length > 0){
+        user = JSON.stringify(user[0])
+        user = JSON.parse(user)
+        return user
+    }
+    return false 
+}
+
 exports.getOtherUserInfo = async function (id, login) {
     const rq = "SELECT * from users WHERE id = ?"
     var user = await connection.query(rq, [id])

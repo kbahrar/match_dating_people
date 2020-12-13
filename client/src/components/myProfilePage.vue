@@ -33,7 +33,7 @@
  
   <h3>{{login}}</h3>
   <h5>{{age}}</h5>
-  <h5>{{creatindate}}</h5>
+  <h5>{{creationdate}}</h5>
   <h5>{{city}}</h5>
 
                 <v-rating
@@ -44,21 +44,6 @@
                 </div>
   <h6>{{bio}}</h6>
     <br>
-    <br>
-  <h6>my name is x i love xixing so dont stop xing me brothersmy name is x i love xixing so don
-    t stop xing me brothersmy name is x i love xixing so dont stop xing me brothers</h6>
-    <br>
-    <br>
- 
-      <v-card-title>Tags</v-card-title>
-
-        <v-card-text>
-            <v-chip-group
-                column
-            >
-                <v-chip v-for="tag in chips" :key="tag">#{{tag}}</v-chip>
-            </v-chip-group>
-        </v-card-text>
 </div>
       </div>
     </v-flex>
@@ -72,6 +57,7 @@ import { getList } from '@/utils/utils'
 import { likeIt } from '@/utils/utils'
 import { checkLike } from '@/utils/utils'
 import { isLoggedIn } from '@/policies/auth'
+import { getUserInfo } from '@/policies/auth'
 import vue from 'Vue'
 
 export default {
@@ -86,23 +72,17 @@ export default {
       lastName: '',
       online: '',
       age: '',
+      colors: ['black','orange','yellow'],
       creationdate: '',
       city: '',
       bio: '',
       errors: [],
         model: 0,
-      foto: [
-        mainfoto,
-        foto1,
-        foto2,
-        foto3,
-        foto4,
-      ],
     }
   },
   mounted: async function() {
     try {
-      var myinfo = await mypro()
+      var myinfo = await getUserInfo()
       this.login = myinfo.login;
       this.firstName = myinfo.firstName;
       this.lastName = myinfo.lastName;
@@ -112,11 +92,6 @@ export default {
       this.creationdate = myinfo.creationdate;
       this.city = myinfo.city;
       this.bio = myinfo.bio;
-      this.mainfoto = myinfo.mainfoto;
-      this.foto1 = myinfo.foto1;
-      this.foto2 = myinfo.foto2;
-      this.foto3 = myinfo.foto3;
-      this.foto4 = myinfo.foto4;
     }
   catch (err) {
           console.log(err);
