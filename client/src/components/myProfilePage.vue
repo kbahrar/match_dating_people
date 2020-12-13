@@ -29,21 +29,33 @@
     </v-carousel-item>
   </v-carousel>
 <div class="basic">
-  <h2>{{firstName}}  {{lastName}}<i style="text-align: right">{{online}}</i></h2>
- 
-  <h3>{{login}}</h3>
+  <h3>{{firstName}}  {{lastName}}</h3>
+  <div align="right">
+  <v-card-subtitle v-if="connect">Online <v-icon color="green" x-small right>fas fa-circle</v-icon> </v-card-subtitle>
+  </div>
+  <h2>{{login}}</h2>
+  <h5>{{gender}} looking for a {{lookingfor}}</h5>
   <h5>{{age}}</h5>
-  <h5>{{creationdate}}</h5>
   <h5>{{city}}</h5>
 
                 <v-rating
+                :value="fame / 1000"
+                color="amber"
+                dense
+                half-increments
+                readonly
                 size="14"
                 ></v-rating>
+
+                <div class="grey--text ml-4">
+                {{fame / 1000}} Fame rating
+                </div>
 
                 <div class="grey--text ml-4">
                 </div>
   <h6>{{bio}}</h6>
     <br>
+  <h6>Joined Matcha sence : {{creationdate}}</h6>
 </div>
       </div>
     </v-flex>
@@ -68,11 +80,14 @@ export default {
       reg: null,
       error: null,
       login: '',
+      gender: '',
+      lookingfor: '',
       firstName: '',
       lastName: '',
-      online: '',
+      connect: '1',
+      fame: '',
       age: '',
-      colors: ['black','orange','yellow'],
+      colors: [],
       creationdate: '',
       city: '',
       bio: '',
@@ -84,12 +99,27 @@ export default {
     try {
       var myinfo = await getUserInfo()
       this.login = myinfo.login;
+      this.colors[0] = myinfo.mainFoto;
+      this.colors[1] = myinfo.foto1;
+      this.colors[2] = myinfo.foto2;
+      this.colors[3] = myinfo.foto3;
+      this.colors[4] = myinfo.foto4;
+      this.fame = myinfo.fame;
+      this.gender = myinfo.gender;
+      this.lookingfor = myinfo.lookingfor;
       this.firstName = myinfo.firstName;
       this.lastName = myinfo.lastName;
       this.lastName = myinfo.lastName;
       this.online = myinfo.online;
       this.age = myinfo.age;
-      this.creationdate = myinfo.creationdate;
+      console.log(myinfo);
+      var date = new Date(myinfo.registrationDate);
+      var year = date.getFullYear();
+      var month = date.getMonth();
+      var day = date.getDay();
+      var creationdate = day + " / " + month + " / " + year ;
+      this.creationdate = creationdate;
+      console.log(this.creationdate);
       this.city = myinfo.city;
       this.bio = myinfo.bio;
     }
