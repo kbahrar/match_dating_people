@@ -12,27 +12,16 @@
         </v-icon>
         informations
       </v-tab>
-      <v-tab>
-        <v-icon left>
-          mdi-lock
-        </v-icon>
-        password
-      </v-tab>
-      <v-tab>
-        <v-icon left>
-          mdi-access-point
-        </v-icon>
-        criteria
-      </v-tab>
+      
 
       <v-tab-item>
                             <v-layout>
     <v-flex xs6 offset-xs3>
               
               <v-card-text>
-                <strong>I am : {{ informations.age }} years old</strong>
+                <strong>I am : {{ age }} years old</strong>
                <v-slider
-                  v-model="informations.age"
+                  v-model="age"
                  step="1"
                  thumb-label
                  ticks
@@ -42,35 +31,7 @@
 
         
         <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
-                <v-text-field
-            class="mt-5"
-            v-model="informations.email"
-            type="email"
-            label="enter your new email"
-            outlined
-            shaped
-          ></v-text-field>
-
-          <v-text-field
-            class="mt-5"
-            v-model="informations.firstName"
-            label="first name"
-            required
-            outlined
-            shaped
-          ></v-text-field>
-
-          <v-text-field
-            class="mt-5"
-            v-model="informations.lastName"
-            label="last name"
-            required
-            outlined
-            shaped
-          ></v-text-field>
-
-       
-        
+               
           <v-alert
             type="error"
             v-if="error"
@@ -92,165 +53,17 @@
           <v-alert type="success" v-if="reg">
             {{reg}}
           </v-alert>
-          <v-btn @click="updateinfo($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
+          <v-btn @click="changeage($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
         </div>
     </v-flex>
   </v-layout>
       </v-tab-item>
       <v-tab-item>
         <v-layout>
-    <v-flex xs6 offset-xs3>
-
-        
-        <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
-          
-
-    
-        
-        <v-text-field
-            :append-icon="flag ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="!flag ? 'text' : 'password'"
-            name="password"
-            label="type your old password"
-            hint="At least 8 characters alphanum (Uppercase, Lowercase and number)"
-            v-model="code.password"
-            class="input-group--focused"
-            @click:append="flag = !flag"
-            outlined
-            shaped
-          ></v-text-field>
-        <v-text-field
-            :append-icon="flag ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="!flag ? 'text' : 'password'"
-            name="password"
-            label="type your new password"
-            hint="At least 8 characters alphanum (Uppercase, Lowercase and number)"
-            v-model="code.newpassword"
-            class="input-group--focused"
-            @click:append="flag = !flag"
-            outlined
-            shaped
-          ></v-text-field>
-        
-          <v-alert
-            type="error"
-            v-if="error"
-            v-model="alert"
-            border="left"
-            close-text="Close Alert"
-            dismissible>
-            {{error}}
-          </v-alert>
-          <v-alert
-            type="error"
-            v-if="errors.length"
-            v-model="alert"
-            border="left"
-            close-text="Close Alert"
-            dismissible>
-            <li v-for="err in errors" :key="err">{{ err }}</li>
-          </v-alert>
-          <v-alert type="success" v-if="reg">
-            {{reg}}
-          </v-alert>
-          <v-btn @click="updatepassword($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
-        </div>
-    </v-flex>
   </v-layout>
       </v-tab-item>
       <v-tab-item>
-        <v-layout>
-    <v-flex xs6 offset-xs3>
-              
-              
-             <v-row align="center">
-           <v-col cols="12">
-             <v-select
-             :items="criteria.gender"
-             :menu-props="{ top: true, offsetY: true }"
-             label="Chose your gender"
-             v-model="criteria.mygender"
-             ></v-select>
-             </v-col>
-             </v-row>
 
-             <v-text-field
-            class="mt-5"
-            v-model="criteria.city"
-            label="enter your City"
-            required
-            outlined
-            shaped
-          ></v-text-field>
-
-                   <v-row align="center">
-           <v-col cols="12">
-             <v-select
-             :items="criteria.lookingfor"
-             :menu-props="{ top: true, offsetY: true }"
-             label="Looking for ?"
-            v-model="criteria.mylookingfor"
-             ></v-select>
-             </v-col>
-             </v-row>
-
-             <v-textarea
-          name="Biography"
-          label="Biography"
-          hint="Hint text"
-          v-model="criteria.biography"
-        ></v-textarea>
-
-        
-       <v-combobox
-    v-model="criteria.chips"
-    :items="criteria.items"
-    chips
-    clearable
-    label="at least 1 tag so people can know your interests"
-    multiple
-    prepend-icon="mdi-filter-variant"
-    solo
-  >
-    <template v-slot:selection="{ attrs, item, select, selected }">
-      <v-chip
-        v-bind="attrs"
-        :input-value="selected"
-        close
-        @click="select"
-        @click:close="remove(item)"
-      >
-        <strong>{{ item }}</strong>&nbsp;
-      </v-chip>
-    </template>
-  </v-combobox>
-
-    <div>
-          <v-alert
-            type="error"
-            v-if="error"
-            v-model="alert"
-            border="left"
-            close-text="Close Alert"
-            dismissible>
-            {{error}}
-          </v-alert>
-          <v-alert
-            type="error"
-            v-if="errors.length"
-            v-model="alert"
-            border="left"
-            close-text="Close Alert"
-            dismissible>
-            <li v-for="err in errors" :key="err">{{ err }}</li>
-          </v-alert>
-          <v-alert type="success" v-if="reg">
-            {{reg}}
-          </v-alert>
-          <v-btn @click="updatecriteria($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
-        </div>
-    </v-flex>
-  </v-layout>
       </v-tab-item>
     </v-tabs>
   </v-card>
@@ -258,116 +71,66 @@
 
 <script>
 import Authent from '@/services/AuthService'
-import Valide from '@/policies/valideForm'
+import { getUserInfo } from '@/policies/auth'
 
 export default {
   data () {
     return {
-        informations: {
-            age: null,
-            lastName: null,
-            firstName: null,
-            email: null,
-        },
-        code: {
-            password:null,
-            newpassword: null,
-        },
-        criteria:{
-            chips: ['Coding', 'Gaming', 'Netflix', 'Sleeping'],
-            items: ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature'],
-            gender: ['Male', 'Female', 'Other'],
-      mygender: '',
-      mychips: [],
-      city: '',
-      lookingfor: ['Male', 'Female', 'Other'],
-      mylookingfor: '',
-        },
+      age: '',
       alert: true,
       flag: true,
       reg: null,
       error: null,
-      errors: {
-        informations: [],
-        code: [],
-        criteria: [],
-    }
+      errors: [],
     }
   },
-  methods: {
-      remove (item) {
-        this.criteria.chips.splice(this.criteria.chips.indexOf(criteria.item), 1)
-        this.criteria.chips = [...this.criteria.chips]
-      },
-      updateinformations: async function() {
-      try {
-        this.error = null
-        this.reg = 'informations succesfully updated !'
-        await Authent.updateinformations({
-          age: this.informations.age,
-          email: this.informations.email,
-          firstName: this.informations.firstName,
-          lastName: this.informations.lastName,
-        },
-        )
-      } catch (err) {
-        this.reg = null
-        this.error = err.response.data.error || 'No response from server'
-        this.alert = true
-      }
-    },
-      updatecode: async function() {
-      try {
-        this.error = null
-        this.reg = 'password succesfully changed !'
-        await Authent.updatecode({
-          password: this.code.password,
-          newpassword: this.code.newpassword,
-        },
-        )
-      } catch (err) {
-        this.reg = null
-        this.error = err.response.data.error || 'No response from server'
-        this.alert = true
-      }
-    },
-    updateinfo: function (e) {
-      this.errors.informations = [];
+  mounted: async function(){
+    try {
+      var myinfo = await getUserInfo()
+     this.age = myinfo.age;
 
-      if (this.informations.firstName) {
-        if(!Valide.validFirstName(this.informations.firstName))
-          this.errors.informations.push("invalide first name.");
+  }
+ catch (err) {
+          console.log(err);
+        }
+  },
+  methods: {
+        changeage: async function() {
+      try {
+        this.reg = 'profile succesfully created !'
+        await Authent.changeage(
+          {
+          age: this.age,
+        },
+        )
+      } catch (err) {
+        this.reg = null
+        this.error = err.response.data.error || 'No response from server'
+        this.alert = true
+        if (err.response.status === 401)
+        {
+          logoutUser()
+          this.$router.go('login')
+        }
       }
-      if (this.informations.lastName) {
-        if(!Valide.validLastName(this.informations.lastName))
-          this.errors.informations.push("invalide last name.");
-      }
-      if (this.informations.email) {
-        if (!Valide.validEmail(this.email)) 
-          this.errors.informations.push('Valid email required.');
-      }
-      if (!this.informations.age || this.informations.age < 18) {
-        this.errors.informations.push("age required.");
-      }
-      if (!this.errors.informations.length) {
-        this.updateinformations();
-      }
-      else
-        e.preventDefault();
     },
-    updatepassword: function (e) {
-      this.errors.code = [];
-      if (this.code.password && !this.code.newpassword || this.code.newpassword && !this.code.password)
-          this.errors.code.push("please fill all the inputs to change your password !");
-      if (!Valide.validPwd(this.code.password) || !Valide.validPwd(this.code.newpassword))
-          this.errors.code.push("invalide password.");
+      checkForm: function (e) {
+      this.errors = [];
       
-      if (!this.errors.code.length) {
-        this.updatecode();
+      if (!this.age || this.age < 18) {
+        this.errors.push("age required.");
+      }
+      else if(this.age != myinfo.age)
+      {
+          changeage();
+      }
+      if (!this.errors.length) {
+        this.changeage();
       }
       else
         e.preventDefault();
     }
+    
   }
 }
 </script>

@@ -177,7 +177,9 @@ export default {
         var user = getUserInfo()
         this.error = null
         this.reg = 'profile succesfully created !'
-        await Authent.fillprofile({user: {
+        await Authent.fillprofile(
+          {
+          user: {
           gender: this.mygender,
           age: this.age,
           city: this.city,
