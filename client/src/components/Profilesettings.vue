@@ -76,9 +76,9 @@ import { getUserInfo } from '@/policies/auth'
 export default {
   data () {
     return {
-      age: '',
       alert: true,
       flag: true,
+      age: '',
       reg: null,
       error: null,
       errors: [],
@@ -97,12 +97,11 @@ export default {
   methods: {
         changeage: async function() {
       try {
+        this.error = null
         this.reg = 'profile succesfully created !'
-        await Authent.changeage(
-          {
+        await Authent.profilesettings({
           age: this.age,
-        },
-        )
+        })
       } catch (err) {
         this.reg = null
         this.error = err.response.data.error || 'No response from server'

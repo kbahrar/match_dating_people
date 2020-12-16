@@ -4,7 +4,7 @@ const auth = require("../middleware/auth")
 const router = express.Router()
 
 router.post("/fillprofile", auth, usersCtrl.fillProfile)
-router.post("/profilesettings", auth, usersCtrl.profilesettings)
+// router.post("/profilesettings", auth, usersCtrl.profilesettings)
 // router.post("/myprofilepage", auth, usersCtrl.myprofilepage)
 router.put("/location", auth, usersCtrl.location)
 router.put("/uploadImg", auth, usersCtrl.uploadImg)
