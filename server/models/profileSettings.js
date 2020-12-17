@@ -1,7 +1,7 @@
 const connection = require('../config/database');
 
 
-const changeage = async function (req, res) {
+const updateProfile = async function (req, res) {
     if(req.age)
     {
         const query1 = "UPDATE users SET age = ? WHERE login = ?";
@@ -12,4 +12,4 @@ const changeage = async function (req, res) {
     // console.log(check)
 }
 
-module.exports = {changeage};
+module.exports = {updateProfile};

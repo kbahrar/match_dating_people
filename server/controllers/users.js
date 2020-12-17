@@ -1,9 +1,28 @@
 const usersModel = require('../models/users');
 const policies = require('../middleware/register');
+const fp = require('../models/profileSettings');
 const base64Img = require('base64-img')
 const fs = require('fs')
 const { promisify } = require('util')
 const e = require('express');
+
+exports.updateprofile = async (req, res, next) => {
+  try {
+    console.log("here bro");
+    var check = policies.checkprofilesettings(req.body);
+    if (check !== 'OK')
+        throw check;
+    check = await fp.fill(req.body, res);
+    if (!check)
+      throw 'something went wrong'
+    res.status(200).json({ success: true, msg: "Account completed successfully !" });
+  }
+  catch (err) {
+    res.status(400).send({
+      error: err
+    });
+  }
+};
 
 exports.fillProfile = async (req, res) => {
   try {

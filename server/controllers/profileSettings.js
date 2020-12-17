@@ -2,9 +2,9 @@ const fp = require('../models/profileSettings');
 const policies = require('../middleware/profileSettings');
 
 
-exports.updateinformations= async (req, res, next) => {
+exports.updateinfo = async (req, res, next) => {
     try {
-      var check = policies.checkUpdateInformations(req.body);
+      var check = policies.checkprofilesettings(req.body);
       if (check !== 'OK')
           throw check;
       check = await fp.fill(req.body, res);
