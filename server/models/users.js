@@ -1,6 +1,16 @@
 const connection = require('../config/database');
 const utils = require("../utils/auth")
 
+exports.updateProfile = async function (req, res) {
+    console.log("update profile : ---> Models");
+    if(req.age)
+    {
+        const query1 = "UPDATE users SET age = ? WHERE login = ?";
+        await connection.query(query1, [req.informations.age]);
+        return true
+    }
+}
+
 async function checkTag(login, tag) {
     const qr = 'select * from tags where login = ? AND tag = ?'
     var check = await connection.query(qr, [login, tag])
@@ -23,6 +33,7 @@ async function getTags (login) {
     }
     return false;
 }
+
 
 exports.getId = async function (login) {
     const qr = 'select id from users where login = ?'

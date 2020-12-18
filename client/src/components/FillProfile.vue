@@ -134,7 +134,6 @@ export default {
   data () {
     return {
       chips: ['Coding', 'Gaming', 'Netflix', 'Sleeping'],
-      // pictures: [],
       items: ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature'],
       gender: ['Male', 'Female', 'Other'],
       mygender: '',

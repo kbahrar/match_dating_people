@@ -1,4 +1,4 @@
-function checkprofilesettings(req) {
+function checkUpdateProfile(req) {
     var body = req.informations
     // if (!req.info.login || !body.gender || !body.age || !body.email || !body.firstName || !body.lastName)
     //     return 'You didnt send any informations'
@@ -10,5 +10,5 @@ function checkprofilesettings(req) {
 }
 
 module.exports = {
-    checkUpdateInformations: checkprofilesettings
+    checkUpdateProfile: checkUpdateProfile
 }

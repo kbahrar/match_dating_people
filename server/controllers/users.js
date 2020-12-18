@@ -1,18 +1,18 @@
 const usersModel = require('../models/users');
 const policies = require('../middleware/register');
-const fp = require('../models/profileSettings');
 const base64Img = require('base64-img')
 const fs = require('fs')
 const { promisify } = require('util')
 const e = require('express');
 
-exports.updateprofile = async (req, res, next) => {
+exports.updateProfile = async (req, res, next) => {
+  console.log("update profile : ---> controller");
   try {
-    console.log("here bro");
-    var check = policies.checkprofilesettings(req.body);
+    var check = policies.checkUpdateProfile(req.body);
     if (check !== 'OK')
-        throw check;
-    check = await fp.fill(req.body, res);
+    throw check;
+    console.log("update profile : ---> controller");
+    await usersModel.fill(req.body, res);
     if (!check)
       throw 'something went wrong'
     res.status(200).json({ success: true, msg: "Account completed successfully !" });

@@ -70,7 +70,7 @@
            </v-btn></v-list-item-title> 
           </v-list-item>
           <v-list-item>
-            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent"><v-icon left>fas fa-user-cog</v-icon><v-btn to="/profilesettings"> settings</v-btn></v-list-item-title> 
+            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent"><v-icon left>fas fa-user-cog</v-icon><v-btn to="/updateprofile"> settings</v-btn></v-list-item-title> 
           </v-list-item>
           <v-list-item>
             <v-list-item-title v-if="isLoggedIn()" text dark class="transparent" > <v-icon left>fas fa-power-off</v-icon> <v-btn @click="decon" to="login">Log Out</v-btn>  </v-list-item-title> 
