@@ -5,7 +5,7 @@ import Login from '@/components/Login'
 import Rpassword from '@/components/Rpassword'
 import Fillprofile from '@/components/Fillprofile'
 import Newpassword from '@/components/Newpassword'
-import Profilesettings from '@/components/Profilesettings'
+import UpdateProfile from '@/components/updateProfile'
 import fillPics from '@/components/fillPics'
 import Chat from '@/components/Chat'
 import browsing from '@/components/browsing'
@@ -68,9 +68,9 @@ const router = new Router({
       }
     },
         {
-      path: "/profilesettings",
-      name: "profilesettings",
-      component: Profilesettings,
+      path: "/updateprofile",
+      name: "updateprofile",
+      component: UpdateProfile,
       meta: {
         allowAnonymous: false
       }

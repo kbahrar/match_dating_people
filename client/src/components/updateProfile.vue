@@ -53,7 +53,7 @@
           <v-alert type="success" v-if="reg">
             {{reg}}
           </v-alert>
-          <v-btn @click="changeage($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
+          <v-btn @click="checkForm($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
         </div>
     </v-flex>
   </v-layout>
@@ -72,59 +72,59 @@
 <script>
 import Authent from '@/services/AuthService'
 import { getUserInfo } from '@/policies/auth'
+import { logoutUser } from '@/policies/auth'
 
 export default {
   data () {
     return {
-      alert: true,
-      flag: true,
       age: '',
       reg: null,
-      error: null,
       errors: [],
+      error: null,
+      flag: true,
+      alert: true,
+      id: false
     }
   },
-  mounted: async function(){
-    try {
-      var myinfo = await getUserInfo()
+  mounted() {
+      var myinfo = getUserInfo()
      this.age = myinfo.age;
+     this.id = myinfo.id;
 
-  }
- catch (err) {
-          console.log(err);
-        }
   },
   methods: {
-        changeage: async function() {
-      try {
-        this.error = null
-        this.reg = 'profile succesfully created !'
-        await Authent.profilesettings({
-          age: this.age,
-        })
-      } catch (err) {
-        this.reg = null
-        this.error = err.response.data.error || 'No response from server'
-        this.alert = true
-        if (err.response.status === 401)
-        {
-          logoutUser()
-          this.$router.go('login')
-        }
-      }
-    },
+      updateProfile: async function() {
+        try {
+          this.error = null;
+          this.reg = 'age updated !';
+          await Authent.updateprofile(
+            {
+              info: {
+                id: this.id
+              },
+              age: this.age
+            })
+            // this.$router.push('profilesettings')
+          } catch (err) {
+            this.reg = null;
+            this.error = err.response.data.error || 'No response from server'
+            this.alert = true
+            if (err.response.status === 401)
+            {
+              logoutUser()
+              this.$router.go('login')
+            }
+          }
+          },
       checkForm: function (e) {
-      this.errors = [];
-      
+        var myinfo = getUserInfo()
+        this.errors = [];
       if (!this.age || this.age < 18) {
         this.errors.push("age required.");
       }
-      else if(this.age != myinfo.age)
+      else if(this.age != myinfo.age && !this.errors.length)
       {
-          changeage();
-      }
-      if (!this.errors.length) {
-        this.changeage();
+        this.updateProfile();
       }
       else
         e.preventDefault();

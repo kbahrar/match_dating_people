@@ -4,7 +4,7 @@ export default {
   register(cred) {
     return Api().post("register", cred);
   },
-  profilesettings(cred) {
+  updateprofile(cred) {
     return Api().post("users/updateProfile", cred);
   },
   login(cred) {
