@@ -1,14 +1,14 @@
 const connection = require('../config/database');
 const utils = require("../utils/auth")
 
-exports.updateProfile = async function (req, res) {
-    console.log("update profile : ---> Models");
-    if(req.age)
+exports.updateAge = async function (req, res) {
+    if(req.body.info.age && req.body.info.id)
     {
-        const query1 = "UPDATE users SET age = ? WHERE login = ?";
-        await connection.query(query1, [req.informations.age]);
-        return true
+        const query1 = "UPDATE users SET age = ? WHERE id = ?";
+        await connection.query(query1, [req.body.info.age, req.body.info.id]);
+            return true
     }
+    return false
 }
 
 async function checkTag(login, tag) {

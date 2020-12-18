@@ -1,5 +1,6 @@
 const usersModel = require('../models/users');
 const policies = require('../middleware/register');
+const upPolicies = require('../middleware/updateProfile');
 const base64Img = require('base64-img')
 const fs = require('fs')
 const { promisify } = require('util')
@@ -7,19 +8,17 @@ const e = require('express');
 
 exports.updateProfile = async (req, res, next) => {
   try {
-    console.log("update profile : ---> controller");
-    var check = policies.checkUpdateProfile(req.body);
+    console.log("this is the fucking request : " + req);
+    var check = upPolicies.checkUpdateProfile(req.body);
+
     if (check !== 'OK')
     throw check;
-    console.log("update profile : ---> controller");
-    await usersModel.fill(req.body, res);
-    if (!check)
-      throw 'something went wrong'
-    res.status(200).json({ success: true, msg: "Account completed successfully !" });
+    await usersModel.updateAge(req, res);
+      res.status(200).json({ success: true, msg: "age updated successfully !" });
   }
   catch (err) {
     res.status(400).send({
-      error: err
+      error: err.message || err
     });
   }
 };

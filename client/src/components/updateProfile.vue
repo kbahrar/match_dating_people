@@ -19,14 +19,79 @@
     <v-flex xs6 offset-xs3>
               
               <v-card-text>
-                <strong>I am : {{ age }} years old</strong>
+                <strong>I am : {{ updates.age }} years old</strong>
                <v-slider
-                  v-model="age"
+                  v-model="updates.age"
                  step="1"
                  thumb-label
                  ticks
                 ></v-slider>
              </v-card-text>
+
+             
+
+          <v-text-field
+            class="mt-5"
+            v-model="updates.firstName"
+            label="first name"
+            required
+            outlined
+            shaped
+          ></v-text-field>
+
+          <v-text-field
+            class="mt-5"
+            v-model="updates.lastName"
+            label="last name"
+            required
+            outlined
+            shaped
+          ></v-text-field>
+
+               <v-row align="center">
+           <v-col cols="12">
+             <v-select
+             :items="gender"
+             :menu-props="{ top: true, offsetY: true }"
+             label="Change your gender"
+             v-model="updates.gender"
+             ></v-select>
+             </v-col>
+             </v-row>
+
+             <v-row align="center">
+           <v-col cols="12">
+             <v-select
+             :items="lookingfor"
+             :menu-props="{ top: true, offsetY: true }"
+             label="Looking for ?"
+            v-model="updates.lookingfor"
+             ></v-select>
+             </v-col>
+             </v-row>
+
+                    <!-- <v-combobox
+    v-model="update.chips"
+    :items="chips"
+    chips
+    clearable
+    label="at least 1 tag so people can know your interests"
+    multiple
+    prepend-icon="mdi-filter-variant"
+    solo
+  >
+    <template v-slot:selection="{ attrs, item, select, selected }">
+      <v-chip
+        v-bind="attrs"
+        :input-value="selected"
+        close
+        @click="select"
+        @click:close="remove(item)"
+      >
+        <strong>{{ item }}</strong>&nbsp;
+      </v-chip>
+    </template>
+  </v-combobox> -->
            
 
         
@@ -73,26 +138,36 @@
 import Authent from '@/services/AuthService'
 import { getUserInfo } from '@/policies/auth'
 import { logoutUser } from '@/policies/auth'
+import {getUser} from '@/utils/utils'
 
 export default {
   data () {
     return {
-      age: '',
+      gender:['Male','Female','Others'],
+      lookingfor: ['Male', 'Female', 'Others'],
+      // chips:['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature','Coding', 'Gaming', 'Netflix', 'Sleeping'],
+      updates: {},
       reg: null,
       errors: [],
       error: null,
       flag: true,
       alert: true,
-      id: false
+      id: false,
+      user: {}
     }
   },
-  mounted() {
+  mounted: async function() {
       var myinfo = getUserInfo()
-     this.age = myinfo.age;
-     this.id = myinfo.id;
+      var user = await getUser(myinfo.id)
+     this.user = user;
+     this.updates = new Object(user)
 
   },
   methods: {
+      //   remove (item) {
+      //   this.criteria.chips.splice(this.criteria.chips.indexOf(criteria.item), 1)
+      //   this.criteria.chips = [...this.criteria.chips]
+      // },
       updateProfile: async function() {
         try {
           this.error = null;
@@ -100,9 +175,13 @@ export default {
           await Authent.updateprofile(
             {
               info: {
-                id: this.id
+                id: this.user.id,
+                age: this.updates.age,
+                firstName: this.updates.firstName,
+                lastName: this.updates.lastName,
+                gender: this.updates.gender,
+                lookingfor: this.updates.lookingfor
               },
-              age: this.age
             })
             // this.$router.push('profilesettings')
           } catch (err) {
@@ -117,17 +196,42 @@ export default {
           }
           },
       checkForm: function (e) {
-        var myinfo = getUserInfo()
         this.errors = [];
-      if (!this.age || this.age < 18) {
-        this.errors.push("age required.");
+      if (!this.updates.age || this.updates.age < 18 || this.updates.age > 100) {
+        this.errors.push("age not valide.");
       }
-      else if(this.age != myinfo.age && !this.errors.length)
+      if (!this.updates.firstName) {
+        this.errors.push("pick a new firstName or write the old one.");
+      }
+      if (!this.updates.lastName) {
+        this.errors.push("pick a new lastName or write the old one.");
+      }
+      if (!this.updates.gender || (this.updates.gender != 'Male' && this.updates.gender != 'Female' && this.updates.gender != 'Others')) {
+        this.errors.push("gender not valide.");
+      }
+      if (!this.updates.lookingfor || (this.updates.lookingfor != 'Male' && this.updates.lookingfor != 'Female' && this.updates.lookingfor != 'Others')) {
+        this.errors.push("what are you lookingfor is not valide.");
+      }
+      else if(this.checkAll() && !this.errors.length)
       {
         this.updateProfile();
       }
       else
         e.preventDefault();
+    },
+    checkAll () {
+      if (this.updates.age != this.user.age)
+        return true
+      if (this.updates.firstName != this.user.firstName)
+        return true
+      if (this.updates.lastName != this.user.lastName)
+        return true
+      if (this.updates.gender != this.user.gender)
+        return true
+      if (this.updates.lookingfor != this.user.lookingfor)
+        return true
+        console.log("update : " + this.updates.gender + '\n' + "user : " + this.user.gender);
+      return false
     }
     
   }
