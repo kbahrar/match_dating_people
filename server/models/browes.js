@@ -70,6 +70,7 @@ exports.seen = async function (body) {
 
 exports.like = async function (body) {
     var qr = 'insert into liked (login, liked) values (?, ?)'
+    console.log(body)
     await connection.query(qr, [body.login, body.liked])
 }
 

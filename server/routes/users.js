@@ -7,6 +7,7 @@ router.post("/fillprofile", auth, usersCtrl.fillProfile)
 router.post("/updateProfile", (req, res) => {
     res.send("HELLL");
 })//auth, usersCtrl.updateProfile)
+
 // router.post("/myprofilepage", auth, usersCtrl.myprofilepage)
 router.put("/location", auth, usersCtrl.location)
 router.put("/uploadImg", auth, usersCtrl.uploadImg)
