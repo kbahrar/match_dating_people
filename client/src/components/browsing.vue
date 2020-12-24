@@ -18,6 +18,153 @@
               </v-col>
         </v-row>
 
+        <v-row align="center" class="ml-auto">
+          <v-col cols="12">
+            <v-select
+            :items="sortList"
+            :menu-props="{ top: true, offsetY: true }"
+            label="Filter by"
+            v-model="filter"
+              ></v-select>
+          </v-col>
+          <v-col cols="12">
+            <v-card
+                class="mx-auto my-4"
+                v-show="tagsFil"
+              >
+                <v-toolbar
+                  flat
+                  dense
+                >
+                  <v-toolbar-title>
+                    TAGS
+                  </v-toolbar-title>
+                  <v-spacer></v-spacer>
+                  </v-toolbar>
+                  <v-card-text>
+                    <v-combobox
+                      v-model="filters.chips"
+                      :items="items"
+                      chips
+                      clearable
+                      label="at least 1 tag for filter"
+                      multiple
+                      prepend-icon="mdi-filter-variant"
+                      solo
+                    >
+                      <template v-slot:selection="{ attrs, item, select, selected }">
+                        <v-chip
+                          v-bind="attrs"
+                          :input-value="selected"
+                          close
+                          @click="select"
+                          @click:close="remove(item)"
+                        >
+                          <strong>{{ item }}</strong>
+                        </v-chip>
+                      </template>
+                    </v-combobox>
+                  </v-card-text>
+              </v-card>
+              <v-card
+                class="mx-auto my-4"
+                v-show="fameFil"
+              >
+                <v-toolbar
+                  flat
+                  dense
+                >
+                  <v-toolbar-title>
+                    FAME
+                  </v-toolbar-title>
+                  </v-toolbar>
+                  <v-card-text>
+                  <v-slider
+                    v-model="filters.fame.max"
+                    max="5000"
+                    :min="filters.fame.min"
+                    label="max fame"
+                    step="1"
+                    thumb-label="always"
+                  ></v-slider>
+
+                  <v-slider
+                    v-model="filters.fame.min"
+                    :max="filters.fame.max"
+                    min="0"
+                    step="1"
+                    label="min fame"
+                    thumb-label="always"
+                  ></v-slider>
+                  </v-card-text>
+              </v-card>
+              <v-card
+                class="mx-auto my-4"
+                v-show="ageFil"
+              >
+                <v-toolbar
+                  flat
+                  dense
+                >
+                  <v-toolbar-title>
+                    age
+                  </v-toolbar-title>
+                  </v-toolbar>
+                  <v-card-text>
+                  <v-slider
+                    v-model="filters.age.max"
+                    max="100"
+                    :min="filters.age.min"
+                    label="max age"
+                    step="1"
+                    thumb-label="always"
+                  ></v-slider>
+
+                  <v-slider
+                    v-model="filters.age.min"
+                    :max="filters.age.max"
+                    min="0"
+                    step="1"
+                    label="min age"
+                    thumb-label="always"
+                  ></v-slider>
+                  </v-card-text>
+              </v-card>
+              <v-card
+                class="mx-auto my-4"
+                v-show="locationFil"
+              >
+                <v-toolbar
+                  flat
+                  dense
+                >
+                  <v-toolbar-title>
+                    location
+                  </v-toolbar-title>
+                  </v-toolbar>
+                  <v-card-text>
+                  <v-slider
+                    v-model="filters.loc.max"
+                    max="10000"
+                    :min="filters.loc.min"
+                    label="max loc"
+                    step="1"
+                    thumb-label="always"
+                  ></v-slider>
+
+                  <v-slider
+                    v-model="filters.loc.min"
+                    :max="filters.loc.max"
+                    min="0"
+                    step="1"
+                    label="min loc"
+                    thumb-label="always"
+                  ></v-slider>
+                  </v-card-text>
+              </v-card>
+          </v-col>
+        </v-row>
+
         <v-card
             v-for="user in this.users"
             :key="user.login"
@@ -120,7 +267,30 @@ export default {
         server: "http://localhost:5000/",
         users: [],
         sortList: ["age", "location", "fame", "tags"],
-        sort: "location"
+        sort: "location",
+        filter: '',
+        ageFil: false,
+        fameFil: false,
+        tagsFil: false,
+        locationFil: false,
+        userTags: [],
+        constUsers: [],
+        filters: {
+          chips: [],
+          fame: {
+            min: 0,
+            max: 5000
+          },
+          age: {
+            min: 0,
+            max: 100
+          },
+          loc: {
+            min: 0,
+            max: 10000
+          },
+        },
+      items: ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature'],
     }
   },
   mounted: async function() {
@@ -135,6 +305,8 @@ export default {
           users[i].check = check
         }
         this.users = users
+        this.constUsers = new Object(users)
+        this.userTags = this.$store.state.user.tags
       }
       catch (err) {
         if (err.response.status === 401)
@@ -144,6 +316,20 @@ export default {
         }
       }
   },
+  computed: {
+    tags() {
+      return this.filters.chips
+    },
+    fame() {
+      return `${this.filters.fame.max} ${this.filters.fame.min}`
+    },
+    age() {
+      return `${this.filters.age.max} ${this.filters.age.min}`
+    },
+    loc() {
+      return `${this.filters.loc.max} ${this.filters.loc.min}`
+    },
+  },
   watch: {
     sort: function (val) {
       if (val == "age")
@@ -152,6 +338,43 @@ export default {
         return this.users.sort(this.compareDistance)
       if (val == "fame")
         return this.users.sort(this.compareFame)
+      if (val == "tags")
+        return this.users.sort(this.compareTags)
+    },
+    filter: function (val) {
+      if (val == "age") {
+        this.fameFil = this.locationFil = this.tagsFil = false
+        this.ageFil = true
+      }
+      if (val == "location") {
+        this.ageFil = this.fameFil = this.tagsFil = false
+        this.locationFil = true
+      }
+      if (val == "fame") {
+        this.ageFil = this.locationFil = this.tagsFil = false
+        this.fameFil = true
+      }
+      if (val == "tags") {
+        this.ageFil = this.fameFil = this.locationFil = false
+        this.tagsFil = true
+      }
+    },
+    tags (val) {
+      this.users = new Object(this.constUsers)
+      if (val.length > 0)
+        this.users = this.users.filter(this.filterTags)
+    },
+    fame (val) {
+      this.users = new Object(this.constUsers)
+      this.users = this.users.filter(this.filterFame)
+    },
+    age (val) {
+      this.users = new Object(this.constUsers)
+      this.users = this.users.filter(this.filterAge)
+    },
+    loc (val) {
+      this.users = new Object(this.constUsers)
+      this.users = this.users.filter(this.filterLoc)
     }
   },
   methods: {
@@ -161,6 +384,10 @@ export default {
         await likeIt(login, flag, i)
         await this.ifliked(login)
         this.loading = false
+    },
+    remove (item) {
+        this.filters.chips.splice(this.filters.chips.indexOf(item), 1)
+        this.filters.chips = [...this.filters.chips]
     },
     async ifliked (login) {
           var check = await checkLike(login)
@@ -192,12 +419,36 @@ export default {
       return 0
     },
     compareTags (a, b) {
-      if (a.age < b.age)
+      if (this.countMatchedTags(a.tags, this.userTags) < this.countMatchedTags(b.tags, this.userTags))
         return -1
-      else if (a.age > b.age)
+      else if (this.countMatchedTags(a.tags, this.userTags) > this.countMatchedTags(b.tags, this.userTags))
         return 1
       return 0
     },
+    filterTags (Obj) {
+      return this.countMatchedTags(this.filters.chips, Obj.tags) != 0
+    },
+    filterFame (Obj) {
+      return Obj.fame >= this.filters.fame.min && Obj.fame <= this.filters.fame.max
+    },
+    filterAge (Obj) {
+      return Obj.age >= this.filters.age.min && Obj.age <= this.filters.age.max
+    },
+    filterLoc (Obj) {
+      return Obj.distance >= this.filters.loc.min && Obj.distance <= this.filters.loc.max
+    },
+    countMatchedTags (tags, tuser) {
+      var count = 0
+      for (let i = 0; i < tuser.length; i++) {
+        for (let j = 0; j < tags.length; j++) {
+          if (tuser[i].tag == tags[j]) {
+            count++
+            break ;
+          }
+        }
+      }
+      return count
+    }
   }
 }
 </script>

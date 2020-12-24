@@ -27,7 +27,7 @@
           </v-carousel>
             <!-- <v-hover v-slot="{ hover }"> -->
             <v-card-subtitle v-if="connect">Online <v-icon color="green" x-small right>fas fa-circle</v-icon> </v-card-subtitle>
-            <v-card-subtitle v-else> <v-icon color="red" x-small left>fas fa-circle</v-icon>Offline {{moment(lastSeen).fromNow()}} </v-card-subtitle>
+            <v-card-subtitle v-else> <v-icon color="red" x-small left>fas fa-circle</v-icon>Offline ( {{moment(lastSeen).format('DD/MM/YYYY HH:mm')}} ) </v-card-subtitle>
             
             <v-card-title>Full Name :  {{user.firstName}} {{user.lastName}}</v-card-title>
 

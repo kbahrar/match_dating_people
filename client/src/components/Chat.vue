@@ -1,21 +1,19 @@
 <template>
   <v-layout>
-    <div class="grey lighten-5 elevation-10">
-<div class="container">
-<h3 class=" text-center">Messaging</h3>
-<div class="messaging">
+    <v-flex xs10 offset-xs1>
+      <div outlined shaped elevation="20" class="grey lighten-2 elevation-5 p-4 mt-4">
+
+        <v-toolbar outlined shaped elevation="20" class="pink darken-2" dark>
+          <v-toolbar-title>Chat !</v-toolbar-title>
+        </v-toolbar>
+      <div class="container mt-5">
+      <h3 class=" text-center">Messaging</h3>
+      <div class="messaging">
       <div class="inbox_msg">
         <div class="inbox_people">
           <div class="headind_srch">
             <div class="recent_heading">
-              <h4>Recent</h4>
-            </div>
-            <div class="srch_bar">
-              <div class="stylish-input-group">
-                <input type="text" class="search-bar"  placeholder="Search" >
-                <span class="input-group-addon">
-                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
-                </span> </div>
+              <h4>Chat list</h4>
             </div>
           </div>
           <div class="inbox_chat">
@@ -103,6 +101,7 @@
       </div>
     </div></div>
     </div>
+    </v-flex>
   </v-layout>
 </template>
 
@@ -118,9 +117,12 @@ export default {
       errors: []
     }
   },
+  mounted: async function() {
+    
+  },
   methods: {
    
-    }
+  },
 }
 </script>
 

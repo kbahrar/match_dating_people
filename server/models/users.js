@@ -79,6 +79,8 @@ exports.getUserInfo = async function (id) {
     if (user.length > 0){
         user = JSON.stringify(user[0])
         user = JSON.parse(user)
+        var tags = await getTags(user.login)
+        user.tags = tags
         return user
     }
     return false 

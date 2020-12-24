@@ -47,7 +47,7 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-btn v-if="isLoggedIn()" text dark class="transparent" to="/myprofilepage">
+      <v-btn v-if="isLoggedIn()" text dark class="transparent" to="/users/kbahrar">
         {{login}}
       </v-btn>
 
@@ -103,9 +103,6 @@ export default {
     }
   },
   sockets: {
-        // connect: function () {
-        //     console.log('socket connected')
-        // },
         notif: async function (data) {
             // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
             await this.getNotif()
