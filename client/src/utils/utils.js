@@ -2,6 +2,40 @@ import { getUserInfo } from "../policies/auth"
 import Authent from '@/services/AuthService'
 import store from '@/store/store'
 
+export async function getMatched() {
+    try {
+      var info = getUserInfo()
+      const response = await Authent.getMatched(info.id, info.login)
+      return response.data.users
+    }
+    catch (err) {
+      console.log('Failed to get Data !')
+    }
+}
+
+export async function sendMsg(user, msg, id) {
+    try {
+      var info = getUserInfo()
+      await Authent.sendMsg({login: info.login, user: user, message: msg, info: {id: info.id}})
+      store.dispatch('notif', id)
+      store.dispatch('msg', [id, info.login])
+    }
+    catch (err) {
+      console.log('Failed to get Data !')
+    }
+}
+
+export async function getMsg(user) {
+    try {
+      var info = getUserInfo()
+      const response = await Authent.getMsg({login: info.login, user: user, info: {id: info.id}})
+      return response.data.msgs
+    }
+    catch (err) {
+      console.log('Failed to get Data !')
+    }
+}
+
 export async function getUser() {
     try {
       var info = getUserInfo()

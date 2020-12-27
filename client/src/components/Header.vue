@@ -16,6 +16,10 @@
         Login
       </v-btn>
 
+      <v-btn v-if="isLoggedIn()" text dark class="transparent" to="/chat">
+        chat <v-icon right>fab fa-facebook-messenger</v-icon>
+      </v-btn>
+
       <v-menu transition="slide-x-transition">
         <template v-slot:activator="{ on, attrs }">
         <v-btn v-if="isLoggedIn()" text dark class="transparent" v-on="on" v-bind="attrs">

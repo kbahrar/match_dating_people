@@ -57,5 +57,14 @@ export default {
   },
   getOtherUser (id, login) {
     return Api().get(`users/getOtherUser/${id}&${login}`)
-  }
+  },
+  getMatched (id, login) {
+    return Api().get(`chat/${id}&${login}`)
+  },
+  getMsg (cred) {
+    return Api().post(`chat/getMsg`, cred)
+  },
+  sendMsg (cred) {
+    return Api().post(`chat/sendMsg`, cred)
+  },
 };

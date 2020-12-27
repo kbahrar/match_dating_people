@@ -4,6 +4,7 @@ const usersRoutes = require("./routes/users")
 const browesRoutes = require("./routes/browes")
 const notifRoutes = require("./routes/notifier")
 const searchRoutes = require("./routes/search")
+const chatRoutes = require("./routes/chat")
 const  bodyParser = require("body-parser")
 const connection = require("./config/database")
 const socketIo = require('socket.io')
@@ -21,6 +22,7 @@ app.use("/users", usersRoutes);
 app.use("/browes", browesRoutes);
 app.use("/notifier", notifRoutes);
 app.use("/search", searchRoutes);
+app.use("/chat", chatRoutes);
 
 const PORT = process.env.PORT || 5000;
 
@@ -64,6 +66,15 @@ io.on('connection', function(socket) {
 		if (id_to) {
       for (let i = 0; i < id_to.length; i++)
         io.to(id_to[i]).emit('notif')
+    }
+  });
+
+  socket.on('msg', id => {
+    const id_to = users[id[0]]
+    // console.log(id)
+		if (id_to) {
+      for (let i = 0; i < id_to.length; i++)
+        io.to(id_to[i]).emit('msg', id[1])
     }
   });
 

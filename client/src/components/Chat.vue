@@ -22,91 +22,57 @@
 
 
             
-            <div class="chat_list active_chat">
+            <div :class="user.class" v-for="user in this.matched"
+            :key="user.idd" @click="getCvr(user.idd)">
               <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+                <div class="chat_img"> <img :src="'http://localhost:5000/'+user.mainFoto" alt="sunil" style="border-radius: 50%;" height="100%" width="100%"> </div>
                 <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
+                  <h5>{{user.firstName}} {{user.lastName}} <span class="chat_date">{{moment(user.last_used).fromNow()}}</span></h5>
+                  <p>{{user.msgs[user.msgs.length - 1].message}}</p>
                 </div>
               </div>
             </div>
-           
-    
-            
-            <div class="chat_list">
-              <div class="chat_people">
-                <div class="chat_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-                <div class="chat_ib">
-                  <h5>Sunil Rajput <span class="chat_date">Dec 25</span></h5>
-                  <p>Test, which is a new approach to have all solutions 
-                    astrology under one roof.</p>
-                </div>
-              </div>
-            </div>
-
-
-
 
           </div>
         </div>
         <div class="mesgs">
-          <div class="msg_history">
-            <div class="incoming_msg">
-              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-              <div class="received_msg">
-                <div class="received_withd_msg">
-                  <p>Test which is a new approach to have all
-                    solutions</p>
-                  <span class="time_date"> 11:01 AM    |    June 9</span></div>
-              </div>
-            </div>
-            <div class="outgoing_msg">
-              <div class="sent_msg">
-                <p>Test which is a new approach to have all
-                  solutions</p>
-                <span class="time_date"> 11:01 AM    |    June 9</span> </div>
-            </div>
-            <div class="incoming_msg">
-              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-              <div class="received_msg">
-                <div class="received_withd_msg">
-                  <p>Test, which is a new approach to have</p>
-                  <span class="time_date"> 11:01 AM    |    Yesterday</span></div>
-              </div>
-            </div>
-            <div class="outgoing_msg">
-              <div class="sent_msg">
-                <p>Apollo University, Delhi, India Test</p>
-                <span class="time_date"> 11:01 AM    |    Today</span> </div>
-            </div>
-            <div class="incoming_msg">
-              <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
-              <div class="received_msg">
-                <div class="received_withd_msg">
-                  <p>We work directly with our designers and suppliers,
-                    products, at a price anyone can afford.</p>
-                  <span class="time_date"> 11:01 AM    |    Today</span></div>
-              </div>
+          <div class="msg_history" ref="messagesContainer">
+            <div v-for="msg in msgs" :key="msg.id">
+                <div class="outgoing_msg" v-if="msg.login == matched[activeUser].login">
+                  <div class="incoming_msg_img"> <img :src="'http://localhost:5000/'+matched[activeUser].mainFoto" alt="sunil" style="border-radius: 50%;" height="100%" width="100%"> </div>
+                  <div class="received_msg">
+                    <div class="received_withd_msg">
+                      <p>{{msg.message}}</p>
+                      <span class="time_date"> {{moment(msg.sendTime).fromNow()}}</span></div>
+                  </div>
+                </div>
+                <div class="outgoing_msg" v-else>
+                  <div class="sent_msg">
+                    <p>{{msg.message}}</p>
+                    <span class="time_date"> {{moment(msg.sendTime).fromNow()}}</span></div>
+                </div>
             </div>
           </div>
           <div class="type_msg">
             <div class="input_msg_write">
-              <input type="text" class="write_msg" placeholder="Type a message" />
-              <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
+              <input type="text" class="write_msg" placeholder="Type a message" v-model="message" />
+              <button class="msg_send_btn" type="button" @click="sendMsg(matched[activeUser].login, matched[activeUser].id)"><i class="far fa-paper-plane"></i></button>
             </div>
           </div>
         </div>
       </div>
-    </div></div>
+      </div>
+      </div>
     </div>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-
+import {getMatched} from "../utils/utils"
+import {sendMsg} from "../utils/utils"
+import {getMsg} from "../utils/utils"
+import vue from 'vue';
 export default {
   data () {
     return {
@@ -114,16 +80,83 @@ export default {
       flag: true,
       reg: null,
       error: null,
-      errors: []
+      errors: [],
+      matched: [],
+      active: "chat_list active_chat",
+      inactive: "chat_list",
+      activeUser: 0,
+      msgs: [],
+      message: ''
     }
   },
+  sockets: {
+        msg: async function (data) {
+            // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)', data)
+            await this.getMsgs(data)
+        }
+  },
   mounted: async function() {
-    
+    // console.log();
+    try {
+      var users = await getMatched()
+      for (let i = 0; i < users.length; i++) {
+        if (i == 0) 
+          users[i].class = this.active
+        else
+          users[i].class = this.inactive
+        users[i].idd = i
+      }
+      this.matched = users
+      this.msgs = users[0].msgs
+      // console.log(this.gotoBottom())
+      // this.gotoBottom()
+    }
+    catch (err) {
+      
+    }
+  },
+  updated:  function(){
+    this.gotoBottom()
   },
   methods: {
-   
+   getCvr: function (id) {
+     if (this.matched[id].class != this.active) {
+       for (let i = 0; i < this.matched.length; i++) {
+         this.matched[i].class = this.inactive
+       }
+       this.activeUser = id
+       this.matched[id].class = this.active
+       this.msgs = this.matched[id].msgs
+       this.gotoBottom()
+     }
+   },
+   sendMsg: async function (user, id) {
+     if (this.message) {
+       await sendMsg(user, this.message, id)
+       this.message = ''
+       var msgs = await getMsg(user)
+       this.msgs = msgs
+     }
+   },
+   getMsgs: async function (user) {
+     var msgs = await getMsg(user)
+     this.msgs = msgs
+   },
+   gotoBottom: function(){
+     const ele = document.getElementsByClassName('msg_history')[0]
+    //  ele.scrollTop = 10
+    //  console.log(ele.scrollTop, ele.scrollHeight)
+    ele.scrollTop = ele.scrollHeight
+    //  ele.scrollIntoView();
+  }
   },
 }
+// window.gotoBottom = function(){
+//      const ele = document.getElementsByClassName('msg_history')[0]
+//      console.log(ele)
+//     //  ele.scrollTop = ele.scrollHeight
+//     //  ele.scrollIntoView();
+//   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

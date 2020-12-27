@@ -28,6 +28,9 @@ export default new Vuex.Store({
         },
         notif: ({commit, state}, id) => {
             (new Vue()).$socket.emit('notif', id)
+        },
+        msg: ({commit, state}, id) => {
+            (new Vue()).$socket.emit('msg', id)
         }
     }
 })

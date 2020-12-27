@@ -119,7 +119,7 @@ connection.query(
   "CREATE TRIGGER after_liked AFTER INSERT ON liked FOR EACH ROW BEGIN\
    IF EXISTS (SELECT id from liked WHERE login = NEW.login AND liked = NEW.liked) THEN\
     insert into notification (login, sendTime, type, message, seen) values (NEW.liked, now(), 'It is a match !', NEW.login, 0);\
-    insert into matched (login, matched) values (NEW.login, NEW.liked);\
+    insert into matched (login, matched, last_used) values (NEW.login, NEW.liked, NOW());\
     UPDATE users set fame = (fame + 500) WHERE login IN (NEW.liked, NEW.login);\
   ELSE\
     insert into notification (login, sendTime, type, message, seen) values (new.liked, now(), 'liked you !', new.login, 0);\
