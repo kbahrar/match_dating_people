@@ -16,8 +16,13 @@
         Login
       </v-btn>
 
-      <v-btn v-if="isLoggedIn()" text dark class="transparent" to="/chat">
-        chat <v-icon right>fab fa-facebook-messenger</v-icon>
+      <v-btn @click="msgs = false" v-if="isLoggedIn()" text dark class="transparent" to="/chat">
+        <v-badge
+          color="red"
+          dot
+          :value="msgs">
+          chat <v-icon right>fab fa-facebook-messenger</v-icon>
+        </v-badge>
       </v-btn>
 
       <v-menu transition="slide-x-transition">
@@ -103,13 +108,18 @@ export default {
      login: 'mamak',
      image: 'https://cdn.vuetifyjs.com/images/john.jpg',
      count: 0,
-     notifs: undefined
+     notifs: undefined,
+     msgs: false,
     }
   },
   sockets: {
         notif: async function (data) {
             // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
             await this.getNotif()
+        },
+        msg: async function (data) {
+          // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)', data)
+          this.msgs = true
         }
   },
   mounted: async function () {
