@@ -31,11 +31,11 @@ export async function getStreetAddressFrom(lat, long) {
 }
 
 export async function getIp() {
-    try {
+    // try {
         var { data } = await axios.get(
             "https://api.ipify.org?format=json"
         );
-        // console.log(data.ip);
+        console.log(data.ip);
         var key = "at_XvriW1GP6fUvb2YSoRYhaFwSgnAyE"
         var location = await axios.get(
             "https://geo.ipify.org/api/v1?apiKey="+key+"&ipAddress="+data.ip
@@ -45,10 +45,10 @@ export async function getIp() {
             location: location.data.location,
             info: user
         })
-    }
-    catch (err){
-        console.log('error in getIp')
-    }
+    // }
+    // catch (err){
+    //     console.log('error in getIp')
+    // }
 }
 
 export async function locationDetect() {

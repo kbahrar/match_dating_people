@@ -25,6 +25,16 @@ export async function sendMsg(user, msg, id) {
     }
 }
 
+export async function seenMsg(user) {
+    try {
+      var info = getUserInfo()
+      await Authent.seenMsg({login: user, user: info.login, info: {id: info.id}})
+    }
+    catch (err) {
+      console.log('Failed to get Data !')
+    }
+}
+
 export async function getMsg(user) {
     try {
       var info = getUserInfo()

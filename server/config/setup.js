@@ -49,7 +49,7 @@ connection.query(
 // Creating seen table
 
 connection.query(
-  "CREATE TABLE IF NOT EXISTS seen (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, viewer VARCHAR(100) NOT NULL)",
+  "CREATE TABLE IF NOT EXISTS seen (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, viewer VARCHAR(100) NOT NULL, action_date DATETIME)",
   function (err) {
     if (err) throw err;
     else {
@@ -61,7 +61,7 @@ connection.query(
 // Creating likes table
 
 connection.query(
-  "CREATE TABLE IF NOT EXISTS liked (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(255) NOT NULL, liked VARCHAR(100) NOT NULL)",
+  "CREATE TABLE IF NOT EXISTS liked (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(255) NOT NULL, liked VARCHAR(100) NOT NULL, action_date DATETIME)",
   function (err) {
     if (err) throw err;
     else {
@@ -72,7 +72,7 @@ connection.query(
 
 // Creating matches table
 connection.query(
-  "CREATE TABLE IF NOT EXISTS matched (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(255) NOT NULL, matched VARCHAR(255) NOT NULL)",
+  "CREATE TABLE IF NOT EXISTS matched (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(255) NOT NULL, matched VARCHAR(255) NOT NULL, last_used DATETIME)",
   function (err) {
     if (err) throw err;
     else {
@@ -94,7 +94,7 @@ connection.query(
 
 //		Creating messages table
 connection.query(
-  "CREATE TABLE IF NOT EXISTS message (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, sendTime DATETIME, user VARCHAR(100) NOT NULL, message VARCHAR(160) NOT NULL)",
+  "CREATE TABLE IF NOT EXISTS message (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, sendTime DATETIME, user VARCHAR(100) NOT NULL, message VARCHAR(160) NOT NULL, seen INT(1))",
   function (err) {
     if (err) throw err;
     else {
@@ -117,7 +117,7 @@ connection.query(
 // CREATING trigger for liked notification
 connection.query(
   "CREATE TRIGGER after_liked AFTER INSERT ON liked FOR EACH ROW BEGIN\
-   IF EXISTS (SELECT id from liked WHERE login = NEW.login AND liked = NEW.liked) THEN\
+   IF EXISTS (SELECT id from liked WHERE login = NEW.liked AND liked = NEW.login) THEN\
     insert into notification (login, sendTime, type, message, seen) values (NEW.liked, now(), 'It is a match !', NEW.login, 0);\
     insert into matched (login, matched, last_used) values (NEW.login, NEW.liked, NOW());\
     UPDATE users set fame = (fame + 500) WHERE login IN (NEW.liked, NEW.login);\

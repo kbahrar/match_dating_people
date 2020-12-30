@@ -67,4 +67,7 @@ export default {
   sendMsg (cred) {
     return Api().post(`chat/sendMsg`, cred)
   },
+  seenMsg (cred) {
+    return Api().put(`chat/seenMsg`, cred)
+  },
 };

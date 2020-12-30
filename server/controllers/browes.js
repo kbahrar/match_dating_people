@@ -47,7 +47,7 @@ exports.seen = async (req, res) => {
       res.status(200).send();
     }
     catch (err) {
-      // console.log(err.message || err)
+      console.log(err.message || err)
       res.status(400).send({
         error: err.message || err
       });

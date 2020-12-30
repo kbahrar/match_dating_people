@@ -25,8 +25,10 @@ async function getAdress (id) {
 }
 
 async function getUsers (adress, gender, id) {
-    const qr = 'select id, login, FLOOR(ST_Distance_Sphere(point(?, ?), point(longitude, latitude)) / 1000) as distance, firstName, lastName, age, bio, fame, mainfoto from users where gender = ? AND id != ? ORDER BY distance, age'
-    var lookfor = await connection.query(qr, [adress.longitude, adress.latitude, gender, id])
+    var qr = 'select id, login, FLOOR(ST_Distance_Sphere(point(?, ?), point(longitude, latitude)) / 1000) as distance, firstName, lastName, age, bio, fame, mainfoto from users where id != ?'
+    if (gender != 'Other')
+        qr += "AND gender = ? ORDER BY distance, age"
+    var lookfor = await connection.query(qr, [adress.longitude, adress.latitude, id, gender])
     if (lookfor.length > 0){
         lookfor = JSON.stringify(lookfor)
         lookfor = JSON.parse(lookfor)
@@ -64,12 +66,12 @@ exports.getList = async function (id) {
 }
 
 exports.seen = async function (body) {
-    var qr = 'insert into seen (login, viewer) values (?, ?)'
+    var qr = 'insert into seen (login, viewer, action_date) values (?, ?, NOW())'
     await connection.query(qr, [body.login, body.viewer])
 }
 
 exports.like = async function (body) {
-    var qr = 'insert into liked (login, liked) values (?, ?)'
+    var qr = 'insert into liked (login, liked, action_date) values (?, ?, NOW())'
     console.log(body)
     await connection.query(qr, [body.login, body.liked])
 }

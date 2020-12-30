@@ -1,70 +1,77 @@
 <template>
   <v-layout>
-    <v-flex xs10 offset-xs1>
-      <div outlined shaped elevation="20" class="grey lighten-2 elevation-5 p-4 mt-4">
+	<v-flex xs10 offset-xs1>
+	  <div outlined shaped elevation="20" class="grey lighten-2 elevation-5 p-4 mt-4">
 
-        <v-toolbar outlined shaped elevation="20" class="pink darken-2" dark>
-          <v-toolbar-title>Chat !</v-toolbar-title>
-        </v-toolbar>
-      <div class="container mt-5">
-      <h3 class=" text-center">Messaging</h3>
-      <div class="messaging">
-      <div class="inbox_msg">
-        <div class="inbox_people">
-          <div class="headind_srch">
-            <div class="recent_heading">
-              <h4>Chat list</h4>
-            </div>
-          </div>
-          <div class="inbox_chat">
-
-
+		<v-toolbar outlined shaped elevation="20" class="pink darken-2" dark>
+		  <v-toolbar-title>Chat !</v-toolbar-title>
+		</v-toolbar>
+	  <div class="container mt-5">
+	  <h3 class=" text-center">Messaging</h3>
+	  <div class="messaging">
+	  <div class="inbox_msg">
+		<div class="inbox_people">
+		  <div class="headind_srch">
+			<div class="recent_heading">
+			  <h4>Chat list</h4>
+			</div>
+		  </div>
+		  <div class="inbox_chat">
 
 
-            
-            <div :class="user.class" v-for="user in this.matched"
-            :key="user.idd" @click="getCvr(user.idd)">
-              <div class="chat_people">
-                <div class="chat_img"> <img :src="'http://localhost:5000/'+user.mainFoto" alt="sunil" style="border-radius: 50%;" height="100%" width="100%"> </div>
-                <div class="chat_ib">
-                  <h5>{{user.firstName}} {{user.lastName}} <span class="chat_date">{{moment(user.last_used).fromNow()}}</span></h5>
-                  <p>{{user.msgs[user.msgs.length - 1].message}}</p>
-                </div>
-              </div>
-            </div>
 
-          </div>
-        </div>
-        <div class="mesgs">
-          <div class="msg_history" ref="messagesContainer">
-            <div v-for="msg in msgs" :key="msg.id">
-                <div class="outgoing_msg" v-if="msg.login == matched[activeUser].login">
-                  <div class="incoming_msg_img"> <img :src="'http://localhost:5000/'+matched[activeUser].mainFoto" alt="sunil" style="border-radius: 50%;" height="100%" width="100%"> </div>
-                  <div class="received_msg">
-                    <div class="received_withd_msg">
-                      <p>{{msg.message}}</p>
-                      <span class="time_date"> {{moment(msg.sendTime).fromNow()}}</span></div>
-                  </div>
-                </div>
-                <div class="outgoing_msg" v-else>
-                  <div class="sent_msg">
-                    <p>{{msg.message}}</p>
-                    <span class="time_date"> {{moment(msg.sendTime).fromNow()}}</span></div>
-                </div>
-            </div>
-          </div>
-          <div class="type_msg">
-            <div class="input_msg_write">
-              <input type="text" class="write_msg" placeholder="Type a message" v-model="message" />
-              <button class="msg_send_btn" type="button" @click="sendMsg(matched[activeUser].login, matched[activeUser].id)"><i class="far fa-paper-plane"></i></button>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-      </div>
-    </div>
-    </v-flex>
+
+			
+			<div :class="user.class" v-for="user in this.matched"
+			:key="user.idd" @click="getCvr(user.idd)">
+				<v-badge
+					:value="user.count"
+					color="red"
+					:content="user.count"
+				>
+			  <div class="chat_people">
+				<div class="chat_img"> <img :src="'http://localhost:5000/'+user.mainFoto" alt="sunil" style="border-radius: 50%;" height="100%" width="100%"> </div>
+				<div class="chat_ib">
+				  <h5>{{user.firstName}} {{user.lastName}} <span class="chat_date">{{moment(user.last_used).fromNow()}}</span></h5>
+				  <p v-if="user.msgs.length > 0">{{user.msgs[user.msgs.length - 1].message}}</p>
+				  <p v-else>Start Your conversation with your match !</p>
+				</div>
+			  </div>
+				</v-badge>
+			</div>
+
+		  </div>
+		</div>
+		<div class="mesgs" v-if="activeUser > -1">
+		  <div class="msg_history" ref="messagesContainer">
+			<div v-for="msg in msgs" :key="msg.id">
+				<div class="outgoing_msg" v-if="msg.login == matched[activeUser].login">
+				  <div class="incoming_msg_img"> <img :src="'http://localhost:5000/'+matched[activeUser].mainFoto" alt="sunil" style="border-radius: 50%;" height="100%" width="100%"> </div>
+				  <div class="received_msg">
+					<div class="received_withd_msg">
+					  <p>{{msg.message}}</p>
+					  <span class="time_date"> {{moment(msg.sendTime).fromNow()}}</span></div>
+				  </div>
+				</div>
+				<div class="outgoing_msg" v-else>
+				  <div class="sent_msg">
+					<p>{{msg.message}}</p>
+					<span class="time_date"> {{moment(msg.sendTime).fromNow()}}</span></div>
+				</div>
+			</div>
+		  </div>
+		  <div class="type_msg">
+			<div class="input_msg_write">
+			  <input @keyup.enter="sendMsg(matched[activeUser].login, matched[activeUser].id)" type="text" class="write_msg" placeholder="Type a message" v-model="message" />
+			  <button class="msg_send_btn" type="button" @click="sendMsg(matched[activeUser].login, matched[activeUser].id)"><i class="far fa-paper-plane"></i></button>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	  </div>
+	  </div>
+	</div>
+	</v-flex>
   </v-layout>
 </template>
 
@@ -72,91 +79,117 @@
 import {getMatched} from "../utils/utils"
 import {sendMsg} from "../utils/utils"
 import {getMsg} from "../utils/utils"
+import {seenMsg} from "../utils/utils"
 import vue from 'vue';
 export default {
   data () {
-    return {
-      alert: true,
-      flag: true,
-      reg: null,
-      error: null,
-      errors: [],
-      matched: [],
-      active: "chat_list active_chat",
-      inactive: "chat_list",
-      activeUser: 0,
-      msgs: [],
-      message: ''
-    }
+	return {
+	  alert: true,
+	  flag: true,
+	  reg: null,
+	  error: null,
+	  errors: [],
+	  matched: [],
+	  active: "chat_list active_chat",
+	  inactive: "chat_list",
+	  activeUser: -1,
+	  msgs: [],
+	  message: ''
+	}
   },
   sockets: {
-        msg: async function (data) {
-            // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)', data)
-            await this.getMsgs(data)
-        }
+		msg: async function (data) {
+			// console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)', data)
+			await this.getMsgs(data)
+		}
   },
   mounted: async function() {
-    // console.log();
-    try {
-      var users = await getMatched()
-      for (let i = 0; i < users.length; i++) {
-        if (i == 0) 
-          users[i].class = this.active
-        else
-          users[i].class = this.inactive
-        users[i].idd = i
-      }
-      this.matched = users
-      this.msgs = users[0].msgs
-      // console.log(this.gotoBottom())
-      // this.gotoBottom()
-    }
-    catch (err) {
-      
-    }
+	// console.log();
+	try {
+	  var users = await getMatched()
+	  for (let i = 0; i < users.length; i++) {
+		// if (i == 0) 
+		//   users[i].class = this.active
+		// else
+		  users[i].class = this.inactive
+			users[i].idd = i
+	  }
+	  this.matched = users
+	  this.msgs = users[0].msgs
+	  // console.log(this.gotoBottom())
+	  // this.gotoBottom()
+	}
+	catch (err) {
+	  
+	}
   },
   updated:  function(){
-    this.gotoBottom()
+		// if (this.activeUser > -1)
+			this.gotoBottom()
   },
   methods: {
-   getCvr: function (id) {
-     if (this.matched[id].class != this.active) {
-       for (let i = 0; i < this.matched.length; i++) {
-         this.matched[i].class = this.inactive
-       }
-       this.activeUser = id
-       this.matched[id].class = this.active
-       this.msgs = this.matched[id].msgs
-       this.gotoBottom()
-     }
+   getCvr: async function (id) {
+	 if (this.matched[id].class != this.active) {
+		  await seenMsg(this.matched[id].login)
+		  this.matched[id].count = 0
+	   for (let i = 0; i < this.matched.length; i++) {
+		 this.matched[i].class = this.inactive
+	   }
+	   this.activeUser = id
+	   this.matched[id].class = this.active
+	   this.msgs = this.matched[id].msgs
+	   this.gotoBottom()
+	 }
    },
    sendMsg: async function (user, id) {
-     if (this.message) {
-       await sendMsg(user, this.message, id)
-       this.message = ''
-       var msgs = await getMsg(user)
-       this.msgs = msgs
-     }
+	 if (this.message) {
+	   await sendMsg(user, this.message, id)
+	   this.message = ''
+	   await this.getMsgs(user)
+	 }
    },
    getMsgs: async function (user) {
-     var msgs = await getMsg(user)
-     this.msgs = msgs
+		var res = await getMsg(user)
+		var msgs = res.msgs
+		var count = res.count
+		for (let i = 0; i < this.matched.length; i++) {
+			// console.log(this.matched[i].login)
+			if (this.matched[i].login == user) {
+				this.matched[i].msgs = msgs
+				this.matched[i].count = count
+			}
+		}
+		this.orderCvr(user, msgs)
+		if (this.activeUser > -1)
+			this.msgs = this.matched[this.activeUser].msgs
    },
-   gotoBottom: function(){
-     const ele = document.getElementsByClassName('msg_history')[0]
-    //  ele.scrollTop = 10
-    //  console.log(ele.scrollTop, ele.scrollHeight)
-    ele.scrollTop = ele.scrollHeight
-    //  ele.scrollIntoView();
-  }
+  gotoBottom: function(){
+		const ele = document.getElementsByClassName('msg_history')[0]
+		if (ele)
+			ele.scrollTop = ele.scrollHeight
+	},
+	orderCvr: function(login, msgs) {
+	  // console.log(login)
+	  if (this.activeUser > -1)
+	  	var alogin = this.matched[this.activeUser].login
+	  for (let i = 0; i < this.matched.length; i++) {
+		if (this.matched[i].login == login) {
+		  this.matched[i].msgs = msgs
+		  this.matched[i].last_used = this.matched[i].msgs[this.matched[i].msgs.length - 1].sendTime
+		}
+	  }
+	  this.matched.sort(this.compareTime)
+	  for (let i = 0; i < this.matched.length; i++) {
+		this.matched[i].idd = i
+		if (this.activeUser > -1 && alogin == this.matched[i].login)
+			this.activeUser = i
+	  }
+	},
+	compareTime (a, b) {
+	 return b.last_used.localeCompare(a.last_used);
+	},
   },
 }
-// window.gotoBottom = function(){
-//      const ele = document.getElementsByClassName('msg_history')[0]
-//      console.log(ele)
-//     //  ele.scrollTop = ele.scrollHeight
-//     //  ele.scrollIntoView();
-//   }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

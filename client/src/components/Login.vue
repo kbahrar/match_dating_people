@@ -15,6 +15,7 @@
             label="login"
             outlined
             shaped
+            @keyup.enter="checkForm"
           ></v-text-field>
           <v-text-field
             :append-icon="flag ? 'mdi-eye' : 'mdi-eye-off'"
@@ -31,6 +32,7 @@
             @click:append="flag = !flag"
             outlined
             shaped
+            @keyup.enter="checkForm"
           ></v-text-field>
           <v-alert
             type="error"

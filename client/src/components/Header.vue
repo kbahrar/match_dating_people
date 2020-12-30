@@ -122,15 +122,15 @@ export default {
         
         if (user && user.mainFoto)
           this.image = "http://localhost:5000/" + user.mainFoto
+        // console.log(this.$store.state.isConnected)
+        if (!this.$store.state.isConnected) {
+          this.$store.dispatch('login', user)
+        }
         var loc = getLocation()
         if (!loc)
         {
           locationDetect()
           setLocation(1)
-        }
-        // console.log(this.$store.state.isConnected)
-        if (!this.$store.state.isConnected) {
-          this.$store.dispatch('login', user)
         }
       }
       catch (err) {

@@ -18,11 +18,11 @@ exports.getList = async (req, res) => {
 exports.sendMsg = async (req, res) => {
     try {
       // console.log(req.body)
+      if (!req.body.login || !req.body.user || !req.body.message)
+        throw 'invalide informations'
       var check = await chatModel.checkMatched(req.body.login, req.body.user)
       if (!check)
         throw 'You do not matched yet !'
-      if (!req.body.login || !req.body.user || !req.body.message)
-        throw 'invalide informations'
       await chatModel.sendMsg(req.body.login, req.body.user, req.body.message)
       res.status(200).send();
     }
@@ -37,12 +37,31 @@ exports.sendMsg = async (req, res) => {
 exports.getMsg = async (req, res) => {
     try {
       // console.log(req.body)
+      if (!req.body.login || !req.body.user)
+        throw 'invalide informations'
       var check = await chatModel.checkMatched(req.body.login, req.body.user)
       if (!check)
         throw 'You do not matched yet !'
+      var msgs = await chatModel.getMsgs(req.body.login, req.body.user, req.body.message)
+      res.status(200).send({msgs: msgs});
+    }
+    catch (err) {
+      console.log(err.message || err)
+      res.status(400).send({
+        error: err.message || err
+      });
+    }
+};
+
+exports.seenMsgs = async (req, res) => {
+    try {
+      // console.log(req.body)
       if (!req.body.login || !req.body.user)
         throw 'invalide informations'
-      var msgs = await chatModel.getMsgs(req.body.login, req.body.user, req.body.message)
+      var check = await chatModel.checkMatched(req.body.login, req.body.user)
+      if (!check)
+        throw 'You do not matched yet !'
+      var msgs = await chatModel.seenMsgs(req.body.login, req.body.user)
       res.status(200).send({msgs: msgs});
     }
     catch (err) {
