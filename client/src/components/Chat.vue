@@ -308,6 +308,7 @@ img{ max-width:100%;}
   font-size: 15px;
   min-height: 48px;
   width: 100%;
+  outline: none;
 }
 
 .type_msg {border-top: 1px solid #c4c4c4;position: relative;}

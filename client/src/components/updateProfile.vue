@@ -160,7 +160,7 @@ export default {
       var myinfo = getUserInfo()
       var user = await getUser(myinfo.id)
      this.user = user;
-     this.updates = new Object(user)
+     this.updates = {...user}
 
   },
   methods: {
