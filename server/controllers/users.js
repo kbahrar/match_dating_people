@@ -22,6 +22,23 @@ exports.updateProfile = async (req, res, next) => {
     });
   }
 };
+exports.updateProfileEmail = async (req, res, next) => {
+  console.log("controller\n");
+  try {
+    var update = req.body.info;
+    var check = upPolicies.checkMailUpdate(update.email);
+    //console.log("the value of check is : " + check);
+    if (check !== 'true')
+    throw check;
+    await usersModel.updateProfileEmailRequest(update, res);
+      res.status(200).json({ success: true, msg: "Email updated successfully !" });
+  }
+  catch (err) {
+    res.status(400).send({
+      error: err.message || err
+    });
+  }
+};
 
 exports.fillProfile = async (req, res) => {
   try {

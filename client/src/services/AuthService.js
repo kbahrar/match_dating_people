@@ -7,6 +7,9 @@ export default {
   updateprofile(cred) {
     return Api().post("users/updateProfile", cred);
   },
+  updateprofileemail(cred) {
+    return Api().post("users/updateProfile", cred);
+  },
   login(cred) {
     return Api().post("login", cred);
   },

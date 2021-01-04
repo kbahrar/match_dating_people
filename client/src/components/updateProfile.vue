@@ -12,6 +12,12 @@
         </v-icon>
         informations
       </v-tab>
+      <v-tab>
+        <v-icon left>
+          mdi-email
+        </v-icon>
+        Email
+      </v-tab>
       
 
       <v-tab-item>
@@ -123,13 +129,79 @@
     </v-flex>
   </v-layout>
       </v-tab-item>
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <v-tab-item>
+    <v-layout>
+        <v-flex xs6 offset-xs3>
+              
+ 
+          <v-text-field
+            class="mt-5"
+            v-model="updates.email"
+            label="Enter the new Email"
+            required
+            outlined
+            shaped
+          ></v-text-field>
+
+
+        <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
+               
+          <v-alert
+            type="error"
+            v-if="error"
+            v-model="alert"
+            border="left"
+            close-text="Close Alert"
+            dismissible>
+            {{error}}
+          </v-alert>
+          <v-alert
+            type="error"
+            v-if="errors.length"
+            v-model="alert"
+            border="left"
+            close-text="Close Alert"
+            dismissible>
+            <li v-for="err in errors" :key="err">{{ err }}</li>
+          </v-alert>
+          <v-alert type="success" v-if="reg">
+            {{reg}}
+          </v-alert>
+          <v-btn @click="checkEmailForm($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
+        </div>
+    </v-flex>
+
+    </v-layout>
+
+      </v-tab-item>
       <v-tab-item>
         <v-layout>
   </v-layout>
       </v-tab-item>
-      <v-tab-item>
 
-      </v-tab-item>
     </v-tabs>
   </v-card>
 </template>
@@ -195,6 +267,41 @@ export default {
             }
           }
           },
+      updateProfileEmail: async function() {
+        try {
+          this.error = null;
+          this.reg = 'Email changed succefully!';
+          await Authent.updateprofileemail(
+            {
+              info: {
+                id: this.user.id,
+                email: this.updates.email,
+              },
+            })
+          } catch (err) {
+            this.reg = null;
+            this.error = err.response.data.error || 'No response from server'
+            this.alert = true
+            if (err.response.status === 401)
+            {
+              logoutUser()
+              this.$router.go('login')
+            }
+          }
+          },
+      checkEmailForm: function (e) {
+        this.errors = [];
+      if (!this.updates.email) {
+        this.errors.push("Pick a new Valid Email.");
+      }
+      else if(this.checkEmail() && !this.errors.length)
+      {
+        console.log("FUCKIIII YEAHHH !!!!!\n\n\n\n\n");
+        this.updateProfileEmail();
+      }
+      else
+        e.preventDefault();
+    },
       checkForm: function (e) {
         this.errors = [];
       if (!this.updates.age || this.updates.age < 18 || this.updates.age > 100) {
@@ -231,9 +338,16 @@ export default {
         return true
       if (this.updates.lookingfor != this.user.lookingfor)
         return true
+      if (this.updates.email != this.user.email)
+        return true
+      return false
+    },
+    checkEmail () {
+      //console.log("update : " + this.updates.age + '\n' + "user : " + this.user.age);
+      if (this.updates.email != this.user.email)
+        return true
       return false
     }
-    
   }
 }
 </script>
