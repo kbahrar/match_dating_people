@@ -220,6 +220,7 @@ export default {
         e.preventDefault();
     },
     checkAll () {
+      //console.log("update : " + this.updates.age + '\n' + "user : " + this.user.age);
       if (this.updates.age != this.user.age)
         return true
       if (this.updates.firstName != this.user.firstName)
@@ -230,7 +231,6 @@ export default {
         return true
       if (this.updates.lookingfor != this.user.lookingfor)
         return true
-        console.log("update : " + this.updates.gender + '\n' + "user : " + this.user.gender);
       return false
     }
     

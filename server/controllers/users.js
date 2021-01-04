@@ -8,13 +8,13 @@ const e = require('express');
 
 exports.updateProfile = async (req, res, next) => {
   try {
-    console.log("this is the fucking request : " + req);
-    var check = upPolicies.checkUpdateProfile(req.body);
-
+    var update = req.body.info;
+    var check = upPolicies.checkUpdateProfile(update);
+    //console.log("the value of check is : " + check);
     if (check !== 'OK')
     throw check;
-    await usersModel.updateAge(req, res);
-      res.status(200).json({ success: true, msg: "age updated successfully !" });
+    await usersModel.updateProfileRequest(update, res);
+      res.status(200).json({ success: true, msg: "Profile updated successfully !" });
   }
   catch (err) {
     res.status(400).send({
