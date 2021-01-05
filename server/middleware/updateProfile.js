@@ -21,7 +21,24 @@ function checkUpdateProfile(req) {
         return 'invalid looking for gender';
     return 'OK';
 }
-
+function checkMailUpdate(email) {
+    const emailRegexp = /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z-]+)*$/;
+    var regex = emailRegexp.test(email);
+    if (email.length < 0 || !regex)
+        return false;
+    return "OK";
+}
+function checkBioUpdate(bio) {
+    if(bio)
+    {
+        if (bio.length < 100)
+            return false
+        return "OK";
+    }
+    return false
+}
 module.exports = {
-    checkUpdateProfile: checkUpdateProfile
+    checkUpdateProfile: checkUpdateProfile,
+    checkMailUpdate: checkMailUpdate,
+    checkBioUpdate: checkBioUpdate,
 }

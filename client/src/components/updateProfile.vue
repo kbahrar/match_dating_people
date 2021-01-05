@@ -18,6 +18,12 @@
         </v-icon>
         Email
       </v-tab>
+      <v-tab>
+        <v-icon left>
+          mdi-bio
+        </v-icon>
+        Biography
+      </v-tab>
       
 
       <v-tab-item>
@@ -199,6 +205,40 @@
       </v-tab-item>
       <v-tab-item>
         <v-layout>
+<v-flex xs6 offset-xs3>
+             <v-textarea
+          name="Biography"
+          label="Biography"
+          hint="Hint text"
+          v-model="updates.bio"
+        ></v-textarea>
+    <div>
+          <v-alert
+            type="error"
+            v-if="error"
+            v-model="alert"
+            border="left"
+            close-text="Close Alert"
+            dismissible>
+            {{error}}
+          </v-alert>
+          <v-alert
+            type="error"
+            v-if="errors.length"
+            v-model="alert"
+            border="left"
+            close-text="Close Alert"
+            dismissible>
+            <li v-for="err in errors" :key="err">{{ err }}</li>
+          </v-alert>
+          <v-alert type="success" v-if="reg">
+            {{reg}}
+          </v-alert>
+          <v-btn @click="checkBioForm($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
+        </div>
+
+    </v-flex>
+
   </v-layout>
       </v-tab-item>
 
@@ -229,14 +269,14 @@ export default {
     }
   },
   mounted: async function() {
-      var myinfo = getUserInfo()
+    var myinfo = getUserInfo()
       var user = await getUser(myinfo.id)
      this.user = user;
      this.updates = {...user}
 
   },
   methods: {
-      //   remove (item) {
+    //   remove (item) {
       //   this.criteria.chips.splice(this.criteria.chips.indexOf(criteria.item), 1)
       //   this.criteria.chips = [...this.criteria.chips]
       // },
@@ -280,7 +320,7 @@ export default {
             })
           } catch (err) {
             this.reg = null;
-            this.error = err.response.data.error || 'No response from server'
+            this.error = err.response.data.error || 'Email not Valid !'
             this.alert = true
             if (err.response.status === 401)
             {
@@ -289,6 +329,41 @@ export default {
             }
           }
           },
+      updateProfileBio: async function() {
+        try {
+          this.error = null;
+          this.reg = 'Biography Updated succefully!';
+          await Authent.updateprofilebio(
+            {
+              info: {
+                id: this.user.id,
+                bio: this.updates.bio,
+              },
+            })
+          } catch (err) {
+            this.reg = null;
+            this.error = err.response.data.error || 'Biography not Valid !'
+            this.alert = true
+            if (err.response.status === 401)
+            {
+              logoutUser()
+              this.$router.go('login')
+            }
+          }
+          },
+      checkBioForm: function (e) {
+        this.errors = [];
+        
+      if (!this.updates.bio) {
+        this.errors.push("Write a new valid biography !");
+      }
+      else if(this.checkBio() && !this.errors.length)
+      {
+        this.updateProfileBio();
+      }
+      else
+        e.preventDefault();
+    },
       checkEmailForm: function (e) {
         this.errors = [];
       if (!this.updates.email) {
@@ -296,7 +371,6 @@ export default {
       }
       else if(this.checkEmail() && !this.errors.length)
       {
-        console.log("FUCKIIII YEAHHH !!!!!\n\n\n\n\n");
         this.updateProfileEmail();
       }
       else
@@ -345,6 +419,12 @@ export default {
     checkEmail () {
       //console.log("update : " + this.updates.age + '\n' + "user : " + this.user.age);
       if (this.updates.email != this.user.email)
+        return true
+      return false
+    },
+    checkBio () {
+      //console.log("update : " + this.updates.age + '\n' + "user : " + this.user.age);
+      if (this.updates.bio != this.user.bio)
         return true
       return false
     }

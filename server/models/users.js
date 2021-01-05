@@ -22,6 +22,17 @@ exports.updateProfileEmailRequest = async function (req, res) {
     return false
 }
 
+exports.updateProfileBioRequest = async function (req, res) {
+   // console.log(JSON.stringify(req));
+    if(req.id && req.bio)
+    {
+        const query1 = "UPDATE users SET bio = ? WHERE id = ?";
+        await connection.query(query1, [req.bio, req.id]);
+            return true
+    }
+    return false
+}
+
 async function checkTag(login, tag) {
     const qr = 'select * from tags where login = ? AND tag = ?'
     var check = await connection.query(qr, [login, tag])

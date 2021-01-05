@@ -5,6 +5,8 @@ const router = express.Router()
 
 router.post("/fillprofile", auth, usersCtrl.fillProfile)
 router.post("/updateProfile", auth, usersCtrl.updateProfile)
+router.post("/updateprofileemail", auth, usersCtrl.updateProfileEmail)
+router.post("/updateprofilebio", auth, usersCtrl.updateProfileBio)
 router.put("/location", auth, usersCtrl.location)
 router.put("/uploadImg", auth, usersCtrl.uploadImg)
 router.get("/getUser/:id", auth, usersCtrl.getUserInfo)
