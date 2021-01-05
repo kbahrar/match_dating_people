@@ -1,4 +1,6 @@
 <template>
+    <v-flex xs6 offset-xs3 class="mt-5">
+    
   <v-card>
     <v-toolbar
       flat dense class="pink darken-2" dark
@@ -23,6 +25,12 @@
           mdi-bio
         </v-icon>
         Biography
+      </v-tab>
+      <v-tab>
+        <v-icon left>
+          mdi-password
+        </v-icon>
+        Password
       </v-tab>
       
 
@@ -242,14 +250,101 @@
   </v-layout>
       </v-tab-item>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <v-tab-item>
+        <v-layout>
+<v-flex xs6 offset-xs3>
+                       <v-text-field
+            :append-icon="flag ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="!flag ? 'text' : 'password'"
+            name="password"
+            label="write your new password"
+            hint="At least 8 characters alphanum"
+            v-model="updates.password"
+            class="input-group--focused"
+            :rules="[v => !!v || 'Password is required',v => (v && v.length >= 8) || 'Password must have 8+ characters',
+    v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character', 
+    v => /(?=.*\d)/.test(v) || 'Must have one number', 
+]"
+            @click:append="flag = !flag"
+            outlined
+            shaped
+            @keyup.enter="checkForm"
+          ></v-text-field>
+                                 <v-text-field
+            :append-icon="flag ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="!flag ? 'text' : 'password'"
+            name="password"
+            label="repeat the new password"
+            hint="At least 8 characters alphanum"
+            v-model="updates.repeatpassword"
+            class="input-group--focused"
+            :rules="[v => !!v || 'Password is required',v => (v && v.length >= 8) || 'Password must have 8+ characters',
+    v => /(?=.*[A-Z])/.test(v) || 'Must have one uppercase character', 
+    v => /(?=.*\d)/.test(v) || 'Must have one number', 
+]"
+            @click:append="flag = !flag"
+            outlined
+            shaped
+          ></v-text-field>
+    <div>
+          <v-alert
+            type="error"
+            v-if="error"
+            v-model="alert"
+            border="left"
+            close-text="Close Alert"
+            dismissible>
+            {{error}}
+          </v-alert>
+          <v-alert
+            type="error"
+            v-if="errors.length"
+            v-model="alert"
+            border="left"
+            close-text="Close Alert"
+            dismissible>
+            <li v-for="err in errors" :key="err">{{ err }}</li>
+          </v-alert>
+          <v-alert type="success" v-if="reg">
+            {{reg}}
+          </v-alert>
+          <v-btn @click="checkPasswordForm($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
+        </div>
+
+    </v-flex>
+
+  </v-layout>
+      </v-tab-item>
+
+
+
+
+
+
     </v-tabs>
   </v-card>
+  </v-flex>
 </template>
 
 <script>
 import Authent from '@/services/AuthService'
 import { getUserInfo } from '@/policies/auth'
 import { logoutUser } from '@/policies/auth'
+import Valide from '@/policies/valideForm'
 import {getUser} from '@/utils/utils'
 
 export default {
@@ -364,6 +459,53 @@ export default {
       else
         e.preventDefault();
     },
+
+
+        updateProfilePassword: async function() {
+          try {
+            this.error = null;
+            this.reg = 'Password Updated succefully!';
+            await Authent.updateprofilepassword(
+              {
+                info: {
+                  id: this.user.id,
+                  password: this.updates.password,
+                },
+              })
+              logoutUser()
+                this.$router.go('login');
+            } catch (err) {
+              this.reg = null;
+              this.error = err.response.data.error || 'Password not Valid !'
+              this.alert = true
+              if (err.response.status === 401)
+              {
+                logoutUser()
+                this.$router.go('login')
+              }
+            }
+            },
+
+      checkPasswordForm: function (e) {
+        this.errors = [];
+        
+      if (this.updates.password.length == 0) {
+        this.errors.push("password required.");
+      }
+      else if (!Valide.validPwd(this.updates.password))
+        this.errors.push("invalide password.");
+      else if (this.updates.password !== this.updates.repeatpassword)
+        this.errors.push("Passwords does not match.");
+
+      if (!this.errors.length) {
+        this.updateProfilePassword();
+      }
+      else
+        e.preventDefault();
+    },
+
+
+
       checkEmailForm: function (e) {
         this.errors = [];
       if (!this.updates.email) {

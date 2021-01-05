@@ -6,6 +6,7 @@ const fs = require('fs')
 const { promisify } = require('util')
 const e = require('express');
 
+
 exports.updateProfile = async (req, res, next) => {
   try {
     var update = req.body.info;
@@ -45,6 +46,18 @@ exports.updateProfileBio = async (req, res, next) => {
     throw check;
     await usersModel.updateProfileBioRequest(updates, res);
       res.status(200).json({ success: true, msg: "Bio updated successfully !" });
+  }
+  catch (err) {
+    res.status(400).send({
+      error: err.message || err
+    });
+  }
+};
+exports.updateProfilePassword = async (req, res, next) => {
+  try {
+    var updates = req.body.info;
+    await usersModel.updatePasswordRequest(updates, res);
+      res.status(200).json({ success: true, msg: "Password Changed successfully !" });
   }
   catch (err) {
     res.status(400).send({

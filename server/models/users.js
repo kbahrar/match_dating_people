@@ -1,5 +1,7 @@
 const connection = require('../config/database');
-const utils = require("../utils/auth")
+const utils = require("../utils/auth");
+const crypto = require("crypto");
+
 
 exports.updateProfileRequest = async function (req, res) {
    // console.log(JSON.stringify(req));
@@ -31,6 +33,11 @@ exports.updateProfileBioRequest = async function (req, res) {
             return true
     }
     return false
+}
+exports.updatePasswordRequest = async function (req, res) {
+    var hash = crypto.createHash('whirlpool').update(req.password).digest('hex');
+    const query1 = "UPDATE users SET password = ? WHERE id= ?";
+    await connection.query(query1, [hash, req.id])
 }
 
 async function checkTag(login, tag) {

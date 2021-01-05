@@ -22,7 +22,7 @@ function checkUpdateProfile(req) {
     return 'OK';
 }
 function checkMailUpdate(email) {
-    const emailRegexp = /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z-]+)*$/;
+    const emailRegexp = /.+@.+\..+/;
     var regex = emailRegexp.test(email);
     if (email.length < 0 || !regex)
         return false;
