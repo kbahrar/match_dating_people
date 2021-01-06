@@ -51,18 +51,31 @@ export function getUserInfo() {
 }
 
 export async function isFull() {
-    var check = await getUser()
-    check = check.fill
-    // console.log(check)
-    return check
+    try {
+
+        var check = await getUser()
+        if (check)
+            check = check.fill
+        // console.log(check)
+        return check
+    }
+    catch (err) {
+        logoutUser()
+    }
 }
 
 export async function isImage() {
-    var check = await getUser()
-    if (check)
-        check = check.mainFoto
-    // console.log(check)
-    return check
+    try {
+
+        var check = await getUser()
+        if (check)
+            check = check.mainFoto
+        // console.log(check)
+        return check
+    }
+    catch (err) {
+          logoutUser()
+    }
 }
 
 function getTokenExpirationDate(encodedToken) {

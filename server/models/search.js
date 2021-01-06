@@ -78,7 +78,30 @@ async function getUsers(adress, lookfor, id, infos) {
     return false
 }
 
+async function getBlockList (id) {
+    var list = []
+    const query = "select login from users where id = ?"
+    var login = await connection.query(query, [id])
+    login = JSON.stringify(login[0])
+    login = JSON.parse(login)
+    login = login.login
+    const qr = "select * from blocked where login = ? OR user = ?"
+    var blockers = await connection.query(qr, [login, login])
+    if (blockers.length > 0) {
+        blockers = JSON.stringify(blockers)
+        blockers = JSON.parse(blockers)
+        for (let i = 0; i < blockers.length; i++) {
+            if (blockers[i].user == login)
+                list[i] = blockers[i].login
+            else
+                list[i] = blockers[i].user
+        }
+    }
+    return list
+}
+
 exports.search = async function (id, info) {
+    const blockers = await getBlockList(id)
     const lookfor = await getlookfor(id)
     const Adress = await getAdress(id)
     const users = await getUsers(Adress, lookfor, id, info)
@@ -86,6 +109,11 @@ exports.search = async function (id, info) {
     {
         var tags = await getTags(users[i].login)
         users[i].tags = tags
+        for (let j = 0; j < blockers.length; j++) {
+            if (users[i].login == blockers[j]) { 
+                users.splice(i, 1);
+            }
+        }
     }
     return users
 }

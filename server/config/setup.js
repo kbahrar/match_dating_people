@@ -26,7 +26,7 @@ console.log("Database fotoked");
 // Creating users table
 
 connection.query(
-  "CREATE TABLE IF NOT EXISTS users (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(255) NOT NULL, firstName VARCHAR(255) NOT NULL, lastName VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, registrationDate DATETIME DEFAULT (CURRENT_DATE), age INT(3), gender VARCHAR(25), lookingfor VARCHAR(25), city VARCHAR(255), bio VARCHAR(10000), mainFoto VARCHAR(255), foto1 VARCHAR(255), foto2 VARCHAR(255), foto3 VARCHAR(255), foto4 VARCHAR(255), online BOOLEAN DEFAULT FALSE, latitude FLOAT, longitude FLOAT, token VARCHAR(255), connect DATETIME, valid BOOLEAN DEFAULT FALSE, fill BOOLEAN DEFAULT FALSE, fame INT(10) DEFAULT 1000)",
+  "CREATE TABLE IF NOT EXISTS users (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(255) NOT NULL, firstName VARCHAR(255) NOT NULL, lastName VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, registrationDate DATETIME DEFAULT (CURRENT_DATE), age INT(3), gender VARCHAR(25), lookingfor VARCHAR(25), city VARCHAR(255), bio VARCHAR(10000), mainFoto VARCHAR(255), foto1 VARCHAR(255), foto2 VARCHAR(255), foto3 VARCHAR(255), foto4 VARCHAR(255), online BOOLEAN DEFAULT FALSE, latitude FLOAT, longitude FLOAT, token VARCHAR(255), connect DATETIME, valid BOOLEAN DEFAULT FALSE, fill BOOLEAN DEFAULT FALSE, fame INT(10) DEFAULT 1000, access BOOLEAN DEFAULT TRUE)",
   function (err) {
     if (err) throw err;
     else {
@@ -46,6 +46,18 @@ connection.query(
   }
 );
 
+// Creating report table
+
+connection.query(
+  "CREATE TABLE IF NOT EXISTS report (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, reporter VARCHAR(100) NOT NULL)",
+  function (err) {
+    if (err) throw err;
+    else {
+      console.log("report table created successfully");
+    }
+  }
+);
+
 // Creating seen table
 
 connection.query(
@@ -53,7 +65,7 @@ connection.query(
   function (err) {
     if (err) throw err;
     else {
-      console.log("Popularity table created successfully");
+      console.log("seen table created successfully");
     }
   }
 );
@@ -165,6 +177,21 @@ connection.query(
     if (err) throw err;
     else {
       console.log("TRIGGER after_del_liked created successfully");
+    }
+  }
+);
+
+connection.query(
+  "CREATE TRIGGER after_block AFTER INSERT ON blocked FOR EACH ROW\
+  BEGIN\
+    DELETE FROM matched WHERE login IN (NEW.login, NEW.user) AND matched in (NEW.login, NEW.user);\
+    DELETE FROM liked WHERE login IN (NEW.login, NEW.user) AND liked in (NEW.login, NEW.user);\
+    DELETE FROM seen WHERE login IN (NEW.login, NEW.user) AND viewer in (NEW.login, NEW.user);\
+  END",
+  function (err) {
+    if (err) throw err;
+    else {
+      console.log("TRIGGER after_block created successfully");
     }
   }
 );

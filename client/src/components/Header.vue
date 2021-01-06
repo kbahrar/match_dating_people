@@ -16,7 +16,7 @@
         Login
       </v-btn>
 
-      <v-btn @click="msgs = false" v-if="isLoggedIn()" text dark class="transparent" to="/chat">
+      <v-btn @click="msgs = false" v-if="isLoggedIn()" text dark class="transparent" style="text-decoration: none;" to="/chat">
         <v-badge
           color="red"
           dot

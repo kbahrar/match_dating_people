@@ -162,7 +162,7 @@ export default {
         if (err.response.status === 401)
         {
           logoutUser()
-          this.$router.go('login')
+          // this.$router.go('login')
         }
       }
     },

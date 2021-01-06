@@ -1,7 +1,8 @@
 const jwt = require('jsonwebtoken');
 const {authentication} = require('../config/config')
+const authModel = require('../models/auth')
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
     // console.log(req.params.id)
@@ -10,7 +11,11 @@ module.exports = (req, res, next) => {
     const userId = decodedToken.id;
     if (id && id !== userId) {
       throw 'Invalid user ID';
-    } else {
+    }
+    else if (!await authModel.checkAccess(id)) {
+      throw 'invalide access'
+    }
+    else {
       next();
     }
   } catch (err) {

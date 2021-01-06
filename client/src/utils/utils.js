@@ -1,4 +1,5 @@
 import { getUserInfo } from "../policies/auth"
+import { logoutUser } from '@/policies/auth'
 import Authent from '@/services/AuthService'
 import store from '@/store/store'
 
@@ -9,7 +10,11 @@ export async function getMatched() {
       return response.data.users
     }
     catch (err) {
-      console.log('Failed to get Data !')
+      if (err.response.status === 401)
+      {
+        logoutUser()
+        // this.$router.go('login')
+      }
     }
 }
 
@@ -21,7 +26,11 @@ export async function sendMsg(user, msg, id) {
       store.dispatch('msg', [id, info.login])
     }
     catch (err) {
-      console.log('Failed to get Data !')
+      if (err.response.status === 401)
+      {
+        logoutUser()
+        // this.$router.go('login')
+      }
     }
 }
 
@@ -31,7 +40,11 @@ export async function seenMsg(user) {
       await Authent.seenMsg({login: user, user: info.login, info: {id: info.id}})
     }
     catch (err) {
-      console.log('Failed to get Data !')
+      if (err.response.status === 401)
+      {
+        logoutUser()
+        // this.$router.go('login')
+      }
     }
 }
 
@@ -42,7 +55,11 @@ export async function getMsg(user) {
       return response.data.msgs
     }
     catch (err) {
-      console.log('Failed to get Data !')
+      if (err.response.status === 401)
+      {
+        logoutUser()
+        // this.$router.go('login')
+      }
     }
 }
 
@@ -53,20 +70,18 @@ export async function getUser() {
       return response.data.user
     }
     catch (err) {
-      console.log('Failed to get Data !')
+      if (err.response.status === 401)
+      {
+        logoutUser()
+        // this.$router.go('login')
+      }
     }
 }
 
 export async function getOtherUser(login) {
-    try {
-      var info = getUserInfo()
-      const response = await Authent.getOtherUser(info.id, login)
-      return response.data.user
-    }
-    catch (err) {
-      console.log('Failed to get Data !')
-      return false
-    }
+    var info = getUserInfo()
+    const response = await Authent.getOtherUser(info.id, login)
+    return response.data.user
 }
 
 export async function getList() {
@@ -76,8 +91,28 @@ export async function getList() {
     return response.data.users
   }
   catch (err) {
-    console.log('Failed to get Data !')
+    if (err.response.status === 401)
+    {
+      logoutUser()
+      // this.$router.go('login')
+    }
   }
+}
+
+export async function checkreport(login) {
+  var info = getUserInfo()
+  var check = await Authent.checkReporte({login: login, reporter: info.login, info: {id: info.id}})
+  return check.data.check
+}
+
+export async function block(login) {
+  var info = getUserInfo()
+  await Authent.Block({login: info.login, user: login, info: {id: info.id}})
+}
+
+export async function report(login) {
+  var info = getUserInfo()
+  await Authent.Reporte({login: login, reporter: info.login, info: {id: info.id}})
 }
 
 export async function seenIt(login, id) {
@@ -87,9 +122,13 @@ export async function seenIt(login, id) {
     store.dispatch('notif', id)
   }
   catch (err) {
-    console.log(err.message)
+    if (err.response.status === 401)
+    {
+      logoutUser()
+      // this.$router.go('login')
+    }
   }
-}
+} 
 
 export async function likeIt(login, flag, id) {
   try {
@@ -104,7 +143,11 @@ export async function likeIt(login, flag, id) {
     }
   }
   catch (err) {
-    console.log(err.message)
+    if (err.response.status === 401)
+    {
+      logoutUser()
+      // this.$router.go('login')
+    }
   }
 }
 
@@ -112,11 +155,14 @@ export async function checkLike(login) {
   try {
     var info = getUserInfo()
     const response = await Authent.checkLike(info.id, info.login, login)
-    // console.log(response.data.check)
     return response.data.check
   }
   catch (err) {
-    console.log('Failed to get Data !')
+    if (err.response.status === 401)
+    {
+      logoutUser()
+      // this.$router.go('login')
+    }
   }
 }
 
@@ -128,7 +174,11 @@ export async function getNotifs(login) {
     return response.data.notifs
   }
   catch (err) {
-    console.log('Failed to get Data !')
+    if (err.response.status === 401)
+    {
+      logoutUser()
+      // this.$router.go('login')
+    }
   }
 }
 
@@ -140,6 +190,10 @@ export async function seenNotifs(login) {
     // return response.data.notifs
   }
   catch (err) {
-    console.log('Failed to get Data !')
+    if (err.response.status === 401)
+    {
+      logoutUser()
+      // this.$router.go('login')
+    }
   }
 }

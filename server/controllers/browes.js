@@ -6,7 +6,7 @@ exports.getList = async (req, res) => {
       res.status(200).send({users: users});
     }
     catch (err) {
-      // console.log(err.message || err)
+      console.log(err.message || err)
       res.status(400).send({
         error: err.message || err
       });
@@ -38,6 +38,57 @@ exports.dislike = async (req, res) => {
       error: err.message || err
     });
   }
+};
+
+exports.checkreport = async (req, res) => {
+    try {
+      if (!req.body.login || !req.body.reporter)
+        throw "incomplete info !"
+      var check = await browesModel.checkReport(req.body)
+      res.status(200).send({check: check});
+    }
+    catch (err) {
+      console.log(err.message || err)
+      res.status(400).send({
+        error: err.message || err
+      });
+    }
+};
+
+exports.block = async (req, res) => {
+    try {
+      if (!req.body.login || !req.body.user)
+        throw "incomplete info !"
+      var check = await browesModel.checkBlock(req.body)
+      if (!check)
+        throw "you are actually blocked this user !"
+      await browesModel.block(req.body)
+      res.status(200).send();
+    }
+    catch (err) {
+      console.log(err.message || err)
+      res.status(400).send({
+        error: err.message || err
+      });
+    }
+};
+
+exports.report = async (req, res) => {
+    try {
+      if (!req.body.login || !req.body.reporter)
+        throw "incomplete info !"
+      var check = await browesModel.checkReport(req.body)
+      if (!check)
+        throw "you are actually reported this user !"
+      await browesModel.report(req.body)
+      res.status(200).send();
+    }
+    catch (err) {
+      console.log(err.message || err)
+      res.status(400).send({
+        error: err.message || err
+      });
+    }
 };
 
 exports.seen = async (req, res) => {

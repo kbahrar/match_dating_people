@@ -46,6 +46,15 @@ export default {
   getList(id) {
     return Api().get(`browes/${id}`)
   },
+  Block (cred) {
+    return Api().post(`browes/block`, cred)
+  },
+  Reporte (cred) {
+    return Api().post(`browes/report`, cred)
+  },
+  checkReporte (cred) {
+    return Api().post(`browes/checkreport`, cred)
+  },
   Seen (cred) {
     return Api().post(`browes/seen`, cred)
   },

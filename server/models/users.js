@@ -1,6 +1,7 @@
 const connection = require('../config/database');
 const utils = require("../utils/auth");
 const crypto = require("crypto");
+const browesModel = require("./browes")
 
 
 exports.updateProfileRequest = async function (req, res) {
@@ -76,6 +77,18 @@ exports.getId = async function (login) {
     return false
 }
 
+exports.getLogin = async function (id) {
+    const qr = 'select login from users where id = ?'
+    var login = await connection.query(qr, [id])
+    if (login.length > 0){
+        login = JSON.stringify(login[0])
+        login = JSON.parse(login)
+        login = login.login
+        return login
+    }
+    return false
+}
+
 exports.fill = async function (req, res) {
     const query1 = "UPDATE users SET gender = ?, lookingfor = ?, bio = ?, city = ?, age = ?, fill = 1 WHERE login = ?";
     await connection.query(query1, [req.user.gender, req.user.mylookingfor, req.user.biography , req.user.city, req.user.age, req.info.login]);
@@ -126,8 +139,11 @@ exports.getMyInfo = async function (id) {
     return false 
 }
 
-exports.getOtherUserInfo = async function (id, login) {
-    const rq = "SELECT * from users WHERE id = ?"
+exports.getOtherUserInfo = async function (id, login, user) {
+    var check = await browesModel.checkBlock({login: login, user: user})
+    if (!check)
+        return false
+    const rq = "SELECT * from users WHERE id = ? AND access = true"
     var user = await connection.query(rq, [id])
     if (user.length > 0){
         user = JSON.stringify(user[0])

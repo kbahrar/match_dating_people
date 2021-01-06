@@ -11,13 +11,21 @@ function jwtSignUser (user) {
     })
     return token
 }
-  
+
+exports.checkAccess = async function (id) {
+    var qr = 'select * from users where id = ? and access = true'
+    var check = await connection.query(qr, [id])
+    if (check.length > 0)
+        return true
+    return false
+}
+
 exports.login = async function (req, res) {
 var log = req.log;
 var password = crypto.createHash('whirlpool').update(req.password).digest('hex');;
 if (log && password) {
     var result = await connection.query(
-    "SELECT * FROM users WHERE login = ? AND password = ?",
+    "SELECT * FROM users WHERE login = ? AND password = ? AND access = true",
     [log, password]);
     if (result.length > 0) {
         result = JSON.stringify(result[0]);

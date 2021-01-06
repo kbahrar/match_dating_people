@@ -1,7 +1,7 @@
 <template >
   <v-layout>
     <v-flex xs10 offset-xs1>
-      <error404 v-if="!user"/>
+      <error404 v-if="user.length == 0"/>
       <div outlined shaped elevation="20" class="grey lighten-2 elevation-5 p-4" v-else>
 
         <v-toolbar outlined shaped elevation="20" class="pink darken-2" dark>
@@ -110,13 +110,14 @@
 
             <v-card-actions>
             <v-btn
+                 class="ma-2"
                 color="blue lighten-2"
                 text
                 @click="like(user.login, 0, user.id)"
                 v-if="user.check"
             >
                 Like
-                <v-icon>mdi-thumb-up</v-icon>
+                <v-icon right>mdi-thumb-up</v-icon>
             </v-btn>
             <v-btn
                 class="ma-2"
@@ -126,8 +127,92 @@
                 v-if="!user.check"
             >
                 UnLike
-                <v-icon>mdi-thumb-down</v-icon>
+                <v-icon right>mdi-thumb-down</v-icon>
             </v-btn>
+            <v-dialog
+              v-model="dialog"
+              persistent
+              max-width="290"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  class="ma-2"
+                  text
+                  color="red"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                    BLOCK
+                    <v-icon right>fas fa-minus-circle</v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="headline">
+                  DANGER ACTION !
+                </v-card-title>
+                <v-card-text>Are you sure you wanna block this user ?</v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="dialog = false"
+                  >
+                    No
+                  </v-btn>
+                  <v-btn
+                    color="red darken-1"
+                    text
+                    @click="blockIt(user.login), dialog1 = false"
+                  >
+                    Yes
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+            <v-dialog
+              v-model="dialog1"
+              persistent
+              max-width="290"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  class="ma-2"
+                  text
+                  color="yellow darken-3"
+                  v-bind="attrs"
+                  v-on="on"
+                  v-if="!user.checkR"
+                >
+                    REPORT FAKE USER
+                    <v-icon right>fas fa-exclamation-triangle</v-icon>
+                </v-btn>
+              </template>
+              <v-card>
+                <v-card-title class="headline">
+                  DANGER ACTION !
+                </v-card-title>
+                <v-card-text>Are you sure you wanna report this user ?</v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    color="green darken-1"
+                    text
+                    @click="dialog1 = false"
+                  >
+                    No
+                  </v-btn>
+                  <v-btn
+                    color="red darken-1"
+                    text
+                    @click="reportIt(user.login), dialog1 = false"
+                  >
+                    Yes
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+            
             </v-card-actions>
         </v-card>
       </div>
@@ -142,6 +227,9 @@ import { getOtherUser } from '@/utils/utils'
 import { seenIt } from '@/utils/utils'
 import { likeIt } from '@/utils/utils'
 import { checkLike } from '@/utils/utils'
+import { report } from '@/utils/utils'
+import { block } from '@/utils/utils'
+import { checkreport } from '@/utils/utils'
 import error404 from '@/components/error404.vue'
 import vue from 'Vue'
 export default {
@@ -151,7 +239,9 @@ export default {
       lastSeen: false,
       images: [],
       server: 'http://localhost:5000/',
-      user: []
+      user: [],
+      dialog: false,
+      dialog1: false
     }
   },
   sockets: {
@@ -164,15 +254,52 @@ export default {
     error404
   },
   mounted: async function() {
-    var user = await getOtherUser(this.$route.params.login)
-    this.user = user
-    this.connect = user.online
-    this.lastSeen = user.connect
-    if (user)
-      seenIt(user.login, user.id)
-    this.addImages()
+    try {
+      var user = await getOtherUser(this.$route.params.login)
+      this.connect = user.online
+      this.lastSeen = user.connect
+      var check = await checkLike(user.login)
+      user.check = check
+      user.checkR = !await checkreport(user.login)
+      console.log(user.checkR)
+      this.user = user
+      if (user)
+        seenIt(user.login, user.id)
+      this.addImages()
+    }
+    catch (err) {
+      
+    }
   },
   methods: {
+    async reportIt (login) {
+      try {
+        await report(login)
+        this.$router.push('/')
+      }
+      catch (err) {
+      
+      }
+    },
+    async blockIt (login) {
+      try {
+        await block(login)
+        this.$router.push('/')
+      }
+      catch (err) {
+      
+      }
+    },
+    async like (login, flag, i) {
+        this.loading = true
+        await likeIt(login, flag, i)
+        await this.ifliked(login)
+        this.loading = false
+    },
+    async ifliked (login) {
+      var check = await checkLike(login)
+      this.user.check = check
+    },
     addImages: function() {
       if (this.user.mainFoto) {
         if (!this.user.mainFoto.includes("http"))
@@ -190,9 +317,14 @@ export default {
         this.images[4] = this.server + this.user.foto4
     },
     getUpdate: async function() {
-      var user = await getOtherUser(this.$route.params.login)
-      this.connect = user.online
-      this.lastSeen = user.connect
+      try {
+        var user = await getOtherUser(this.$route.params.login)
+        this.connect = user.online
+        this.lastSeen = user.connect
+      }
+      catch (err) {
+
+      }
     }
   }
 }
