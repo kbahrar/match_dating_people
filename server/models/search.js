@@ -39,7 +39,7 @@ async function getTags (login) {
 async function getUsers(adress, lookfor, id, infos) {
     var data = []
     var i = 4
-    var qr = "select DISTINCT u.id, u.login, FLOOR(ST_Distance_Sphere(point(?, ?), point(u.longitude, u.latitude)) / 1000) as distance, u.firstName, u.lastName, u.age, u.bio, u.fame, u.mainfoto from users u, tags t where u.gender = ? AND u.id != ? AND t.login = u.login "
+    var qr = "select DISTINCT u.id, u.login, FLOOR(ST_Distance_Sphere(point(?, ?), point(u.longitude, u.latitude)) / 1000) as distance, u.firstName, u.lastName, u.age, u.bio, u.fame, u.mainfoto from users u, tags t where u.gender = ? AND u.id != ? AND t.login = u.login AND u.access = true "
     data[0] = adress.longitude
     data[1] = adress.latitude
     data[2] = lookfor
