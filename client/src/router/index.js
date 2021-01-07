@@ -10,6 +10,7 @@ import fillPics from '@/components/fillPics'
 import Chat from '@/components/Chat'
 import browsing from '@/components/browsing'
 import myProfilePage from '@/components/myprofilePage'
+import matched from '@/components/matched'
 import userProfile from '@/components/userProfile'
 import search from '@/components/search'
 // import store from '@/store/store'
@@ -63,6 +64,14 @@ const router = new Router({
       path: "/fillpics",
       name: "fillpics",
       component: fillPics,
+      meta: {
+        allowAnonymous: false
+      }
+    },
+    {
+      path: "/matched",
+      name: "matched",
+      component: matched,
       meta: {
         allowAnonymous: false
       }
