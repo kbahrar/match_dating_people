@@ -348,10 +348,10 @@
         <v-layout>
 <v-flex xs6 offset-xs3>
                     
-      
-    <v-combobox
-    v-model="chips"
-    :items="items"
+      <v-combobox
+    v-model="tags.tag"
+    v-for="tag in updates.tags" :key="tags.tag"
+    :items="item"
     chips
     clearable
     label="at least 1 tag so people can know your interests"
