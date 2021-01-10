@@ -41,8 +41,8 @@
         
         <v-list-item-title class="headline mb-1 ">
         </v-list-item-title>
-        <v-list-item-subtitle >age</v-list-item-subtitle>
-        <v-list-item-subtitle>gender</v-list-item-subtitle>
+        <v-list-item-title >{{this.matched.firstName}} {{this.matched.lastName}}</v-list-item-title>
+        <v-list-item-subtitle >{{this.matched.login}}</v-list-item-subtitle>
       </v-list-item-content>
 
       <v-list-item-avatar
@@ -90,7 +90,7 @@ import vue from 'vue';
 export default {
   data () {
     return {   
-    matched: [],
+    matched: "",
     }
   },
     mounted: async function() {
@@ -100,7 +100,7 @@ export default {
 	  for (let i = 0; i < users.length; i++) {
 			users[i].idd = i
 	  }
-    this.matched = users
+    this.matched = users[0];
 	}
 	catch (err) {
 	  

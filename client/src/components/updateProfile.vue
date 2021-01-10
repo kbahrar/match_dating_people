@@ -442,9 +442,8 @@ export default {
       var user = await getUser(myinfo.id)
      this.user = user;
      this.updates = {...user}
-     
      console.log(JSON.stringify(this.updates.tags));
-
+  this.updates.tags.forEach(element => this.items = element);
   },
   methods: {
     remove (item) {
