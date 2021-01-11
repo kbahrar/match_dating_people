@@ -12,7 +12,7 @@
         <v-icon left>
           mdi-account
         </v-icon>
-        informations
+        info
       </v-tab>
       <v-tab>
         <v-icon left>
@@ -24,13 +24,19 @@
         <v-icon left>
           mdi-bio
         </v-icon>
-        Biography
+        Bio
       </v-tab>
       <v-tab>
         <v-icon left>
-          mdi-password
+          fas fa-key
         </v-icon>
-        Password
+        PWD
+      </v-tab>
+      <v-tab>
+        <v-icon left>
+          fas fa-location-arrow
+        </v-icon>
+        City
       </v-tab>
       <v-tab>
         <v-icon left>
@@ -38,11 +44,10 @@
         </v-icon>
         Tags
       </v-tab>
-      
 
       <v-tab-item>
-                            <v-layout>
-    <v-flex xs6 offset-xs3>
+      <v-layout>
+      <v-flex xs6 offset-xs3>
               
               <v-card-text>
                 <strong>I am : {{ updates.age }} years old</strong>
@@ -332,9 +337,7 @@
         </div>
 
     </v-flex>
-
-  </v-layout>
-      </v-tab-item>
+       </v-tab-item>
 
 
 

@@ -13,6 +13,7 @@ import myProfilePage from '@/components/myprofilePage'
 import matched from '@/components/matched'
 import userProfile from '@/components/userProfile'
 import search from '@/components/search'
+import active from '@/components/activation'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
@@ -121,6 +122,15 @@ const router = new Router({
       props: true,
       meta: {
         allowAnonymous: false
+      }
+    },
+    {
+      path: "/active/:token",
+      name: "active",
+      component: active,
+      props: true,
+      meta: {
+        allowAnonymous: true
       }
     }
   ]

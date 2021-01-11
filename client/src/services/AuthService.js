@@ -4,6 +4,9 @@ export default {
   register(cred) {
     return Api().post("register", cred);
   },
+  activer(cred) {
+    return Api().post("activer", cred);
+  },
   updateprofile(cred) {
     return Api().post("users/updateProfile", cred);
   },

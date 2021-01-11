@@ -1,28 +1,24 @@
-const connection = require('../config/database');
 var nodemailer = require('nodemailer');
+const { promisify } = require('util');
 
-function sendEmail(email) {
+exports.sendEmail = async function (email, token) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'kamalbahrar99@gmail.com',
-            pass: ' '
+            user: 'earthian.man@gmail.com',
+            pass: 'Benbraitit1993*'
         }
     });
 
     var mailOptions = {
-        from: 'kamalbahrar99@gmail.com',
+        from: 'earthian.man@gmail.com',
         to: email,
-        subject: 'Sending Email using Node.js',
-        text: 'That was easy!'
+        subject: 'confirmation register in matcha',
+        text: 'Confirm your register !',
+        html: '<h1>Welcome our New user !</h1><p>click <a href="http://localhost:8080/active/'+ token + '">here</a> to active your account </p>'
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' + info.response);
-        }
-    });
+    transporter.sendMail = promisify(transporter.sendMail)
+    await transporter.sendMail(mailOptions);
 }
 

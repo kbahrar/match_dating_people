@@ -1,15 +1,38 @@
 const authModel = require("../models/auth")
 const utils = require("../utils/auth")
 const policies = require("../middleware/register");
+const mail = require("../utils/mail")
+const crypto = require("crypto");
+
+exports.activer = async (req, res) => {
+  try {
+    var id = await authModel.getIdFromToken(req.body.tok);
+    if (id == 0)
+      throw 'invalide Token sent !'
+    var token = crypto.createHash('SHA1').update(Date.now().toString()).digest('hex');
+    await authModel.activeAccount(id, token)
+    res.send({msg: 'your account active now you can log In !'});
+  }
+  catch (err) {
+    res.status(400).send({
+      error: err || err.message
+    });
+  }
+};
 
 exports.Login = async (req, res) => {
   try {
     if (!req.body.log || !req.body.password) throw 'fill all fields';
-    if (!policies.checkLogin(req.body.login)) throw 'invalid login';
+    if (!policies.checkLogin(req.body.log)) throw 'invalid login';
     if (!policies.checkPwd(req.body.password)) throw 'invalid password !';
-    var flag = await authModel.login(req.body);
-    if (!flag) throw "login or password incorrect !";
-    res.send(flag);
+    var token = await authModel.login(req.body);
+    if (!token) throw "login or password incorrect !";
+    flag = await authModel.checkAccessValid(req.body)
+    if (flag == -1)
+      throw 'You can not get to your account any more !'
+    if (flag == 0)
+      throw 'You have to validate your account first we send you an email !'
+    res.send(token);
   }
   catch (err) {
     res.status(400).send({
@@ -30,12 +53,15 @@ exports.CreateUser = async (req, res) => {
       let flag1 = await utils.checkEmail(req.body.email);
       if (!flag1) throw 'email allready exists ! Choose another one';
       if (!flag) throw 'login allready exists ! Choose another one';
-      await authModel.register(req.body, res);
+      var token = crypto.createHash('SHA1').update(Date.now().toString()).digest('hex');
+      await mail.sendEmail(req.body.email, token)
+      await authModel.register(req.body, token);
       res.status(200).json({ success: true, msg: "Account created successfully !" });
     }
     catch (err) {
+      console.log(err || err.message)
       res.status(400).send({
-      error: err
+        error: err
       });
     }
 };

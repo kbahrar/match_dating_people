@@ -219,7 +219,7 @@ img{ max-width:100%;}
 .headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
 
 .recent_heading h4 {
-  color: #05728f;
+  color: #cc0066;
   font-size: 21px;
   margin: auto;
 }
@@ -289,7 +289,7 @@ img{ max-width:100%;}
 }
 
  .sent_msg p {
-  background: #05728f none repeat scroll 0 0;
+  background: #cc0066 none repeat scroll 0 0;
   border-radius: 3px;
   font-size: 14px;
   margin: 0; color:#fff;
@@ -313,7 +313,7 @@ img{ max-width:100%;}
 
 .type_msg {border-top: 1px solid #c4c4c4;position: relative;}
 .msg_send_btn {
-  background: #05728f none repeat scroll 0 0;
+  background: #cc0066 none repeat scroll 0 0;
   border: medium none;
   border-radius: 50%;
   color: #fff;

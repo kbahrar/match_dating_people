@@ -74,6 +74,12 @@
         </template>
         <v-list>
           <v-list-item>
+            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent"><v-icon left>fas fa-history</v-icon><v-btn to="/search">
+              History
+           </v-btn>
+           </v-list-item-title> 
+          </v-list-item>
+          <v-list-item>
             <v-list-item-title v-if="isLoggedIn()" text dark class="transparent"><v-icon left>fas fa-search-plus</v-icon><v-btn to="/search">
               Research
            </v-btn></v-list-item-title> 
