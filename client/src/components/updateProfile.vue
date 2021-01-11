@@ -336,11 +336,9 @@
           <v-btn @click="checkPasswordForm($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
         </div>
 
-    </v-flex>
-       </v-tab-item>
-
-
-
+</v-flex>
+        </v-layout>
+      </v-tab-item>
 
 
 
