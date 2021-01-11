@@ -11,6 +11,7 @@ router.post("/updateprofilepassword", auth, usersCtrl.updateProfilePassword)
 router.put("/location", auth, usersCtrl.location)
 router.put("/uploadImg", auth, usersCtrl.uploadImg)
 router.get("/getUser/:id", auth, usersCtrl.getUserInfo)
+router.get("/getSeenLiked/:id", auth, usersCtrl.getSeenLiked)
 router.get("/getOtherUser/:id&:login", auth, usersCtrl.getOtherUserInfo)
 
 module.exports = router

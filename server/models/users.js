@@ -77,6 +77,28 @@ exports.getId = async function (login) {
     return false
 }
 
+exports.getLiked = async function (login) {
+    const qr = 'select u.firstName, u.lastName, u.login, u.mainFoto, l.action_date from liked l, users u where l.login = u.login AND l.liked = ?'
+    var liked = await connection.query(qr, [login])
+    if (liked.length > 0){
+        liked = JSON.stringify(liked)
+        liked = JSON.parse(liked)
+        return liked
+    }
+    return false
+}
+
+exports.getSeen = async function (login) {
+    const qr = 'select u.firstName, u.lastName, u.login, u.mainFoto, s.action_date from seen s, users u where s.viewer = u.login AND s.login = ?'
+    var seen = await connection.query(qr, [login])
+    if (seen.length > 0){
+        seen = JSON.stringify(seen)
+        seen = JSON.parse(seen)
+        return seen
+    }
+    return false
+}
+
 exports.getLogin = async function (id) {
     const qr = 'select login from users where id = ?'
     var login = await connection.query(qr, [id])

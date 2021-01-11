@@ -7,20 +7,6 @@
           <v-toolbar-title>Fill profile to continue</v-toolbar-title>
         </v-toolbar>
         <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
-          <!-- <v-file-input
-            v-model="pictures"
-            :rules="[(value => !value || value.length < 5 ) || 'add at least 5 pictures', (value => !value || value.size < 5 ) || 'add at least 5 pictures']"
-                    counter
-                     multiple
-                      show-size
-                      small-chips
-                          clearable
-                     truncate-length="11"
-                      label="add at least 5 pictures"
-                    accept="image/png, image/jpeg, image/bmp"
-                   placeholder="Click to add profile pictures"
-                   prepend-icon="mdi-camera"
-          ></v-file-input> -->
          <v-row align="center">
            <v-col cols="12">
              <v-select
@@ -33,7 +19,7 @@
              </v-col>
              </v-row>
 
-             <v-text-field
+          <v-text-field
             class="mt-5"
             id="city"
             v-model="city"

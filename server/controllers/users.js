@@ -5,6 +5,7 @@ const base64Img = require('base64-img')
 const fs = require('fs')
 const { promisify } = require('util')
 const e = require('express');
+const { use } = require('../routes/users');
 
 
 exports.updateProfile = async (req, res, next) => {
@@ -128,6 +129,22 @@ exports.uploadImg = async (req, res) => {
       uImage[j++] = null
     await usersModel.uImages(uImage, req.body.info.id)
     res.status(200).json({ success: true});
+  }
+  catch (err) {
+    res.status(400).send({
+      error: err.message || err
+    })
+  }
+}
+
+exports.getSeenLiked = async (req, res) => {
+  try {
+    var login = await usersModel.getLogin(req.params.id)
+    var seen = await usersModel.getSeen(login)
+    var liked = await usersModel.getLiked(login)
+    var users = {liked, seen}
+
+    res.status(200).send(users);
   }
   catch (err) {
     res.status(400).send({

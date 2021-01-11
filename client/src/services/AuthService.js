@@ -46,6 +46,9 @@ export default {
   getUser(id) {
     return Api().get(`users/getUser/${id}`)
   },
+  getSeenLiked(id) {
+    return Api().get(`users/getSeenLiked/${id}`)
+  },
   getList(id) {
     return Api().get(`browes/${id}`)
   },

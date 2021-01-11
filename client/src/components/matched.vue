@@ -22,60 +22,86 @@
       <v-tab-item>
 
     <v-layout class="pb-10">
-
-    <v-flex xs6 offset-xs3 class="m-10" >
-      
-
-       <!---<div :class="user.class" v-for="user in this.matched"
-			:key="user.idd" @click="getCvr(user.idd)">
-      <h5>{{user.firstName}} {{user.lastName}}</h5>
-        </div> --->
-                <v-card
-    class="mx-auto m-2"
-    outlined
-    max-width="800"
-    
-  >
-    <v-list-item >
-      <v-list-item-content>
+      <v-flex xs6 offset-xs3 class="m-10" >
+        <v-card
+          class="mx-auto m-2"
+          outlined
+          max-width="800"
+          
+        >
+          <v-list-item v-for="user in liked" :key="user.login">
+            <v-list-item-content>
         
-        <v-list-item-title class="headline mb-1 ">
-        </v-list-item-title>
-        <v-list-item-title >{{this.matched.firstName}} {{this.matched.lastName}}</v-list-item-title>
-        <v-list-item-subtitle >{{this.matched.login}}</v-list-item-subtitle>
-      </v-list-item-content>
+              <v-list-item-title class="headline mb-1 ">
+              </v-list-item-title>
+              <v-list-item-title >{{user.firstName}} {{user.lastName}}</v-list-item-title>
+              <v-list-item-subtitle ><i>{{moment(user.action_date).fromNow()}}</i></v-list-item-subtitle>
+            </v-list-item-content>
 
-      <v-list-item-avatar
-        size="100"
-        color="grey"
-      ></v-list-item-avatar>
-    </v-list-item>
+            <v-list-item-avatar
+              size="100"
+              color="grey"
+            >
+            <v-img :src="'http://localhost:5000/'+ user.mainFoto"></v-img>
+            </v-list-item-avatar>
+          <v-card-actions>
+                <v-btn
+                  outlined
+                  rounded
+                  text
+                  :to="'users/'+ user.login"
+                >
+                  View 
+                </v-btn>
+              </v-card-actions>
+              </v-list-item>
+        </v-card>
 
-    <v-card-actions>
-      <v-btn
-        outlined
-        rounded
-        text
-      >
-        Button 
-      </v-btn>
-    </v-card-actions>
-  </v-card>
-
-    </v-flex>
-  </v-layout>
+        </v-flex>
+      </v-layout>
       </v-tab-item>
+
+
+
       <v-tab-item>
         <v-layout>
-    <v-flex xs6 offset-xs3>
-        <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
-          
+          <v-flex xs6 offset-xs3 class="pb-10">
+             <v-card
+              class="mx-auto m-2"
+              outlined
+              max-width="800" 
+              >
+              <v-list-item v-for="user in seen" :key="user.login">
+            <v-list-item-content>
         
-        
+              <v-list-item-title class="headline mb-1 ">
+              </v-list-item-title>
+              <v-list-item-title >{{user.firstName}} {{user.lastName}}</v-list-item-title>
+              <v-list-item-subtitle ><i>{{moment(user.action_date).fromNow()}}</i></v-list-item-subtitle>
+            </v-list-item-content>
+
+            <v-list-item-avatar
+              size="100"
+              color="grey"
+            >
+            <v-img :src="'http://localhost:5000/'+ user.mainFoto"></v-img>
+            </v-list-item-avatar>
           
-        </div>
-    </v-flex>
-  </v-layout>
+
+              <v-card-actions>
+                <v-btn
+                  outlined
+                  rounded
+                  text
+                  :to="'users/'+ user.login"
+                >
+                  View 
+                </v-btn>
+              </v-card-actions>
+              </v-list-item>
+            </v-card>
+          </v-flex>
+        </v-layout>
       </v-tab-item>
      
     </v-tabs>
@@ -83,33 +109,32 @@
 </template>
 
 <script>
-import {getMatched} from "../utils/utils"
-import vue from 'vue';
-
+import Authent from '@/services/AuthService'
+import { getUserInfo } from '@/policies/auth'
 
 export default {
   data () {
-    return {   
-    matched: "",
+    return {
+      liked: [],
+      seen: []
     }
   },
-    mounted: async function() {
-	try {
-	  var users = await getMatched()
-      console.log("am here brother\n" + JSON.stringify(users));
-	  for (let i = 0; i < users.length; i++) {
-			users[i].idd = i
-	  }
-    this.matched = users[0];
-	}
-	catch (err) {
-	  
-	}
+  mounted: async function() {
+    try {
+      var user = getUserInfo()
+      var response = await Authent.getSeenLiked(user.id)
+      this.liked = response.data.liked
+      this.seen = response.data.seen
+    }
+    catch (err) {
+      console.log(err || err.message)
+    }
   },
-  methods: { 
-         
-    },
+  methods: {
+    
+  }
 }
+
 </script>
 
 <style scoped>
