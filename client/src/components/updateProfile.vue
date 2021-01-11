@@ -34,12 +34,6 @@
       </v-tab>
       <v-tab>
         <v-icon left>
-          fas fa-location-arrow
-        </v-icon>
-        City
-      </v-tab>
-      <v-tab>
-        <v-icon left>
           mdi-tag
         </v-icon>
         Tags

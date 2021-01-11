@@ -13,6 +13,7 @@ import myProfilePage from '@/components/myprofilePage'
 import matched from '@/components/matched'
 import userProfile from '@/components/userProfile'
 import search from '@/components/search'
+import location from '@/components/location'
 import active from '@/components/activation'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
@@ -119,6 +120,15 @@ const router = new Router({
       path: "/search",
       name: "search",
       component: search,
+      props: true,
+      meta: {
+        allowAnonymous: false
+      }
+    },
+    {
+      path: "/location",
+      name: "location",
+      component: location,
       props: true,
       meta: {
         allowAnonymous: false

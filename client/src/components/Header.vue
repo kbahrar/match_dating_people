@@ -74,7 +74,19 @@
         </template>
         <v-list>
           <v-list-item>
-            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent"><v-icon left>fas fa-history</v-icon><v-btn to="/search">
+            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent"><v-icon left>fas fa-images</v-icon><v-btn to="/fillpics">
+              PICTURES
+           </v-btn>
+           </v-list-item-title> 
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent"><v-icon left>fas fa-location-arrow</v-icon><v-btn to="/location">
+              location
+           </v-btn>
+           </v-list-item-title> 
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title v-if="isLoggedIn()" text dark class="transparent"><v-icon left>fas fa-history</v-icon><v-btn to="/matched">
               History
            </v-btn>
            </v-list-item-title> 
