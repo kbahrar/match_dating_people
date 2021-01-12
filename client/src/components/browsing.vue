@@ -219,7 +219,7 @@
                 <v-chip-group
                     column
                 >
-                    <v-chip v-for="tag in user.tags" :key="tag.tag">#{{tag.tag}}</v-chip>
+                    <v-chip v-for="(tag, index) in user.tags" :key="index">#{{tag.tag}}</v-chip>
                 </v-chip-group>
             </v-card-text>
 

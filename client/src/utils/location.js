@@ -2,6 +2,7 @@ import axios from 'axios'
 import Authent from '@/services/AuthService'
 import { getUserInfo } from '@/policies/auth'
 const user = getUserInfo()
+
 export async function getStreetAddressFrom(lat, long) {
     try {
         var key = "AIzaSyCFw_wLwwFIU_-uZyLK46e8US5NvUrd_O4"
@@ -31,24 +32,18 @@ export async function getStreetAddressFrom(lat, long) {
 }
 
 export async function getIp() {
-    // try {
-        var { data } = await axios.get(
-            "https://api.ipify.org?format=json"
-        );
-        console.log(data.ip);
-        var key = "at_XvriW1GP6fUvb2YSoRYhaFwSgnAyE"
-        var location = await axios.get(
-            "https://geo.ipify.org/api/v1?apiKey="+key+"&ipAddress="+data.ip
-        )
-        // console.log(location.data.location)
-        await Authent.putLocation({
-            location: location.data.location,
-            info: user
-        })
-    // }
-    // catch (err){
-    //     console.log('error in getIp')
-    // }
+    var { data } = await axios.get(
+        "https://api.ipify.org?format=json"
+    );
+    console.log(data.ip);
+    var key = "at_XvriW1GP6fUvb2YSoRYhaFwSgnAyE"
+    var location = await axios.get(
+        "https://geo.ipify.org/api/v1?apiKey="+key+"&ipAddress="+data.ip
+    )
+    await Authent.putLocation({
+        location: location.data.location,
+        info: user
+    })
 }
 
 export async function locationDetect() {

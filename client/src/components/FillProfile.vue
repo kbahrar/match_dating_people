@@ -19,16 +19,6 @@
              </v-col>
              </v-row>
 
-          <v-text-field
-            class="mt-5"
-            id="city"
-            v-model="city"
-            :rules="[v => !!v || 'city required', v => /^[A-Za-z][A-Za-z]{2,31}$/.test(v) || 'invalide city name.']"
-            label="enter your City"
-            required
-            outlined
-            shaped
-          ></v-text-field>
 
           <v-card-text>
             <strong>I am : {{ age }} years old</strong>
@@ -124,7 +114,6 @@ export default {
       gender: ['Male', 'Female', 'Other'],
       mygender: '',
       mychips: [],
-      city: '',
       lookingfor: ['Male', 'Female', 'Other'],
       mylookingfor: '',
       alert: true,
@@ -134,23 +123,7 @@ export default {
       reg: null,
       error: null,
       errors: [],
-      autoC: null
     }
-  },
-  mounted() {
-    this.autoC =  new google.maps.places.Autocomplete(
-        document.getElementById('city'),
-        {types: ['geocode']}
-    )
-    this.autoC.addListener('place_changed', () => {
-      let place = this.autoC.getPlace();
-      let ac = place.address_components;
-      let lat = place.geometry.location.lat();
-      let lon = place.geometry.location.lng();
-      let city = ac[0]["long_name"];
-      this.city = city
-      console.log(`The user picked ${city} with the coordinates ${lat}, ${lon}`);
-    });
   },
   methods: {
     remove (item) {
@@ -167,7 +140,6 @@ export default {
           user: {
           gender: this.mygender,
           age: this.age,
-          city: this.city,
           chips: this.chips,
           mylookingfor: this.mylookingfor,
           biography: this.biography
@@ -191,9 +163,6 @@ export default {
       var i = 0;
       if (!this.mygender) {
         this.errors.push("gender type required.");
-      }
-      if (!this.city || this.city.length < 2) {
-        this.errors.push("city is required.");
       }
       if (!this.age || this.age < 18) {
         this.errors.push("age required.");

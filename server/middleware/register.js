@@ -66,7 +66,7 @@ function checkPwd(pwd) {
 
 function checkFillProfile(req) {
     var body = req.user
-    if (!req.info.login || !body.gender || !body.age || !body.city || !body.chips || !body.mylookingfor || !body.biography)
+    if (!req.info.login || !body.gender || !body.age || !body.chips || !body.mylookingfor || !body.biography)
         return 'You do not send all informations'
     if (body.gender !== 'Other' && body.gender !== 'Female' && body.gender !== 'Male')
         return 'You choose A gender does not exist !'

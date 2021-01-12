@@ -19,8 +19,10 @@
   "homepage": "https://github.com/khimya/matcha#readme",
   "dependencies": {
     "-": "0.0.1",
+    "arabic-personal-names": "^1.0.4",
     "base64-img": "^1.0.4",
     "bcrypt": "^5.0.0",
+    "chance": "^1.1.7",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",

@@ -5,8 +5,6 @@ const base64Img = require('base64-img')
 const fs = require('fs')
 const { promisify } = require('util')
 const e = require('express');
-const { use } = require('../routes/users');
-
 
 exports.updateProfile = async (req, res, next) => {
   try {

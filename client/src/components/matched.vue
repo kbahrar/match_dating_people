@@ -29,7 +29,7 @@
           max-width="800"
           
         >
-          <v-list-item v-for="user in liked" :key="user.login">
+          <v-list-item v-for="(user, index) in liked" :key="index">
             <v-list-item-content>
         
               <v-list-item-title class="headline mb-1 ">
@@ -71,7 +71,7 @@
               outlined
               max-width="800" 
               >
-              <v-list-item v-for="user in seen" :key="user.login">
+              <v-list-item v-for="(user, index) in seen" :key="index">
             <v-list-item-content>
         
               <v-list-item-title class="headline mb-1 ">

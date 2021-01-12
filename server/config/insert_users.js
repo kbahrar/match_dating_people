@@ -1,5 +1,13 @@
 const connection = require('./database')
 const faker = require("faker")
+var names = require('arabic-personal-names')
+const fs = require('fs');
+var Chance = require('chance')
+
+var chance = new Chance()
+
+let rawdata = fs.readFileSync(__dirname + '/ma.json');
+let cities = JSON.parse(rawdata)
 
 var gender = ['Male', 'Female', 'Other']
 var i = 0
@@ -8,9 +16,9 @@ var tags = ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'n
 
 function addTags(login) {
     var i = 0
-    while (i < 8) {
+    while (i < 5) {
         const qr = 'insert into tags (login, tag) VALUES (?, ?)'
-        connection.query(qr, [login, tags[i]], function (err) {
+        connection.query(qr, [login, tags[faker.random.number({min: 0, max: 8})]], function (err) {
             if (err) throw err;
             else {
               console.log('user tag Created !');
@@ -22,32 +30,33 @@ function addTags(login) {
 
 while (i < 50)
 {
+    var city = faker.random.number({min: 0, max: 57})
     var g = gender[faker.random.number({min: 0, max: 2})];
     var name = ''
     if (g == 'Male') {
-        name = faker.name.firstName(0)
+        name = chance.pick(names.male)
     }
     else if (g == 'Female') {
-        name = faker.name.firstName(1)
+        name = chance.pick(names.female)
     }
     else {
-        name = faker.name.firstName()
+        name = chance.pick(names.male)
     }
-    var userName = faker.internet.userName(name)
+    var userName = faker.internet.userName()
     connection.query(qr, [
         userName,
         name,
-        faker.name.lastName(),
+        chance.pick(names.last),
         faker.internet.email(),
         faker.internet.password(),
         faker.random.number({min: 18, max: 44}),
         g,
         gender[faker.random.number({min: 0, max: 2})],
-        faker.address.city(),
+        cities[city].city,
         faker.lorem.paragraph(5),
         faker.random.image(),
-        faker.address.latitude(),
-        faker.address.longitude(),
+        cities[city].lat,
+        cities[city].lng,
         faker.date.past(),
         faker.random.number({min: 500, max: 5000})
     ], function (err) {

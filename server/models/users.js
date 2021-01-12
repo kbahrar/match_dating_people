@@ -78,7 +78,7 @@ exports.getId = async function (login) {
 }
 
 exports.getLiked = async function (login) {
-    const qr = 'select u.firstName, u.lastName, u.login, u.mainFoto, l.action_date from liked l, users u where l.login = u.login AND l.liked = ?'
+    const qr = 'select u.firstName, u.lastName, u.login, u.mainFoto, l.action_date from liked l, users u where l.login = u.login AND l.liked = ? ORDER by l.action_date DESC'
     var liked = await connection.query(qr, [login])
     if (liked.length > 0){
         liked = JSON.stringify(liked)
@@ -89,7 +89,7 @@ exports.getLiked = async function (login) {
 }
 
 exports.getSeen = async function (login) {
-    const qr = 'select u.firstName, u.lastName, u.login, u.mainFoto, s.action_date from seen s, users u where s.viewer = u.login AND s.login = ?'
+    const qr = 'select u.firstName, u.lastName, u.login, u.mainFoto, s.action_date from seen s, users u where s.viewer = u.login AND s.login = ? ORDER by s.action_date DESC'
     var seen = await connection.query(qr, [login])
     if (seen.length > 0){
         seen = JSON.stringify(seen)
@@ -112,8 +112,8 @@ exports.getLogin = async function (id) {
 }
 
 exports.fill = async function (req, res) {
-    const query1 = "UPDATE users SET gender = ?, lookingfor = ?, bio = ?, city = ?, age = ?, fill = 1 WHERE login = ?";
-    await connection.query(query1, [req.user.gender, req.user.mylookingfor, req.user.biography , req.user.city, req.user.age, req.info.login]);
+    const query1 = "UPDATE users SET gender = ?, lookingfor = ?, bio = ?, age = ?, fill = 1 WHERE login = ?";
+    await connection.query(query1, [req.user.gender, req.user.mylookingfor, req.user.biography , req.user.age, req.info.login]);
     for (let i = 0; i < req.user.chips.length; i++) {
         var check = await checkTag(req.info.login, req.user.chips[i])
         if (check.length > 0)
