@@ -1,7 +1,6 @@
 const connection = require('../config/database');
-const utils = require("../utils/auth");
 const crypto = require("crypto");
-const browesModel = require("./browes")
+const browesModel = require("./browes");
 
 
 exports.updateProfileRequest = async function (req, res) {
@@ -47,9 +46,21 @@ async function checkTag(login, tag) {
     return check
 }
 
+async function checkUpdateTag(login, tag) {
+    const qr = 'select * from tags where login = ? AND tag = ?'
+    var check = await connection.query(qr, [login, tag])
+    return check
+}
+
 async function addTags(login, tag) {
     const qr = 'insert into tags (login, tag) VALUES (?, ?)'
     await connection.query(qr, [login, tag])
+}
+
+async function deleteTags(login) {
+    console.log(JSON.stringify("HELLO : " + login));
+    const qr = 'delete from tags where login = ?'
+    await connection.query(qr, [login])
 }
 
 async function getTags (login) {
@@ -119,6 +130,27 @@ exports.fill = async function (req, res) {
         if (check.length > 0)
             continue
         await addTags(req.info.login, req.user.chips[i]);
+    }
+}
+
+
+exports.updateProfileTagsRequest = async function (req, res) {
+    var chips = req.chips;
+    const addqr = 'select login from users where id = ?'
+    var login = await connection.query(addqr, req.id)
+    if (login.length > 0){
+        login = JSON.stringify(login[0])
+        login = JSON.parse(login)
+        login = login.login
+    }
+    else
+        return false
+        await deleteTags(login);
+    for (let i = 0; i < chips.length; i++) {
+       var check = await checkUpdateTag(login, chips[i])
+        if (check.length > 0)
+            continue
+        await addTags(login, chips[i]);
     }
 }
 

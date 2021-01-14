@@ -56,7 +56,7 @@
           </v-list-item>
         </v-list>
       </v-menu>
-      <v-btn v-if="isLoggedIn()" text dark class="transparent" to="/users/kbahrar">
+      <v-btn v-if="isLoggedIn()" text dark class="transparent" :to="'/users/' + login">
         {{login}}
       </v-btn>
 

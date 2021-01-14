@@ -108,7 +108,7 @@
               <v-divider class="mx-4"></v-divider>
 
 
-            <v-card-actions>
+            <v-card-actions  v-if="login != user.login">
             <v-btn
                  class="ma-2"
                 color="blue lighten-2"
@@ -224,6 +224,7 @@
 import Authent from '@/services/AuthService'
 import {logoutUser} from '@/policies/auth'
 import { getOtherUser } from '@/utils/utils'
+import { getUserInfo } from '@/policies/auth'
 import { seenIt } from '@/utils/utils'
 import { likeIt } from '@/utils/utils'
 import { checkLike } from '@/utils/utils'
@@ -241,7 +242,8 @@ export default {
       server: 'http://localhost:5000/',
       user: [],
       dialog: false,
-      dialog1: false
+      dialog1: false,
+      login: ''
     }
   },
   sockets: {
@@ -255,6 +257,8 @@ export default {
   },
   mounted: async function() {
     try {
+      var info = getUserInfo()
+      this.login = info.login
       var user = await getOtherUser(this.$route.params.login)
       this.connect = user.online
       this.lastSeen = user.connect
@@ -263,7 +267,7 @@ export default {
       user.checkR = !await checkreport(user.login)
       console.log(user.checkR)
       this.user = user
-      if (user)
+      if (user && user.login != this.login)
         seenIt(user.login, user.id)
       this.addImages()
     }

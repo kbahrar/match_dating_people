@@ -52,6 +52,25 @@ exports.updateProfileBio = async (req, res, next) => {
     });
   }
 };
+
+exports.updateProfileTags = async (req, res, next) => {
+ 
+  try {
+    var info = req.body.info;
+    var check = upPolicies.checkTagsUpdate(info.chips);
+    if (check !== 'OK')
+        throw check;
+    await usersModel.updateProfileTagsRequest(info, res);
+    res.status(200).json({ success: true, msg: "Tags updated successfully !" });
+  }
+  catch (err) {
+    console.log("Error");
+    res.status(400).send({
+      error: err.message || err
+    });
+  }
+};
+
 exports.updateProfilePassword = async (req, res, next) => {
   try {
     var updates = req.body.info;

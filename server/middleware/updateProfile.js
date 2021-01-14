@@ -37,8 +37,22 @@ function checkBioUpdate(bio) {
     }
     return false
 }
+
+function checkTagsUpdate(tags) {
+    var i;
+
+    i = 0;
+    while(tags[i])
+    {
+        if (tags[i].length < 3 || !tags[i])
+            return false
+        return "OK";
+    }
+    return false
+}
 module.exports = {
     checkUpdateProfile: checkUpdateProfile,
+    checkTagsUpdate: checkTagsUpdate,
     checkMailUpdate: checkMailUpdate,
     checkBioUpdate: checkBioUpdate,
 }

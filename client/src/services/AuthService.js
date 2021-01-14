@@ -16,6 +16,9 @@ export default {
   updateprofilebio(cred) {
     return Api().post("users/updateprofilebio", cred);
   },
+  updateprofiletags(cred) {
+    return Api().post("users/updateprofiletags", cred);
+  },
   updateprofilepassword(cred) {
     return Api().post("users/updateprofilepassword", cred);
   },

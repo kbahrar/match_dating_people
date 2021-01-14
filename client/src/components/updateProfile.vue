@@ -18,7 +18,7 @@
         <v-icon left>
           mdi-email
         </v-icon>
-        Email
+        mail
       </v-tab>
       <v-tab>
         <v-icon left>
@@ -28,9 +28,9 @@
       </v-tab>
       <v-tab>
         <v-icon left>
-          fas fa-key
+          mdi-lock
         </v-icon>
-        PWD
+        Pass
       </v-tab>
       <v-tab>
         <v-icon left>
@@ -94,32 +94,7 @@
              ></v-select>
              </v-col>
              </v-row>
-
-                    <!-- <v-combobox
-    v-model="update.chips"
-    :items="chips"
-    chips
-    clearable
-    label="at least 1 tag so people can know your interests"
-    multiple
-    prepend-icon="mdi-filter-variant"
-    solo
-  >
-    <template v-slot:selection="{ attrs, item, select, selected }">
-      <v-chip
-        v-bind="attrs"
-        :input-value="selected"
-        close
-        @click="select"
-        @click:close="remove(item)"
-      >
-        <strong>{{ item }}</strong>&nbsp;
-      </v-chip>
-    </template>
-  </v-combobox> -->
-           
-
-        
+                 
         <div class="m-5 pl-5 pr-4 pt-2 pb-2" dark>
                
           <v-alert
@@ -149,26 +124,6 @@
   </v-layout>
       </v-tab-item>
       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <v-tab-item>
@@ -256,19 +211,6 @@
       </v-tab-item>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
       <v-tab-item>
         <v-layout>
 <v-flex xs6 offset-xs3>
@@ -335,10 +277,6 @@
       </v-tab-item>
 
 
-
-
-
-
       <v-tab-item>
         <v-layout>
 <v-flex xs6 offset-xs3>
@@ -388,16 +326,13 @@
           <v-alert type="success" v-if="reg">
             {{reg}}
           </v-alert>
-          <v-btn @click="checkPasswordForm($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
+          <v-btn @click="checkTagsForm($event)" class="pink darken-2 mb-5"  dark>Update</v-btn>
         </div>
 
     </v-flex>
 
   </v-layout>
       </v-tab-item>
-
-
-
 
 
 
@@ -421,7 +356,6 @@ export default {
       chips: [],
       items: ['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature'],
       mychips: [],
-      // chips:['Streaming', 'Eating','Dancing','Chating','weed','travel','love', 'nature','Coding', 'Gaming', 'Netflix', 'Sleeping'],
       updates: {},
       reg: null,
       errors: [],
@@ -437,8 +371,9 @@ export default {
       var user = await getUser(myinfo.id)
      this.user = user;
      this.updates = {...user}
-     console.log(JSON.stringify(this.updates.tags));
-  this.updates.tags.forEach(element => this.items = element);
+     for (let i = 0; i < this.updates.tags.length; i++) {
+       this.chips[i] = this.updates.tags[i].tag
+     }
   },
   methods: {
     remove (item) {
@@ -494,17 +429,18 @@ export default {
             }
           }
           },
-      updateTags: async function() {
+      updateProfileTags: async function() {
         try {
           this.error = null;
           this.reg = 'Tags changed succefully!';
-          await Authent.updatetags(
+          await Authent.updateprofiletags(
             {
               info: {
                 id: this.user.id,
-                chips: this.updates.chips,
+                chips: this.chips,
               },
             })
+            
           } catch (err) {
             this.reg = null;
             this.error = err.response.data.error || 'Tags not Valid !'
@@ -596,10 +532,9 @@ export default {
         e.preventDefault();
     },
 
-
-
       checkEmailForm: function (e) {
         this.errors = [];
+        
       if (!this.updates.email) {
         this.errors.push("Pick a new Valid Email.");
       }
@@ -610,20 +545,94 @@ export default {
       else
         e.preventDefault();
     },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       checkTagsForm: function (e) {
+        //console.log(JSON.stringify(this.chips.length));
         this.errors = [];
-      if (!this.updates.tags) {
+        this.alert = true
+      for (let i = 0; i < this.chips.length; i++) {
+          
+          if(this.chips[i].length < 3)
+               this.errors.push("pick a new valid tags.");
+      }
+      if (!this.chips) {
         this.errors.push("pick a new valid tags.");
       }
-      if (!this.update.chips || this.update.chips.length < 5)
+      else if (!this.chips || this.chips.length < 5)
         this.errors.push("at least 5 tag required !.");
-      else if(this.update.chips && this.update.chips.length > 5 && !this.errors.length )
+      else if (this.checktagsupdates(this.chips, this.updates.tags) == false)
+        this.errors.push("you don't change anything");
+      else if(this.chips && this.chips.length >= 5 && !this.errors.length )
       {
-        this.updateTags();
-      }
+        // ana b9it hna
+        //
+        //
+        //
+        //
+        //
+      
+        
+          this.updateProfileTags();
+       }
       else
         e.preventDefault();
     },
+//
+//
+//
+//
+//
+//
+//
+
+    checktagsupdates(tags, chips)
+    {
+      var check = 0
+      if (tags.length !== chips.length) {
+        return true
+      }
+      for (let i = 0; i < tags.length; i++) {
+        for (let j = 0; j < chips.length; j++) {
+          console.log(tags[i] + ' ' + chips[j].tag)
+          if (tags[i] == chips[j].tag) {
+            check++
+            break ;
+          }
+        }
+      }
+      console.log(check)
+      if (check == tags.length)
+        return false
+      return true
+    },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       checkForm: function (e) {
         this.errors = [];
       if (!this.updates.age || this.updates.age < 18 || this.updates.age > 100) {
@@ -648,8 +657,8 @@ export default {
       else
         e.preventDefault();
     },
+
     checkAll () {
-      //console.log("update : " + this.updates.age + '\n' + "user : " + this.user.age);
       if (this.updates.age != this.user.age)
         return true
       if (this.updates.firstName != this.user.firstName)
@@ -664,24 +673,25 @@ export default {
         return true
       return false
     },
+
     checkEmail () {
-      //console.log("update : " + this.updates.age + '\n' + "user : " + this.user.age);
       if (this.updates.email != this.user.email)
         return true
       return false
     },
+
     checkBio () {
-      //console.log("update : " + this.updates.age + '\n' + "user : " + this.user.age);
       if (this.updates.bio != this.user.bio)
         return true
       return false
     },
+
     checkTags () {
-      //console.log("update : " + this.updates.age + '\n' + "user : " + this.user.age);
       if (this.updates.chips != this.user.chips)
         return true
       return false
     }
+
   }
 }
 </script>
