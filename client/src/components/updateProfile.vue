@@ -40,7 +40,7 @@
       </v-tab>
 
       <v-tab-item>
-      <v-layout>
+      <v-layout >
       <v-flex xs6 offset-xs3>
               
               <v-card-text>
@@ -126,7 +126,7 @@
       
 
 
-    <v-tab-item>
+    <v-tab-item class="mt-5">
     <v-layout>
         <v-flex xs6 offset-xs3>
               
@@ -138,6 +138,7 @@
             required
             outlined
             shaped
+            
           ></v-text-field>
 
 
@@ -171,9 +172,9 @@
     </v-layout>
 
       </v-tab-item>
-      <v-tab-item>
+      <v-tab-item class="mt-5">
         <v-layout>
-<v-flex xs6 offset-xs3>
+<v-flex xs6 offset-xs3 >
              <v-textarea
           name="Biography"
           label="Biography"
@@ -211,10 +212,10 @@
       </v-tab-item>
 
 
-      <v-tab-item>
+      <v-tab-item class="mt-5">
         <v-layout>
-<v-flex xs6 offset-xs3>
-                       <v-text-field
+<v-flex xs6 offset-xs3 class="">
+                       <v-text-field 
             :append-icon="flag ? 'mdi-eye' : 'mdi-eye-off'"
             :type="!flag ? 'text' : 'password'"
             name="password"
@@ -277,9 +278,9 @@
       </v-tab-item>
 
 
-      <v-tab-item>
-        <v-layout>
-<v-flex xs6 offset-xs3>
+      <v-tab-item class="mt-5">
+        <v-layout > 
+<v-flex xs6 offset-xs3 >
                     
       
     <v-combobox

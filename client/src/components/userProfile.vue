@@ -1,6 +1,6 @@
 <template >
   <v-layout>
-    <v-flex xs10 offset-xs1>
+    <v-flex xs10 offset-xs1 class="mt-10">
       <error404 v-if="user.length == 0"/>
       <div outlined shaped elevation="20" class="grey lighten-2 elevation-5 p-4" v-else>
 
