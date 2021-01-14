@@ -25,8 +25,8 @@
         </v-badge>
       </v-btn>
 
-      <v-menu transition="slide-x-transition">
-        <template v-slot:activator="{ on, attrs }">
+      <v-menu transition="slide-x-transition" >
+        <template v-slot:activator="{ on, attrs }" >
         <v-btn v-if="isLoggedIn()" text dark class="transparent" v-on="on" v-bind="attrs">
           <v-badge v-if="count > 0" :content="count" color="red" title="notifications">
             <v-icon>fas fa-bell</v-icon>

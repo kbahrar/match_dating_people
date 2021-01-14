@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-	<v-flex xs10 offset-xs1>
+	<v-flex xs10 offset-xs1 class="mt-10">
 	  <div outlined shaped elevation="20" class="grey lighten-2 elevation-5 p-4 mt-4">
 
 		<v-toolbar outlined shaped elevation="20" class="pink darken-2" dark>
