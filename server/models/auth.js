@@ -2,6 +2,7 @@ const connection = require("../config/database");
 const config = require("../config/config");
 const jwt = require('jsonwebtoken');
 const crypto = require("crypto");
+const { json } = require("express");
 
 // const { delete } = require("../routes/auth");
 
@@ -77,16 +78,30 @@ exports.register = async function (req, token) {
     await connection.query(query1, [req.login, req.firstName, req.lastName, req.email, hash, token])
 }
   
-exports.rpassword = async function (req) {
-    // console.log(Date.now());
-    var hash = crypto.createHash('whirlpool').update(Date.now().toString()).digest('hex');
-    const query1 =
-      "UPDATE users SET hash = ? where email = ?";
+exports.setToken = async function (email, token) {
+    const query1 = "update users set token = ? where email = ?";
     await connection.query(
       query1,
-      [hash, req.email],
-      function (err, rows, fields) {
-        if (err) return console.error(err.message);
-      }
+      [token, email],
+    );
+};
+
+exports.checkResetPassword = async function (token) {
+    const qr = "select id from users where token = ?"
+    var res = await connection.query(qr, [token])
+    if (res.length > 0) {
+        res = JSON.stringify(res[0])
+        res = JSON.parse(res)
+        return parseInt(res.id)
+    }
+    return false
+}
+
+exports.updatePassword = async function (id, password, newToken) {
+    var hash = crypto.createHash('whirlpool').update(password).digest('hex');
+    const query1 = "update users set password = ?, token = ? where id = ?";
+    await connection.query(
+      query1,
+      [hash, newToken, id],
     );
 };

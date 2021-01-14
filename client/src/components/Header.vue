@@ -8,11 +8,11 @@
     <v-spacer>
     </v-spacer>
     <v-toolbar-items>
-      <v-btn v-if="!isLoggedIn()" text dark class="transparent" to="register">
+      <v-btn v-if="!isLoggedIn()" text dark class="transparent" to="/register">
         Register
       </v-btn>
 
-      <v-btn v-if="!isLoggedIn()" text dark class="transparent" to="login">
+      <v-btn v-if="!isLoggedIn()" text dark class="transparent" to="/login">
         Login
       </v-btn>
 

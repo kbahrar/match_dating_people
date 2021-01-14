@@ -15,6 +15,8 @@ import userProfile from '@/components/userProfile'
 import search from '@/components/search'
 import location from '@/components/location'
 import active from '@/components/activation'
+import resetPwd from '@/components/Rpassword'
+import reset from '@/components/reset'
 // import store from '@/store/store'
 import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
@@ -143,6 +145,24 @@ const router = new Router({
       meta: {
         allowAnonymous: true
       }
+    },
+    {
+      path: "/resetPwd",
+      name: "resetPwd",
+      component: resetPwd,
+      props: true,
+      meta: {
+        allowAnonymous: true
+      }
+    },
+    {
+      path: "/reset/:token",
+      name: "reset",
+      component: reset,
+      props: true,
+      meta: {
+        allowAnonymous: true
+      }
     }
   ]
 });
@@ -152,8 +172,8 @@ router.beforeEach(async (to, from, next) => {
     var check = await isFull()
     var checkI = await isImage()
   }
-  // console.log(check)
-  if ((to.name == 'login' || to.name == 'register') && isLoggedIn()) {
+
+  if ((to.name == 'login' || to.name == 'register' || to.name == 'active' || to.name == 'resetPwd') && isLoggedIn()) {
     if (check == 0)
       next({ path: '/fillprofile' })
     else

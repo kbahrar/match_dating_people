@@ -196,20 +196,5 @@ connection.query(
   }
 );
 
-// connection.query(
-//   "CREATE TRIGGER check_match AFTER INSERT ON liked FOR EACH ROW \
-//   BEGIN\
-//    IF EXISTS (SELECT * from liked WHERE login = NEW.login AND liked = NEW.liked\
-//     insert into notification (login, sendTime, type, message, seen) values (NEW.liked, now(), 'It is a match !', NEW.login, 0); UPDATE users set fame = (fame - 100) WHERE login = OLD.liked;\
-//     insert into matched (login, matched) values (NEW.login, NEW.liked)\
-//   END",
-//   function (err) {
-//     if (err) throw err;
-//     else {
-//       console.log("TRIGGER after_liked created successfully");
-//     }
-//   }
-// );
-
 //  End of connection
 connection.end();

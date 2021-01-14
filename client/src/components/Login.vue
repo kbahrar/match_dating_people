@@ -56,7 +56,7 @@
             {{reg}}
           </v-alert>
           <v-btn @click="checkForm" class="pink darken-2 mb-5" dark>Login</v-btn>
-          <v-btn  text dark class="red darken-2 mb-5" to="rpassword">forget password?</v-btn>
+          <v-btn  text dark class="red darken-2 mb-5" to="resetPwd">forget password?</v-btn>
         </div>
       </div>
     </v-flex>

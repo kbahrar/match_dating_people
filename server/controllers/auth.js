@@ -54,7 +54,7 @@ exports.CreateUser = async (req, res) => {
       if (!flag1) throw 'email allready exists ! Choose another one';
       if (!flag) throw 'login allready exists ! Choose another one';
       var token = crypto.createHash('SHA1').update(Date.now().toString()).digest('hex');
-      await mail.sendEmail(req.body.email, token)
+      await mail.sendEmail(req.body.email, token, 0)
       await authModel.register(req.body, token);
       res.status(200).json({ success: true, msg: "Account created successfully !" });
     }
@@ -71,9 +71,29 @@ exports.Rpassword = async (req, res) => {
         if (!policies.checkMail(req.body.email)) throw "invalid Email !";
         let flag = await utils.checkEmail(req.body.email);
         if (flag) throw "email Does not exist ! try again";
-        await authModel.rpassword(req.body, res);
+        var token = crypto.createHash('SHA1').update(Date.now().toString()).digest('hex');
+        await authModel.setToken(req.body.email, token)
+        await mail.sendEmail(req.body.email, token, 1)
         res.status(200).json({ success: true, msg: "Password reset email sent successfully !" });
     } catch (err) {
+        res.status(400).send({
+          error: err,
+        });
+    }
+};
+
+exports.updatePwd = async (req, res) => {
+    try {
+      console.log(req.body);
+      
+        if (!policies.checkPwd(req.body.password)) throw 'invalid password !';
+        let flag = await authModel.checkResetPassword(req.body.token)
+        if (!flag) throw "invalide token"
+        var token = crypto.createHash('SHA1').update(Date.now().toString()).digest('hex');
+        await authModel.updatePassword(flag, req.body.password, token)
+        res.status(200).json({ success: true, msg: "Password updated successfully !" });
+    } catch (err) {
+        console.log(err || err.message)
         res.status(400).send({
           error: err,
         });
