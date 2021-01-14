@@ -7,6 +7,11 @@
     "start": "NODE_ENV=production node server",
     "dev": "nodemon server"
   },
+  "entry": [
+    "webpack-dev-server/client?http://127.0.0.0:8080/",
+    "webpack/hot/only-dev-server",
+    "./src"
+],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/khimya/matcha.git"

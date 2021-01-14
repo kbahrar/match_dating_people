@@ -20,6 +20,7 @@ import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
 import { isImage } from '@/policies/auth'
 
+
 Vue.use(Router)
 
 const router = new Router({
