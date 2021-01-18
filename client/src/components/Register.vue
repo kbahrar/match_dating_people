@@ -16,6 +16,7 @@
             required
             outlined
             shaped
+            @keyup.enter="checkForm"
           ></v-text-field>
 
           <v-text-field
@@ -26,6 +27,7 @@
             required
             outlined
             shaped
+            @keyup.enter="checkForm"
           ></v-text-field>
 
           <v-text-field
@@ -36,6 +38,7 @@
             required
             outlined
             shaped
+            @keyup.enter="checkForm"
           ></v-text-field>
 
           <v-text-field
@@ -47,6 +50,7 @@
             required
             outlined
             shaped
+            @keyup.enter="checkForm"
           ></v-text-field>
         
         <v-text-field
@@ -65,6 +69,7 @@
             required
             outlined
             shaped
+            @keyup.enter="checkForm"
           ></v-text-field>
           <v-alert
             type="error"
