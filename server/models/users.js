@@ -4,7 +4,6 @@ const browesModel = require("./browes");
 
 
 exports.updateProfileRequest = async function (req, res) {
-   // console.log(JSON.stringify(req));
     if(req.age && req.id && req.firstName && req.lastName && req.gender && req.lookingfor)
     {
         const query1 = "UPDATE users SET age = ?, firstName = ?, lastName = ?, gender = ?, lookingfor = ? WHERE id = ?";
@@ -14,7 +13,6 @@ exports.updateProfileRequest = async function (req, res) {
     return false
 }
 exports.updateProfileEmailRequest = async function (req, res) {
-   // console.log(JSON.stringify(req));
     if(req.id && req.email)
     {
         const query1 = "UPDATE users SET email = ? WHERE id = ?";
@@ -25,7 +23,6 @@ exports.updateProfileEmailRequest = async function (req, res) {
 }
 
 exports.updateProfileBioRequest = async function (req, res) {
-   // console.log(JSON.stringify(req));
     if(req.id && req.bio)
     {
         const query1 = "UPDATE users SET bio = ? WHERE id = ?";

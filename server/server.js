@@ -34,21 +34,13 @@ const server = app.listen(
   console.log(`Server running on port ${PORT}`)
 );
 
-// socketid => userid
-// id => sockets
+
 const io = socketIo(server, {pingInterval: 10, pingTimeout: 4000})
 
 
 var users = []
-// const users = [];
-// const addUser = (id, socketId) => {
-//     const user = {
-//       id: ,
-//       socketList: []
-//     }
-// }
+
 io.on('connection', function(socket) {
-  // console.log(socket.id)
   socket.on('auth', id => {
     if (!users[id])
       users[id] = []
@@ -59,13 +51,11 @@ io.on('connection', function(socket) {
 		} catch (err) {
 			console.log(err)
 		}
-    // console.log(users[id])
 		io.emit('online')
   });
   
   socket.on('notif', id => {
     const id_to = users[id]
-    // console.log(id)
 		if (id_to) {
       for (let i = 0; i < id_to.length; i++)
         io.to(id_to[i]).emit('notif')
@@ -74,7 +64,6 @@ io.on('connection', function(socket) {
 
   socket.on('msg', id => {
     const id_to = users[id[0]]
-    // console.log(id)
 		if (id_to) {
       for (let i = 0; i < id_to.length; i++)
         io.to(id_to[i]).emit('msg', id[1])
@@ -97,7 +86,6 @@ io.on('connection', function(socket) {
           } 
         }
       });
-      // console.log(users)
     });
   })
 })

@@ -73,7 +73,6 @@ export async function getUser() {
       if (err.response.status === 401)
       {
         logoutUser()
-        // this.$router.go('login')
       }
     }
 }
@@ -94,7 +93,6 @@ export async function getList() {
     if (err.response.status === 401)
     {
       logoutUser()
-      // this.$router.go('login')
     }
   }
 }
@@ -125,7 +123,6 @@ export async function seenIt(login, id) {
     if (err.response.status === 401)
     {
       logoutUser()
-      // this.$router.go('login')
     }
   }
 } 
@@ -146,7 +143,6 @@ export async function likeIt(login, flag, id) {
     if (err.response.status === 401)
     {
       logoutUser()
-      // this.$router.go('login')
     }
   }
 }
@@ -161,7 +157,6 @@ export async function checkLike(login) {
     if (err.response.status === 401)
     {
       logoutUser()
-      // this.$router.go('login')
     }
   }
 }
@@ -177,7 +172,6 @@ export async function getNotifs(login) {
     if (err.response.status === 401)
     {
       logoutUser()
-      // this.$router.go('login')
     }
   }
 }
@@ -193,7 +187,6 @@ export async function seenNotifs(login) {
     if (err.response.status === 401)
     {
       logoutUser()
-      // this.$router.go('login')
     }
   }
 }

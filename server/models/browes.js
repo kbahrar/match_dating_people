@@ -105,7 +105,6 @@ exports.seen = async function (body) {
 exports.checkReport = async function (body) {
     var qr = 'SELECT * from report where login = ? AND reporter = ?'
     var check = await connection.query(qr, [body.login, body.reporter])
-    // console.log(check)
     if (check.length > 0) {
         return false
     }
@@ -115,7 +114,6 @@ exports.checkReport = async function (body) {
 exports.checkBlock = async function (body) {
     var qr = 'SELECT * from blocked where login in (?, ?) AND user in (?, ?)'
     var check = await connection.query(qr, [body.login, body.user, body.login, body.user])
-    // console.log(check)
     if (check.length > 0) {
         return false
     }
@@ -154,12 +152,10 @@ exports.like = async function (body) {
 
 exports.dislike = async function (body) {
     var qr = 'DELETE from liked Where login = ? AND liked = ?'
-    // console.log(body)
     await connection.query(qr, [body.login, body.liked])
 }
 
 exports.checkLike = async function (body) {
-    // console.log(body)
     var qr = 'select * from liked Where login = ? AND liked = ?'
     const res = await connection.query(qr, [body.login, body.liked])
     if (res.length > 0)

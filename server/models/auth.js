@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken');
 const crypto = require("crypto");
 const { json } = require("express");
 
-// const { delete } = require("../routes/auth");
-
 function jwtSignUser (user) {
     const ONE_DAY = 60 * 60 * 24
     const token = jwt.sign(JSON.parse(user), config.authentication.jwtSecret, {

@@ -17,7 +17,6 @@ exports.getList = async (req, res) => {
 
 exports.sendMsg = async (req, res) => {
     try {
-      // console.log(req.body)
       if (!req.body.login || !req.body.user || !req.body.message)
         throw 'invalide informations'
       var check = await chatModel.checkMatched(req.body.login, req.body.user)
@@ -36,7 +35,6 @@ exports.sendMsg = async (req, res) => {
 
 exports.getMsg = async (req, res) => {
     try {
-      // console.log(req.body)
       if (!req.body.login || !req.body.user)
         throw 'invalide informations'
       var check = await chatModel.checkMatched(req.body.login, req.body.user)
@@ -55,7 +53,6 @@ exports.getMsg = async (req, res) => {
 
 exports.seenMsgs = async (req, res) => {
     try {
-      // console.log(req.body)
       if (!req.body.login || !req.body.user)
         throw 'invalide informations'
       var check = await chatModel.checkMatched(req.body.login, req.body.user)

@@ -32,7 +32,6 @@ exports.getNotif = async function (id) {
         var notif = new Object()
         notif.notifs = res
         notif.count = cnt
-        // console.log(notif)
         return notif
     }
     return false

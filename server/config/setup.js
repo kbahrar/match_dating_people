@@ -1,29 +1,26 @@
 let mysql = require("mysql");
 const config = require("../config/config");
-//connection to mysql database
+
+
 let connection = mysql.createConnection({
   host: config.db.host,
   user: config.db.user,
   password: config.db.password
 });
 
-// Connexion erreurs handling
 connection.connect(function (err) {
   if (err) throw err;
   console.log("Mysql Connected! Ready to Setup database");
 });
 
-// Database Creator
 
 connection.query("CREATE DATABASE IF NOT EXISTS matcha_db");
 console.log("Database matcha_db created");
 
-// fotok the created database
 
 connection.query("USE matcha_db");
 console.log("Database fotoked");
 
-// Creating users table
 
 connection.query(
   "CREATE TABLE IF NOT EXISTS users (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(255) NOT NULL, firstName VARCHAR(255) NOT NULL, lastName VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, registrationDate DATETIME DEFAULT (CURRENT_DATE), age INT(3), gender VARCHAR(25), lookingfor VARCHAR(25), city VARCHAR(255), bio VARCHAR(10000), mainFoto VARCHAR(255), foto1 VARCHAR(255), foto2 VARCHAR(255), foto3 VARCHAR(255), foto4 VARCHAR(255), online BOOLEAN DEFAULT FALSE, latitude FLOAT, longitude FLOAT, token VARCHAR(255), connect DATETIME, valid BOOLEAN DEFAULT FALSE, fill BOOLEAN DEFAULT FALSE, fame INT(10) DEFAULT 1000, access BOOLEAN DEFAULT TRUE)",
@@ -35,7 +32,6 @@ connection.query(
   }
 );
 
-//		Creating tags table
 connection.query(
   "CREATE TABLE IF NOT EXISTS tags (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(255) NOT NULL, tag VARCHAR(20))",
   function (err) {
@@ -46,7 +42,6 @@ connection.query(
   }
 );
 
-// Creating report table
 
 connection.query(
   "CREATE TABLE IF NOT EXISTS report (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, reporter VARCHAR(100) NOT NULL)",
@@ -58,7 +53,6 @@ connection.query(
   }
 );
 
-// Creating seen table
 
 connection.query(
   "CREATE TABLE IF NOT EXISTS seen (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, viewer VARCHAR(100) NOT NULL, action_date DATETIME)",
@@ -70,7 +64,6 @@ connection.query(
   }
 );
 
-// Creating likes table
 
 connection.query(
   "CREATE TABLE IF NOT EXISTS liked (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(255) NOT NULL, liked VARCHAR(100) NOT NULL, action_date DATETIME)",
@@ -82,7 +75,6 @@ connection.query(
   }
 );
 
-// Creating matches table
 connection.query(
   "CREATE TABLE IF NOT EXISTS matched (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(255) NOT NULL, matched VARCHAR(255) NOT NULL, last_used DATETIME)",
   function (err) {
@@ -93,7 +85,6 @@ connection.query(
   }
 );
 
-//	Creating notifications table
 connection.query(
   "CREATE TABLE IF NOT EXISTS notification (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, sendTime DATETIME, type VARCHAR(20), message VARCHAR(50), seen INT(1))",
   function (err) {
@@ -104,7 +95,6 @@ connection.query(
   }
 );
 
-//		Creating messages table
 connection.query(
   "CREATE TABLE IF NOT EXISTS message (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, sendTime DATETIME, user VARCHAR(100) NOT NULL, message VARCHAR(160) NOT NULL, seen INT(1))",
   function (err) {
@@ -115,7 +105,6 @@ connection.query(
   }
 );
 
-//		Creating block table
 connection.query(
   "CREATE TABLE IF NOT EXISTS blocked (id INT(9) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL, login VARCHAR(100) NOT NULL, user VARCHAR(100) NOT NULL)",
   function (err) {
@@ -126,7 +115,6 @@ connection.query(
   }
 );
 
-// CREATING trigger for liked notification
 connection.query(
   "CREATE TRIGGER after_liked AFTER INSERT ON liked FOR EACH ROW BEGIN\
    IF EXISTS (SELECT id from liked WHERE login = NEW.liked AND liked = NEW.login) THEN\
@@ -196,5 +184,4 @@ connection.query(
   }
 );
 
-//  End of connection
 connection.end();

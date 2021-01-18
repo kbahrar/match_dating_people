@@ -86,7 +86,6 @@ exports.updateProfilePassword = async (req, res, next) => {
 
 exports.fillProfile = async (req, res) => {
   try {
-    // console.log('h')
     var check = policies.checkFillProfile(req.body);
     if (check !== 'OK')
         throw check;
@@ -188,9 +187,7 @@ exports.getUserInfo = async (req, res) => {
 
 exports.getOtherUserInfo = async (req, res) => {
   try {
-    // console.log(req.params.login)
     var id = await usersModel.getId(req.params.login)
-    // console.log(id)
     var login = await usersModel.getLogin(req.params.id)
     if (!id)
       throw "invalide login !"
