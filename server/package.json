@@ -4,7 +4,7 @@
   "description": "dating web app",
   "main": "server.js",
   "scripts": {
-    "start": "NODE_ENV=production node server",
+    "start": "nodemon app.js",
     "dev": "nodemon server"
   },
   "repository": {
