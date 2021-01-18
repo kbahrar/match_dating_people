@@ -33,10 +33,6 @@
 
             <v-card-subtitle align='left'>{{user.age}} Years Old<div align='right'><v-icon left>fas fa-map-marker-alt</v-icon><b> {{user.city}}</b></div></v-card-subtitle>
 
-            <!-- <v-row
-                align="center"
-                class="mx-0"
-            > -->
                 <v-rating
                 :value="user.fame / 1000"
                 color="amber"

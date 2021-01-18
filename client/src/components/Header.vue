@@ -132,11 +132,9 @@ export default {
   },
   sockets: {
         notif: async function (data) {
-            // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
             await this.getNotif()
         },
         msg: async function (data) {
-          // console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)', data)
           this.msgs = true
         }
   },
@@ -150,7 +148,6 @@ export default {
         
         if (user && user.mainFoto)
           this.image = "http://localhost:5000/" + user.mainFoto
-        // console.log(this.$store.state.isConnected)
         if (!this.$store.state.isConnected) {
           this.$store.dispatch('login', user)
         }

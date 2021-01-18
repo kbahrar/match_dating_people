@@ -562,7 +562,6 @@ export default {
 
 
       checkTagsForm: function (e) {
-        //console.log(JSON.stringify(this.chips.length));
         this.errors = [];
         this.alert = true
       for (let i = 0; i < this.chips.length; i++) {
@@ -579,26 +578,11 @@ export default {
         this.errors.push("you don't change anything");
       else if(this.chips && this.chips.length >= 5 && !this.errors.length )
       {
-        // ana b9it hna
-        //
-        //
-        //
-        //
-        //
-      
-        
           this.updateProfileTags();
        }
       else
         e.preventDefault();
     },
-//
-//
-//
-//
-//
-//
-//
 
     checktagsupdates(tags, chips)
     {

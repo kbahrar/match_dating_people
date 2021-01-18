@@ -380,7 +380,6 @@ export default {
   methods: {
     async like (login, flag, i) {
         this.loading = true
-        // console.log(login)
         await likeIt(login, flag, i)
         await this.ifliked(login)
         this.loading = false
@@ -391,7 +390,6 @@ export default {
     },
     async ifliked (login) {
           var check = await checkLike(login)
-          // console.log(check)
           for (let i = 0; i < this.users.length; i++) {
             if (this.users[i].login === login)
               this.users[i].check = check

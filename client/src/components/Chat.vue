@@ -99,32 +99,24 @@ export default {
   },
   sockets: {
 		msg: async function (data) {
-			// console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)', data)
 			await this.getMsgs(data)
 		}
   },
   mounted: async function() {
-	// console.log();
 	try {
 	  var users = await getMatched()
 	  for (let i = 0; i < users.length; i++) {
-		// if (i == 0) 
-		//   users[i].class = this.active
-		// else
 		  users[i].class = this.inactive
 			users[i].idd = i
 	  }
 	  this.matched = users
 	  this.msgs = users[0].msgs
-	  // console.log(this.gotoBottom())
-	  // this.gotoBottom()
 	}
 	catch (err) {
 	  
 	}
   },
   updated:  function(){
-		// if (this.activeUser > -1)
 			this.gotoBottom()
   },
   methods: {
@@ -153,7 +145,6 @@ export default {
 		var msgs = res.msgs
 		var count = res.count
 		for (let i = 0; i < this.matched.length; i++) {
-			// console.log(this.matched[i].login)
 			if (this.matched[i].login == user) {
 				this.matched[i].msgs = msgs
 				this.matched[i].count = count
@@ -169,7 +160,6 @@ export default {
 			ele.scrollTop = ele.scrollHeight
 	},
 	orderCvr: function(login, msgs) {
-	  // console.log(login)
 	  if (this.activeUser > -1)
 	  	var alogin = this.matched[this.activeUser].login
 	  for (let i = 0; i < this.matched.length; i++) {
@@ -192,7 +182,6 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .container{max-width:1170px; margin:auto;}
 img{ max-width:100%;}

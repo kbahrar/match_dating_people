@@ -67,8 +67,6 @@
 import Authent from '@/services/AuthService'
 import Valide from '@/policies/valideForm'
 import {setAuthToken} from '@/policies/auth'
-// import { locationDetect } from '../utils/location';
-// import {setLocation} from '@/policies/auth'
 
 export default {
   data () {
@@ -91,8 +89,6 @@ export default {
           password: this.password
         })
         setAuthToken(response.data.token)
-        // console.log(response.data)
-        // io('http://localhost:5000')
         this.$router.go('/')
       } catch (err) {
         this.reg = ''
@@ -124,6 +120,5 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>

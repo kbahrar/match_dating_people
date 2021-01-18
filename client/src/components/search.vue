@@ -64,7 +64,6 @@
                   </v-card-text>
               </v-card>
             </v-col>
-            <!-- <v-spacer></v-spacer> -->
             <v-col
               cols="6"
               md="4"
@@ -382,7 +381,6 @@
             class="mx-auto my-12"
             width="70%"
         >
-            <!-- <v-hover v-slot="{ hover }"> -->
             <v-img
             :src="user.mainfoto"
             >

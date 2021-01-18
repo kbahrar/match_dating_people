@@ -17,6 +17,9 @@ app.use(bodyParser.json({limit: '10mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 app.use(cors());
 
+
+
+
 app.use("/", authRoutes);
 app.use("/users", usersRoutes);
 app.use("/browes", browesRoutes);
