@@ -123,8 +123,9 @@ export default {
           firstName: this.firstName,
           lastName: this.lastName,
           email: this.email,
-          password: this.password
+          password: this.password,
         })
+        this.$router.push('login')
       } catch (err) {
         this.reg = null
         this.error = err.response.data.error || 'No response from server'
