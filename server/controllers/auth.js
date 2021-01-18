@@ -84,8 +84,6 @@ exports.Rpassword = async (req, res) => {
 
 exports.updatePwd = async (req, res) => {
     try {
-      console.log(req.body);
-      
         if (!policies.checkPwd(req.body.password)) throw 'invalid password !';
         let flag = await authModel.checkResetPassword(req.body.token)
         if (!flag) throw "invalide token"

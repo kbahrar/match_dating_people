@@ -23,6 +23,7 @@
             required
             outlined
             shaped
+             @keyup.enter="checkForm"
           ></v-text-field>
 
         <v-text-field
@@ -40,6 +41,7 @@
             required
             outlined
             shaped
+             @keyup.enter="checkForm"
           ></v-text-field>
 
           <v-alert
@@ -94,6 +96,7 @@ export default {
         await Authent.npassword({
           password: this.password,
         })
+        this.$router.push('login')
       } catch (err) {
         this.reg = null
         this.error = err.response.data.error || 'No response from server'

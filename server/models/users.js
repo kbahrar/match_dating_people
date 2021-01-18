@@ -55,7 +55,6 @@ async function addTags(login, tag) {
 }
 
 async function deleteTags(login) {
-    console.log(JSON.stringify("HELLO : " + login));
     const qr = 'delete from tags where login = ?'
     await connection.query(qr, [login])
 }

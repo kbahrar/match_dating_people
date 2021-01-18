@@ -26,7 +26,6 @@ async function getAdress (id) {
     if (lookfor.length > 0){
         lookfor = JSON.stringify(lookfor[0])
         lookfor = JSON.parse(lookfor)
-        // lookfor = lookfor.lookingfor
         return lookfor
     }
     return false

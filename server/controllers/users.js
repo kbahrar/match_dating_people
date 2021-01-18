@@ -10,7 +10,6 @@ exports.updateProfile = async (req, res, next) => {
   try {
     var update = req.body.info;
     var check = upPolicies.checkUpdateProfile(update);
-    //console.log("the value of check is : " + check);
     if (check !== 'OK')
     throw check;
     await usersModel.updateProfileRequest(update, res);

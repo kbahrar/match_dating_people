@@ -72,7 +72,6 @@ exports.getMatched = async function (login) {
             logins[j++] = matched[i].login
     }
     query1 +=  ') order by m.last_used DESC'
-    // console.log(query1)
     var users = await connection.query(query1, logins);
     users = JSON.stringify(users)
     users = JSON.parse(users)

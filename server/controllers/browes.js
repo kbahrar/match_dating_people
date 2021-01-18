@@ -15,7 +15,6 @@ exports.getList = async (req, res) => {
 
 exports.like = async (req, res) => {
     try {
-      console.log(req.body)
       await browesModel.like(req.body)
       res.status(200).send();
     }
@@ -93,7 +92,6 @@ exports.report = async (req, res) => {
 exports.seen = async (req, res) => {
     try {
       await browesModel.seen(req.body)
-      // console.log(req.body)
       res.status(200).send();
     }
     catch (err) {

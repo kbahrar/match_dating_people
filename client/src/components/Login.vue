@@ -83,7 +83,7 @@ export default {
   methods: {
     async login () {
       try {
-        this.reg = "you logg in with success !";
+        this.reg = "you logged in with success !";
         const response = await Authent.login({
           log: this.log,
           password: this.password

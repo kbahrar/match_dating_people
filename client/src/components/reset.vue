@@ -22,6 +22,7 @@
             required
             outlined
             shaped
+             @keyup.enter="updatePwd"
           ></v-text-field>
 
           <v-text-field
@@ -40,6 +41,7 @@
             required
             outlined
             shaped
+             @keyup.enter="updatePwd"
           ></v-text-field>
           <v-alert
             type="error"
@@ -83,6 +85,7 @@ export default {
           token: this.$route.params.token,
           password: this.password
         })
+        this.$router.push('login')
       }
       catch (err) {
         this.reg = null
