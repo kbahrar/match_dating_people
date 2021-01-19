@@ -77,7 +77,7 @@ exports.register = async function (req, token) {
 }
   
 exports.setToken = async function (email, token) {
-    const query1 = "update users set token = ? where email = ?";
+    const query1 = "update users set hash = ? where email = ?";
     await connection.query(
       query1,
       [token, email],
@@ -85,7 +85,7 @@ exports.setToken = async function (email, token) {
 };
 
 exports.checkResetPassword = async function (token) {
-    const qr = "select id from users where token = ?"
+    const qr = "select id from users where hash = ?"
     var res = await connection.query(qr, [token])
     if (res.length > 0) {
         res = JSON.stringify(res[0])
@@ -97,7 +97,7 @@ exports.checkResetPassword = async function (token) {
 
 exports.updatePassword = async function (id, password, newToken) {
     var hash = crypto.createHash('whirlpool').update(password).digest('hex');
-    const query1 = "update users set password = ?, token = ? where id = ?";
+    const query1 = "update users set password = ?, hash = ? where id = ?";
     await connection.query(
       query1,
       [hash, newToken, id],

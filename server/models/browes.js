@@ -82,7 +82,8 @@ exports.getList = async function (id) {
     const blockers = await getBlockList(id)
     const lookfor = await getlookfor(id)
     const Adress = await getAdress(id)
-    const users = await getUsers(Adress, lookfor, id)
+    var users = await getUsers(Adress, lookfor, id)
+    users = users.filter(user => user.distance < 150)
     for (let i = 0; i < users.length; i++)
     {
         var tags = await getTags(users[i].login)

@@ -20,12 +20,12 @@ app.use(cors());
 
 
 
-app.use("/", authRoutes);
-app.use("/users", usersRoutes);
-app.use("/browes", browesRoutes);
-app.use("/notifier", notifRoutes);
-app.use("/search", searchRoutes);
-app.use("/chat", chatRoutes);
+app.use("/api", authRoutes);
+app.use("/api/users", usersRoutes);
+app.use("/api/browes", browesRoutes);
+app.use("/api/notifier", notifRoutes);
+app.use("/api/search", searchRoutes);
+app.use("/api/chat", chatRoutes);
 
 const PORT = process.env.PORT || 5000;
 
