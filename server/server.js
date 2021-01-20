@@ -15,8 +15,10 @@ const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
-app.use(cors());
-
+var corsOptions = {
+  origin: "http://localhost:8080"
+};
+app.use(cors(corsOptions));
 
 
 
@@ -26,6 +28,11 @@ app.use("/api/browes", browesRoutes);
 app.use("/api/notifier", notifRoutes);
 app.use("/api/search", searchRoutes);
 app.use("/api/chat", chatRoutes);
+// Handle 404 - Keep this as a last route
+app.use(function(req, res, next) {
+  res.status(404);
+  res.send('<center><h1>404: Page Not Found</h1></center>');
+});
 
 const PORT = process.env.PORT || 5000;
 

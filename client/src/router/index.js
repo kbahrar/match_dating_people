@@ -17,6 +17,7 @@ import location from '@/components/location'
 import active from '@/components/activation'
 import resetPwd from '@/components/Rpassword'
 import reset from '@/components/reset'
+import error404 from '@/components/error404'
 import { isLoggedIn } from '@/policies/auth'
 import { isFull } from '@/policies/auth'
 import { isImage } from '@/policies/auth'
@@ -25,7 +26,7 @@ import { isImage } from '@/policies/auth'
 Vue.use(Router)
 
 const router = new Router({
-  mode: "history",
+  // mode: "history",
   routes: [
     {
       path: "/",
@@ -162,7 +163,16 @@ const router = new Router({
       meta: {
         allowAnonymous: true
       }
-    }
+    },
+    {
+      path: "*",
+      name: "404",
+      component: error404,
+      meta: {
+        allowAnonymous: true
+      }
+    },
+
   ]
 });
 

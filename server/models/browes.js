@@ -33,9 +33,11 @@ async function getAdress (id) {
 
 async function getUsers (adress, gender, id) {
     var qr = 'select id, login, FLOOR(ST_Distance_Sphere(point(?, ?), point(longitude, latitude)) / 1000) as distance, firstName, lastName, age, bio, fame, mainfoto from users where id != ? AND access = true '
-    if (gender != 'Other')
-        qr += "AND gender = ? ORDER BY distance, age"
+    if (gender != 'Others')
+        qr += "AND gender = ? "
+    qr += "ORDER BY distance, age"
     var lookfor = await connection.query(qr, [adress.longitude, adress.latitude, id, gender])
+    // console.log(gender)
     if (lookfor.length > 0){
         lookfor = JSON.stringify(lookfor)
         lookfor = JSON.parse(lookfor)
@@ -83,7 +85,9 @@ exports.getList = async function (id) {
     const lookfor = await getlookfor(id)
     const Adress = await getAdress(id)
     var users = await getUsers(Adress, lookfor, id)
-    users = users.filter(user => user.distance < 150)
+    // console.log(blockers, lookfor, Adress)
+    if (users)
+        users = users.filter(user => user.distance < 150)
     for (let i = 0; i < users.length; i++)
     {
         var tags = await getTags(users[i].login)
