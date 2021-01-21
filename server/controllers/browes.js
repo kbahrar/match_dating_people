@@ -28,6 +28,8 @@ exports.like = async (req, res) => {
 
 exports.dislike = async (req, res) => {
   try {
+    if (!req.body.login || !req.body.liked)
+      throw 'incomplet info !'
     await browesModel.dislike(req.body)
     res.status(200).send();
   }

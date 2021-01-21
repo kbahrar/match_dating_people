@@ -3,7 +3,7 @@ const policies = require('../middleware/register');
 const upPolicies = require('../middleware/updateProfile');
 const base64Img = require('base64-img')
 const fs = require('fs')
-const { promisify } = require('util')
+const { promisify, isNumber } = require('util')
 const e = require('express');
 
 exports.updateProfile = async (req, res, next) => {
@@ -74,7 +74,7 @@ exports.updateProfilePassword = async (req, res, next) => {
   try {
     var updates = req.body.info;
     await usersModel.updatePasswordRequest(updates, res);
-      res.status(200).json({ success: true, msg: "Password Changed successfully !" });
+    res.status(200).json({ success: true, msg: "Password Changed successfully !" });
   }
   catch (err) {
     res.status(400).send({
@@ -100,11 +100,13 @@ exports.fillProfile = async (req, res) => {
 
 exports.location = async (req, res) => {
   try {
+    if (!req.body.location || !req.body.location.city || !req.body.location.lat || !req.body.location.lng || !req.info.login)
+      throw "send all location !"
     await usersModel.location(req.body)
   }
   catch (err) {
     res.status(400).send({
-      error: err
+      error: err || err.message
     })
   }
 }
@@ -154,6 +156,9 @@ exports.uploadImg = async (req, res) => {
 
 exports.getSeenLiked = async (req, res) => {
   try {
+    req.params.id = parseInt(req.params.id)
+    if (!req.params.id)
+      throw "invalide id !"
     var login = await usersModel.getLogin(req.params.id)
     var seen = await usersModel.getSeen(login)
     var liked = await usersModel.getLiked(login)

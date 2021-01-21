@@ -6,6 +6,7 @@ const crypto = require("crypto");
 
 exports.activer = async (req, res) => {
   try {
+    if (!req.body.tok) throw 'token required !'
     var id = await authModel.getIdFromToken(req.body.tok);
     if (id == 0)
       throw 'invalide Token sent !'
@@ -68,6 +69,7 @@ exports.CreateUser = async (req, res) => {
 
 exports.Rpassword = async (req, res) => {
     try {
+        if (!req.body.email) throw 'email required !'
         if (!policies.checkMail(req.body.email)) throw "invalid Email !";
         let flag = await utils.checkEmail(req.body.email);
         if (flag) throw "email Does not exist ! try again";
@@ -84,6 +86,7 @@ exports.Rpassword = async (req, res) => {
 
 exports.updatePwd = async (req, res) => {
     try {
+        if (!req.body.password || !req.body.token) throw 'info required !' 
         if (!policies.checkPwd(req.body.password)) throw 'invalid password !';
         let flag = await authModel.checkResetPassword(req.body.token)
         if (!flag) throw "invalide token"

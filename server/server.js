@@ -20,7 +20,11 @@ var corsOptions = {
 };
 app.use(cors(corsOptions));
 
-
+app.use((err, req, res, next) => {
+	if (err)
+		return res.json({err: 'something is wrong'})
+	next()
+})
 
 app.use("/api", authRoutes);
 app.use("/api/users", usersRoutes);
