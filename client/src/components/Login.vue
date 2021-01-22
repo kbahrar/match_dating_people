@@ -2,7 +2,6 @@
   <v-layout>
     <v-flex xs6 offset-xs3 class="mt-5">
       <div class="grey lighten-3 elevation-2">
-
         <v-toolbar flat dense class="pink darken-2" dark>
           <v-toolbar-title>Login</v-toolbar-title>
         </v-toolbar>
@@ -30,6 +29,7 @@
     v => /(?=.*\d)/.test(v) || 'Must have one number', 
 ]"
             @click:append="flag = !flag"
+            width="40%"
             outlined
             shaped
             @keyup.enter="checkForm"
@@ -55,8 +55,8 @@
           <v-alert type="success" v-if="reg">
             {{reg}}
           </v-alert>
-          <v-btn @click="checkForm" class="pink darken-2 mb-5" dark>Login</v-btn>
-          <v-btn  text dark class="red darken-2 mb-5" to="resetPwd">forget password?</v-btn>
+          <v-btn @click="checkForm" elevation="2"  width="40%" class="pink darken-2 mb-5" style="font-size:1vw;" dark>Login</v-btn>
+          <v-btn elevation="2" width="40%" text dark class="red darken-2 mb-5" style="font-size:1vw;" to="resetPwd">forget password?</v-btn>
         </div>
       </div>
     </v-flex>

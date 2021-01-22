@@ -204,11 +204,7 @@
                 </div>
             </v-row>
 
-            <div class="my-4 subtitle-2">
-                Bio
-            </div>
-
-            <div>{{user.bio}}</div>
+            
             </v-card-text>
 
             <v-divider class="mx-4"></v-divider>

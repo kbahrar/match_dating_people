@@ -21,7 +21,7 @@
                   align="center"
                   justify="center"
                 >
-                    <v-img :src="image" height="100%" width="100%"></v-img>
+                    <v-img :src="image" height="100%"  width="100%"></v-img>
                 </v-row>
             </v-carousel-item>
           </v-carousel>
@@ -29,7 +29,7 @@
             <v-card-subtitle v-if="connect">Online <v-icon color="green" x-small right>fas fa-circle</v-icon> </v-card-subtitle>
             <v-card-subtitle v-else> <v-icon color="red" x-small left>fas fa-circle</v-icon>Offline ( {{moment(lastSeen).format('DD/MM/YYYY HH:mm')}} ) </v-card-subtitle>
             
-            <v-card-title>Full Name :  {{user.firstName}} {{user.lastName}}</v-card-title>
+            <v-card-title>{{user.firstName}} {{user.lastName}}</v-card-title>
 
             <v-card-subtitle align='left'>{{user.age}} Years Old<div align='right'><v-icon left>fas fa-map-marker-alt</v-icon><b> {{user.city}}</b></div></v-card-subtitle>
 
