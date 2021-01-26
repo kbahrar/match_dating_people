@@ -100,7 +100,7 @@ exports.fillProfile = async (req, res) => {
 
 exports.location = async (req, res) => {
   try {
-    if (!req.body.location || !req.body.location.city || !req.body.location.lat || !req.body.location.lng || !req.info.login)
+    if (!req.body.location || !req.body.location.city || !req.body.location.lat || !req.body.location.lng || !req.body.info.login)
       throw "send all location !"
     await usersModel.location(req.body)
   }

@@ -147,6 +147,12 @@ export default {
     savePics: async function () {
       try {
         var user = getUserInfo()
+        var j = false
+        for (let i = 0; i < 5; i++) {
+          if (this.images[i] != 0)
+            j = true
+        }
+        if (!j) throw 'no image selected !'
         const response = await Authent.putImages({
           image: this.images,
           info: {id: user.id}
@@ -157,9 +163,9 @@ export default {
       }
       catch (err) {
         this.reg = null
-        this.error = err.response.data.error || err
+        this.error = err || 'something went wrong'
         this.alert = true
-        if (err.response.status === 401)
+        if (err.response && err.response.status === 401)
         {
           logoutUser()
           // this.$router.go('login')

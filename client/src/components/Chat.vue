@@ -117,11 +117,12 @@ export default {
 	}
   },
   updated:  function(){
-			this.gotoBottom()
+		this.gotoBottom()
   },
   methods: {
    getCvr: async function (id) {
-	 if (this.matched[id].class != this.active) {
+	   try {
+		 if (this.matched[id].class != this.active) {
 		  await seenMsg(this.matched[id].login)
 		  this.matched[id].count = 0
 	   for (let i = 0; i < this.matched.length; i++) {
@@ -132,15 +133,25 @@ export default {
 	   this.msgs = this.matched[id].msgs
 	   this.gotoBottom()
 	 }
+	   }
+	   catch (err) {
+		   alert('something went wrong')
+	   }
    },
    sendMsg: async function (user, id) {
-	 if (this.message) {
-	   await sendMsg(user, this.message, id)
-	   this.message = ''
-	   await this.getMsgs(user)
-	 }
+	   try {
+		   if (this.message) {
+			 await sendMsg(user, this.message, id)
+			 this.message = ''
+			 await this.getMsgs(user)
+		   }
+	   }
+	   catch (err) {
+		   alert('something went wrong')
+	   }
    },
    getMsgs: async function (user) {
+	   try {
 		var res = await getMsg(user)
 		var msgs = res.msgs
 		var count = res.count
@@ -153,6 +164,10 @@ export default {
 		this.orderCvr(user, msgs)
 		if (this.activeUser > -1)
 			this.msgs = this.matched[this.activeUser].msgs
+	   }
+	   catch (err) {
+		   alert('something went wrong')
+	   }
    },
   gotoBottom: function(){
 		const ele = document.getElementsByClassName('msg_history')[0]

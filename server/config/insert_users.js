@@ -28,7 +28,8 @@ function addTags(login) {
     }
 }
 
-while (i < 50)
+i = 0
+while (i < 500)
 {
     var city = faker.random.number({min: 0, max: 57})
     var g = gender[faker.random.number({min: 0, max: 2})];

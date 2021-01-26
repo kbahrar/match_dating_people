@@ -23,7 +23,7 @@ exports.sendEmail = async function (email, token, flag) {
             '<p>&nbsp;</p>'+
             '<p style="text-align: center;">You are just one step away from validation your account and joining one of the bigest dating app.<br />Please click the link below to verify your email.</p>'+
             '<p style="text-align: center;">&nbsp;</p>'+
-            '<p style="text-align: center;"><a style="background: orange; color: #ffffff; padding: 10px 50px; border-radius: 3px;" href="http://localhost:8080/active/'+ token + '">Confirm</a></p>'+
+            '<p style="text-align: center;"><a style="background: orange; color: #ffffff; padding: 10px 50px; border-radius: 3px;" href="http://localhost:5000/#/active/'+ token + '">Confirm</a></p>'+
             '<p style="text-align: center;">&nbsp;</p>'+
             '<p style="text-align: center; font-size: 10px;"><code>Matcha is a registered business name of Dating web app world wide.</code><br /><br /><code>registered Office: Morocco , Khouribga 1337</code></p>'+
             '<p>&nbsp;</p>'
@@ -42,7 +42,7 @@ exports.sendEmail = async function (email, token, flag) {
             '<p>&nbsp;</p>'+
             '<p style="text-align: center;">You are just one step away from reseting your password if you have any other problem dont hesistate to contact us enjoy.<br />Please click the link below to go to the reset passsword page.</p>'+
             '<p style="text-align: center;">&nbsp;</p>'+
-            '<p style="text-align: center;"><a style="background: orange; color: #ffffff; padding: 10px 50px; border-radius: 3px;" href="http://localhost:8080/reset/'+ token + '">Confirm</a></p>'+
+            '<p style="text-align: center;"><a style="background: orange; color: #ffffff; padding: 10px 50px; border-radius: 3px;" href="http://localhost:5000/#/reset/'+ token + '">Confirm</a></p>'+
             '<p style="text-align: center;">&nbsp;</p>'+
             '<p style="text-align: center; font-size: 10px;"><code>Matcha is a registered business name of Dating web app world wide.</code><br /><br /><code>registered Office: Morocco , Khouribga 1337</code></p>'+
             '<p>&nbsp;</p>'
