@@ -5,7 +5,7 @@ const user = getUserInfo()
 
 export async function getStreetAddressFrom(lat, long) {
     try {
-        var key = "AIzaSyCFw_wLwwFIU_-uZyLK46e8US5NvUrd_O4"
+        var key = "put your key here"
         var { data } = await axios.get(
             "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
             lat +
@@ -36,7 +36,7 @@ export async function getIp() {
         "https://api.ipify.org?format=json"
     );
     console.log(data.ip);
-    var key = "at_XvriW1GP6fUvb2YSoRYhaFwSgnAyE"
+    var key = "put your key here"
     var location = await axios.get(
         "https://geo.ipify.org/api/v1?apiKey="+key+"&ipAddress="+data.ip
     )
